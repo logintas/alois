@@ -1,0 +1,3 @@
+<%= help_title("Sentinel") %>
+
+<p>Sentinels are periodical executed SQL queries to perform user actions when specified constraints match in the log database. It is possible to check if some known bad logs have been reported to alois or else if some logs are missed that were expected to be available. The sentinel executions are performed by using the crond daemon and execution the desired SQL queries trough the prisma package. It is possible to send alarm mails if the query exceeds a defined amount of records.</p>

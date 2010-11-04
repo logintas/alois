@@ -1,0 +1,10 @@
+/var/www/munin			/usr/share/alois/www/public_root/munin
+
+/etc/alois/munin.conf		/etc/munin/plugin-conf.d/alois
+
+/etc/alois/apache2/apache.conf	/etc/apache2/sites-available/alois
+/etc/alois/apache2/alois.passwd	/etc/apache2/alois.passwd
+
+/usr/bin/prisma-munin-prismadb		/etc/munin/plugins/alois_aloisdb
+/usr/bin/prisma-munin-pumpydb		/etc/munin/plugins/alois_sinkdb
+/usr/bin/prisma-munin-pumpyflows	/etc/munin/plugins/alois_sinkflows

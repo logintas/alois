@@ -1,0 +1,68 @@
+#!/bin/bash
+#
+# start prisma
+#
+# The variables below are NOT to be changed.  They are there to make the
+# script more readable.
+
+NAME=prisma
+WORKINGDIR=/usr/bin
+OPTIONS="start -d SyslogdRaw"
+DAEMON=$WORKINGDIR/$NAME
+PIDFILE=/var/run/$NAME
+# note: SSD is required only at startup of the daemon.
+SSD=`which start-stop-daemon`
+ENV="/usr/bin/env -i LANG=C PATH=/bin:/usr/bin:/usr/local/bin"
+
+trap "" 1
+
+should_start() {
+    if [ ! -x $DAEMON ]; then
+	echo "$DAEMON not executable, not starting"
+	exit 0
+    fi
+}
+
+case "$1" in
+  start)
+    should_start
+    echo -n "Starting $NAME"	
+    $ENV $SSD --start --pidfile $PIDFILE --exec $DAEMON -- $OPTIONS
+    ;;
+
+  stop)
+    echo -n "Stopping $NAME"
+    $ENV $SSD --stop --oknodo --signal TERM --pidfile $PIDFILE --retry 10
+    ;;
+
+  reload)
+    echo -n "Reloading $NAME"
+    $ENV $SSD --stop --signal USR1 --pidfile $PIDFILE --oknodo
+    ;;
+
+  restart | force-reload)
+    echo -n "Restarting $NAME"
+    $ENV $SSD --stop --oknodo --signal TERM --pidfile $PIDFILE --retry 10
+    $ENV $SSD --start --pidfile $PIDFILE --exec $DAEMON -- $OPTIONS
+
+    ;;
+
+  *)
+    echo "Usage: /etc/init.d/$NAME {start|stop|restart|reload}"
+    exit 1
+    ;;
+esac
+
+if [ $? -eq 0 ]; then
+	echo .
+	exit 0
+else
+	echo " failed"
+	exit 1
+fi
+
+
+
+
+
+

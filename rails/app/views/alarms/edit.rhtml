@@ -1,0 +1,13 @@
+<%= title "#{@controller.action_name.humanize} #{@controller.controller_name.singularize.humanize} - #{@alarm.id}" %>
+
+<div id="page">
+
+  <table class="form">
+  <% form_tag :action => 'update', :id => @alarm do %>
+    <%= render :partial => 'form' %>
+    <tr>
+      <td class="button-bar" colspan="2"><%= submit_tag "Update" %> <%= submit_tag "Cancel" %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>

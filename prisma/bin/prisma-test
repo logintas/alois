@@ -1,0 +1,49 @@
+#! /usr/bin/ruby1.8
+require "libisi"
+init_libisi(:ui => "console")
+
+opts = optparse
+
+cf = Pathname.new(__FILE__).dirname + "../conf/prisma/environment.rb"
+if cf.exist?
+  require cf 
+else
+  require "/etc/prisma/environment.rb"
+end
+
+bin_dir = Pathname.new(__FILE__).dirname
+
+error_ocurred = false
+
+def check_script(bin, args = "")
+  cmd = "ruby #{bin} #{args}"
+  $log.info("Checking #{cmd}")
+  unless system(cmd)
+    $log.error("#{cmd} did not exit normally")
+    return false
+  end
+  true
+end
+
+error_ocurred = (check_script(bin_dir + "prisma-munin-prismadb") or error_ocurred)
+error_ocurred = (check_script(bin_dir + "prisma-cleanup-raws","syslogd_raws --dryrun") or error_ocurred)
+
+Prisma::Database.load_classes("pumpy")
+
+count = SyslogdRaw.count
+
+error_ocurred = (check_script(bin_dir + "prisma-sendlog","'Testmessage'") or error_ocurred)
+
+sleep 1
+
+new_count = SyslogdRaw.count
+
+unless new_count > count
+  error_ocurred = true
+  $log.error("After sending a log no new log in syslogd_raws. !(#{new_count} > #{count})")
+end
+
+
+
+
+

@@ -1,0 +1,83 @@
+class MigrateCiscoMetaMsgToSession < ActiveRecord::Migration
+  class CiscoMeta < ActiveRecord::Base
+  end
+  class CicsoSessionMeta < ActiveRecord::Base
+  end
+
+  def self.up
+
+    CiscoMeta.find(:all, :conditions => "msg LIKE 'WebVPN session terminated: %' AND reason IS NULL").each { |m|
+      if m.msg =~ "WebVPN session terminated\: (.*)"
+	m.msg = nil
+	m.save
+
+	sm = CiscoSessionMeta.new
+	sm.session_type = "WebVPN"
+	sm.msg = "terminated"
+	sm.reason = $1
+	sm.cisco_metas_id = m.id
+	sm.save
+      else
+	throw "Error while transforming WebVPN session terminated"
+      end
+    }
+    throw "not all WebVPN session terminated records were transformed" if CiscoMeta.find(:all, :conditions => "msg LIKE 'WebVPN session terminated: %' AND reason IS NULL").count != 0 
+    
+    CiscoMeta.find(:all, :conditions => "msg LIKE 'Session disconnected. Session Type:%'").each { |m|
+      if m.msg =~ "Session disconnected. Session Type: ([^,]*), Duration: ([^,]*), Bytes xmt: ([^,]*), Bytes rcv: ([^,]*)$"
+	sm = CiscoSessionMeta.new
+	sm.session_type = $1
+	sm.duration = $2
+	sm.out_bytes = $3
+	sm.in_bytes = $4
+	sm.msg = "disconnected"
+	sm.reason = m.reason
+	sm.cisco_metas_id = m.id
+	sm.save
+
+	m.msg = nil
+	m.reason = nil
+	m.save
+      else
+	throw "Error while transforming WebVPN session terminated"
+      end
+
+    }
+
+    CiscoMeta.find(:all, :conditions => "msg = 'SSL session with client terminated.'").each { |m|
+      sm = CiscoSessionMeta.new
+      sm.session_type = "SSL"
+      sm.msg = "terminated"
+      sm.cisco_metas_id = m.id      
+      sm.reason = m.reason
+      sm.save
+      
+      m.msg = nil
+      m.reason = nil
+      m.save
+    } 
+    
+    CiscoMeta.find(:all, :conditions => "msg = 'Starting SSL handshake with client for TLSv1 session.'").each { |m|
+      sm = CiscoSessionMeta.new
+      sm.session_type = "TLSv1"
+      sm.msg = "Starting SSL handshake"
+      sm.cisco_metas_id = m.id      
+      sm.reason = m.reason
+      sm.save
+      
+      m.msg = nil
+      m.reason = nil
+      m.save
+    } 
+    
+    
+
+
+ 
+
+  end
+
+  def self.down
+    drop_table :test
+  end
+end

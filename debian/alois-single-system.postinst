@@ -1,0 +1,4 @@
+#!/bin/sh
+echo '/!\ Maybe you want to execute... /!\'
+echo '/!\  /usr/sbin/alois-setup       /!\'
+echo '/!\ ...to finish installation.   /!\'

@@ -1,0 +1,25 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  name: aa
+  description: dd
+  from_ip: 192.168.1.1
+  to_ip: 
+  netmask: 255.255.255.0
+
+two:
+  id: 2
+  name: bbb
+  description: 
+  from_ip: 192.168.1.1
+  to_ip: 
+  netmask: 255.255.255.0
+
+three:
+  id: 3
+  name: ccc
+  description: 
+  from_ip: 192.168.1.1
+  to_ip: 192.168.1.22
+  netmask: 255.255.255.0

@@ -1,0 +1,32 @@
+<% @parents = @source_class.parent_classes %>
+<% current_class = @source_class %>
+<% current_path = @parent_path %>
+
+<table>
+  <tr><td>
+<!--    <%= @parents.map {|p| p.name}.join(",") %> -->
+<!--  <%= @source_class %> == <%= current_path[0].class%> -->
+  </td><th class="table-classes-parent <% if current_class.name == current_path[0].class.name %>table-classes-selected<% end %>"  rowspan="<%= @parents.length + 1 %>">
+    <% if current_class.name != @global_source_class.name %><%= render :partial => "class_content" %><% end %>
+  </th></tr>
+
+<% @parents.each {|@source_class| %>
+  <tr><td style="text-align:right;float:right;">
+    <% if current_class.child_class?(@source_class) %>
+      <%= @source_class.name %> (cyclic)
+    <% else %>
+      <% @done.push(@source_class) %>
+<% 
+ if current_class.name == current_path[0].class.name
+   @parent_path = current_path.dup[1..-1]
+ else
+   @parent_path = current_path
+ end
+%>
+      <%= render :partial => "parent_classes" %>
+    <% end %>
+  </td></tr>
+<% } %>
+
+  </tr>
+</table>

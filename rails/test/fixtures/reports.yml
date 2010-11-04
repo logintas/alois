@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  name: Report One
+  date: 2008-03-26
+  time: 2008-03-26 09:24:25
+  path: /tmp/foo
+  report_template_id: 1
+  sentinel_id: 1
+  generated_by: sentinel
+
+two:
+  id: 2
+  date: 2008-03-26
+  time: 2008-03-26 09:24:25
+  path: MyString
+  report_template_id: 1
+  sentinel_id: 1
+  generated_by: MyString

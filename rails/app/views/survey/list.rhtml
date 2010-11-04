@@ -1,0 +1,33 @@
+<%= title("Interaktive Analyse - #{current_datasource.name}") %>
+
+<div id="page">
+
+<%= render :partial => "filters" %>
+<br>
+
+
+<table class="form">
+  <tr>
+    <th style="width: 20%; text-align: left">Description <%= short_help("Description","The description of the current datasource.") %></th><td><%=h current_datasource.description %></td>
+  </tr>
+  <tr>
+    <th style="width: 20%; text-align: left">Auto refresh <%= short_help "Auto refreshing page","By specifying an interval you can reload the content of the current sight every n seconds. Take care to not reload the page to often. If you specify a too short interval the browser will not be able to reload as much as desired (many browsers do not like that)." %></th>
+    <td><span id="auto_refresh"><%= render :partial => "auto_refresh" %></span></td>
+  </tr>
+</table>
+<br>
+
+<% case @controller.action_name
+  when 'chart' %>
+
+  <%= render :partial => "chart" %>
+
+<% when 'export' %>
+
+<% else %>
+
+  <%= render :partial => "table" %>
+
+<% end %>
+
+</div>

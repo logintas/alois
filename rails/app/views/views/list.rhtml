@@ -1,0 +1,31 @@
+<%= title @controller.controller_name.pluralize.humanize %>
+
+<div id="page">
+<%= error_messages %>
+
+<table class="form">
+	<tr>
+    <th class="form_header" style="width: 0px">ID</th>
+    <th class="form_header" style="width: 20%">Name</th>
+		<th class="form_header" style="width: 90%">Description</th>
+		<th class="form_header" style="min-width: 160px"/>
+	</tr>
+<% make_groups(@views).each{|name,views| %>
+  <% if name != "" %><tr><th colspan="4" style="text-align:left;">&nbsp;<%=h name %></th></td><% end %>
+<% for view in views %>
+	<tr>
+    <td><%=h view.id %></td>
+		<td><%= link_to(h(view.name), :controller => 'survey', :table => view.table.table_name) %></td>
+		<td><%=h view.description %></td>
+		<td>
+			<%= link_to image_tag( 'bar-chart.png', :title => 'Analyze data from view' ), :controller => 'survey', :table => view.table.table_name %><%= short_help "Survey Button","With this button you get to the #{help_link "survey"} page."%><%= link_to image_tag( 'show.png', :title => 'Show view details'), :action => 'show', :id => view %><%= link_to image_tag( 'edit.png', :title => 'Edit view' ), :action => 'edit', :id => view %><%= link_to image_tag('delete.png', :title => 'Delete view'), { :action => 'destroy', :id => view }, :confirm => 'Are you sure?', :method => :post %>
+  		</td>
+	</tr>
+<% end }%>
+	<tr>
+		<td class="button-bar" colspan="4">
+			<%= button_to "New #{@controller.controller_name.singularize}", :action => 'new' %>
+		</td>
+	</tr>
+</table>
+</div>

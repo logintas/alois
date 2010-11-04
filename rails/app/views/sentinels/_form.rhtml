@@ -1,0 +1,79 @@
+<%= error_messages_for 'sentinel' %>
+
+  <tr>
+    <th class="form_header" colspan="2">Sentinel</th>
+  </tr>
+  <tr>
+    <th><label for="sentinel_name">Name</label></th>
+    <td><%= text_field 'sentinel', 'name'  %></td>
+   </tr>
+   <tr>
+     <th><label for="sentinel_description">Description</label></th>
+    <td><%= text_area 'sentinel', 'description', :style => 'width: 98%', :rows => 4 %></td>
+   </tr>
+   <tr>
+     <th><label for="sentinel_action">Action</label></th>
+     <td><%= select "sentinel", "action", Sentinel::ACTIONS.invert %></td>
+   </tr>
+   <tr>
+     <th><label for="sentinel_cron_interval">Cron interval</label><%= help_button "cron" %></th>
+     <td><%= text_field 'sentinel', 'cron_interval'  %></td>
+   </tr>
+   <tr>
+     <th><label for="sentinel_send_mail">Send mail</label></th>
+     <td><%= check_box "sentinel", "send_mail" %></td>
+   </tr>
+   <tr>
+     <th><label for="sentinel_include_csv_in_email">Include csv in email:</label></th>
+     <td><%= check_box "sentinel", "include_csv_in_email" %></td>
+   </tr>
+   <tr>
+     <th><label for="sentinel_include_report_in_email">Include report in email:</label></th>
+     <td><%= check_box "sentinel", "include_report_in_email" %></td>
+   </tr>
+
+   <tr>
+     <th><label for="sentinel_mail_to">Mail to</label><%= short_help "Mailto","A email address where the alarm should be sent to. Can be a list seperated by ','." %></th>
+     <td><%= text_field 'sentinel', 'mail_to'  %></td>
+   </tr>
+   <tr>
+     <th><label for="sentinel_threshold">Threshold</label><%= short_help "Threshold","Normally you should set here 0 - this means if the query contains any row a alarm is sent. If you want to send an alarm only if the query more than 1000 records. Set this to 1000. In other words this is the maximum allowed records that will not initiate an alarm."%></th>
+     <td><%= text_field 'sentinel', 'threshold'  %></td>
+   </tr>
+
+<!-- view -->
+  <tr><th style="text-align:center" colspan="2">View</th></tr>
+   <tr>
+     <th><label for="sentinel_view_id">View</label><%= short_help "View","The selected view is the datasource for your sentinel. The count of this view will be compared to the threshold. This datasource can also be used for your report. If the report template has no view selected, this view will be taken."%></th>
+     <td><%= select("sentinel", "view_id", View.find(:all,:order => "name").collect {|v| [v.name , v.id]}) %></td>
+   </tr>
+   <tr>
+     <th><label for="sentinel_time_range">Time range</label></th>
+    <td><%=  text_field_with_auto_complete :sentinel, :time_range, :autocomplete => "off", :style => 'width: 98%', :rows => 4 %></td>
+   </tr>
+   <tr>
+     <th><label for="sentinel_filters">Filters</label></th>
+    <td><%=  text_field "sentinel", "filters" %> (id, id, id)<br>
+        Possible Filters for view <%= fobj(@sentinel.view) %>: <%= Filter.find(:all,:order => "name").select {|f| f.valid_for_table?(@sentinel.view)}.map{|f| "#{f.id}:'#{fobj(f)}'"}.join(", ") %></td>
+   </tr>
+
+
+<!-- alarm -->
+  <tr><th style="text-align:center" colspan="2">Alarm</th></tr>
+   <tr>
+     <th><label for="sentinel_alarm_level">Alarm Level</label><%= short_help "Alarm Level","If no level is selected, no alarm will be created. This is useful for reporting only purpuse"%></th>
+     <td><%= select("sentinel", "alarm_level",Alarm::ALARM_LEVELS.sort{|a,b| a[0] <=> b[0]}.map{|a,b| ["#{a}: #{b}",a]}, { :include_blank => true} ) %></td>
+   </tr>
+
+
+<!-- report -->
+  <tr><th style="text-align:center" colspan="2">Report</th></tr>
+   <tr>
+     <th><label for="sentinel_report_template_id">Report Template</label></th>
+     <td><%= select("sentinel", "report_template_id", ReportTemplate.find(:all).collect {|v| [v.name , v.id]}, :include_blank => true) %></td>
+   </tr>
+
+     <!-- <p><label for="sentinel_send_ossim">Send ossim</label><br/>
+     <select id="sentinel_send_ossim" name="sentinel[send_ossim]"><option value="false">False</option><option value="true">True</option></select></p> -->
+     <!-- <p><label for="sentinel_external_program">External program</label><br/>
+     <%= text_area 'sentinel', 'external_program'  %></p> -->

@@ -1,0 +1,36 @@
+<div id="named_filters">
+
+  <% if @filters and @filters.length > 0 %>
+    <table class="form">
+  <!-- Filters -->
+      <tr>
+        <th colspan="2" class="form_header">Filter</th>
+      </tr>
+
+      <tr>
+        <td colspan="2">
+
+          <table class="form" style="border:none">  
+            <tr>
+              <th>Name</th><th>Conditions</th><th>&nbsp;</th>
+            </tr>
+
+            <% for filter in @filters %>
+            <tr>
+              <td><%= filter.name %></td>
+              <td><%= render_component :controller => "filters", :action => "show_inline", :id => filter.id %></td>
+              <td><%= link_to_remote image_tag("remove.png"), 
+                    :before => "table_reload()",
+                    :update => 'named_filters', 
+                    :loaded => "update_table()", 
+                    :url => {:controller=> 'survey', :action => 'remove_filter', :filter_id => filter.id, :state_id => @state_id } %><%= help_button "survey","remove_filter" %>
+              </td>
+            </tr>
+            <% end %>
+
+          </table>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+</div>

@@ -1,0 +1,38 @@
+<%= title("View - #{@view.name}") %>
+
+<div class="page">
+<table class="form">
+  <tr>
+    <th class="form_header" colspan="2">View</th>
+  </tr>
+  <tr>
+    <th><label for="view_name">Name</label></th>
+    <td><%=h @view.name %></td>
+  </tr>
+  <tr>
+    <th><label for="view_description">Description</label></th>
+    <td><%=h @view.description %></td>
+  </tr>
+  <tr>
+    <th><label for="view_sql_declaration">Sql declaration</label></th>
+    <td><%= create_links_in_query(@view.sql_declaration) %></td>
+  </tr>
+  <tr>
+    <th><label for="view_do_not_use_view_for_query">Don't use mysql view for query</label></th>
+    <td><%=h @view.do_not_use_view_for_query %><br>Sample output:<br><%= (create_links_in_query @view.example_replacement_query) rescue $! %></td>
+  </tr>
+
+<% if @view.exclusive_for_group %>
+  <tr>
+    <th><label for="exclusive_for_group">Display only for group</label></th>
+    <td><%=h @view.exclusive_for_group %></td>
+  </tr>
+<% end %>
+  <tr>
+    <th>Serialized</th><td><pre><%=h @view.to_zip %></pre></td>
+  </tr>
+  <tr>
+    <td class="button-bar" colspan="2"><%= button_to "Analyze", :controller => 'survey', :table => @view.table.table_name %><%= button_to "Edit", :action => :edit, :id => @view %><%= button_to "Delete", { :action => :destroy, :id => @view }, :confirm => 'Are you sure?' %><%= button_to "List all", :action => :list %></td>
+  </tr>
+</table>
+</div>

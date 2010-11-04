@@ -1,0 +1,212 @@
+base { 
+	target: "main" 
+	}
+
+body { 
+	background-color: #FAF5E4;
+	background-attachment: fixed;
+	text: #314273;
+	link: #A5314A;
+	text-align: left; 
+	font-family: Futura, Futura Bk BT, Futura Book BT, Tahoma, Arial, Helvetica, Lucida Sans, Lucida;
+	font-weight: 550;
+	color: #314273; 
+	margin: 0.5cm 0.5cm 0.5cm 0.5cm;
+	}
+	
+body.logo {
+	background-color: #FFFFFF;
+	
+	font-family: Futura, Futura Bk BT, Futura Book BT, Tahoma, Arial, Helvetica, Lucida Sans, Lucida;
+	font-weight: 550;
+	margin: 0 0 0 0;
+	}
+	
+body.main {
+	color: #314273;
+        background-color: #FAF5E4;
+        link: #FFFFFF;
+	visited: #000000;
+	
+	font-family: Futura, Futura Bk BT, Futura Book BT, Tahoma, Arial, Helvetica, Lucida Sans, Lucida;
+	font-weight: 550;
+   }
+	
+body.tab {
+	color: #314273;
+	background-color: #FFFFFF;
+        link: #FFFFFF;
+	visited: #000000;
+	margin: 0 0 0 0;
+	
+	font-family: Futura, Futura Bk BT, Futura Book BT, Tahoma, Arial, Helvetica, Lucida Sans, Lucida;
+	font-weight: 550;
+   }
+	
+body.list {
+	font-size: 70%;
+	color: #FAF5E4;
+	link: #FAF5E4;
+	background-color: #314273;
+	text-align: left;
+	margin: 0.2cm 0.2cm 0.2cm 0.2cm;
+
+	font-family: Futura, Futura Bk BT, Futura Book BT, Tahoma, Arial, Helvetica, Lucida Sans, Lucida;
+	font-weight: 550;
+	
+	}
+	
+body.bottom {
+	color: #F14273;
+	text: #314273;
+	background-color: #A5314A;
+	link: #FAF5E4;
+	visited: #FAF5E4;
+	/* text-align: right; */
+	font-size: 70%;
+	margin: 0 0 0 0;
+	}
+
+td {
+	font-family: Futura, Futura Bk BT, Futura Book BT, Tahoma, Arial, Helvetica, Lucida Sans, Lucida;
+	font-weight: 550;
+}
+
+tr {
+	font-family: Futura, Futura Bk BT, Futura Book BT, Tahoma, Arial, Helvetica, Lucida Sans, Lucida;
+	font-weight: 550;
+}
+
+th {
+	font-family: Futura, Futura Bk BT, Futura Book BT, Tahoma, Arial, Helvetica, Lucida Sans, Lucida;
+	font-weight: 550;
+}
+
+td.big {
+	font-size: 125%;
+	}
+
+th.big {
+	font-size: 125%;
+	}
+	
+th.red {
+	font-size:70%;
+	color: #FAF5E4;
+	}
+	
+P.bottom {
+	color: #314273;
+	text: #314273;
+	background-color: #A5314A;
+	link: #FAF5E4;
+	visited: #FAF5E4;
+	/* text-align: right; */
+	/*font-size: 60%;*/
+	}
+P.footer {
+	text-align: centered;
+	font-size: 50%;
+	}
+P.names {
+	font-family: Futura, Futura Bk BT, Futura Book BT, Tahoma, Arial, Helvetica, Lucida Sans, Lucida;
+/*	font-family: Futura Medium Condensed BT, Futura MdCn BT, Futura Light Condensed BT, Futura LtCn BT, Arial Narrow; */
+	text-align: left;
+	color: #314273;
+	link: #FF00FF;
+	visited: #FFFFFF;
+	}
+H1	{
+	text-align: left;
+	font-family: Futura Black, Futura XBlk BT, Futura Extra Black BT, Tahoma Fett, Tahoma Bold, Arial Black, Arial Bold, Arial, Swiss 742, Swiss, Lucida Sans, Lucida;
+	font-weight: 400;
+	}	
+H2	{
+	text-align: left;
+	font-family: Futura Black, Futura XBlk BT, Futura Extra Black BT, Tahoma Fett, Tahoma Bold, Arial Black, Arial Bold, Arial, Swiss 742, Swiss, Lucida Sans, Lucida;
+	font-weight: 400;
+	}	
+H3	{
+	text-align: left;
+	font-family: Futura Black, Futura XBlk BT, Futura Extra Black BT, Tahoma Fett, Tahoma Bold, Arial Black, Arial Bold, Arial, Swiss 742, Swiss, Lucida Sans, Lucida;
+	font-weight: 400;
+	}	
+H4	{
+	text-align: left;
+	font-family: Futura Black, Futura XBlk BT, Futura Extra Black BT, Tahoma Fett, Tahoma Bold, Arial Black, Arial Bold, Arial, Swiss 742, Swiss, Lucida Sans, Lucida;
+	font-weight: 400;
+	}	
+H5	{
+	text-align: left;
+	font-family: Futura Black, Futura XBlk BT, Futura Extra Black BT, Tahoma Fett, Tahoma Bold, Arial Black, Arial Bold, Arial, Swiss 742, Swiss, Lucida Sans, Lucida;
+	font-weight: 400;
+	}	
+
+	
+ul.listLevel1 { margin-top: 0cm;
+	 margin-left: 0cm;
+	 padding-left: 0.4cm;
+	 margin-bottom: 0.2cm;
+	}
+
+li.listLevel1 { margin-top: 0cm;
+	 margin-left: 0cm;
+	 padding-left: 0cm;
+	 margin-bottom: 0cm; 
+}
+
+ul.listLevel2 { margin-top: 0cm;
+	 margin-left: 0cm;
+	 padding-left: 0.4cm;
+	 margin-bottom: 0.2cm;
+	}
+
+li.listLevel2 { margin-top: 0cm;
+	 margin-left: 0cm;
+	 padding-left: 0cm;
+	 margin-bottom: 0cm; 
+}
+
+
+A.listLink:link {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+A.listLink:visited {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+A.listLink:active {
+	text-decoration: none;
+	color: #E8B0BC;
+}
+
+A.onRedLink:link {
+	color: #FAF5E4;
+	text-decoration: underline;
+}
+A.onRedLink:visited {
+	color: #FAF5E4;
+	text-decoration: underline;
+}
+A.onRedLink:active {
+	color: #FFFFFF;
+	text-decoration: underline;
+}
+
+A.docuLink:link {
+	color: #314273;
+	text-decoration: underline;
+}
+A.docuLink:visited {
+	color: #314273;
+	text-decoration: underline;
+}
+A.docuLink:active {
+	color: #A5314A;
+	text-decoration: underline;
+}
+
+#log_table { 
+  font-size:10pt;
+ }

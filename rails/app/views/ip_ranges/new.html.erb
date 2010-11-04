@@ -1,0 +1,13 @@
+<%= title "New #{@controller.action_name.humanize} #{@controller.controller_name.singularize.humanize} - #{@ip_range.name}" %>
+
+<div id="page">
+
+  <table class="form">
+  <% form_for(@ip_range) do |f| %>
+    <%= render :partial => 'form' %>
+    <tr>
+      <td class="button-bar" colspan="2"><%= f.submit "Create" %> <%= f.submit "Cancel" %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>

@@ -1,0 +1,32 @@
+<%= title @controller.controller_name.humanize %>
+
+<div id="page">
+<%= error_messages %>
+
+<table summary="List of filters." class="form">
+	<tr>
+		<th class="form_header" style="width:0px;">ID</th>
+		<th class="form_header">Name</th>
+		<th class="form_header">Description</th>
+		<th class="form_header">Rules</th>
+		<th class="form_header" style="width:160px;"/>
+	</tr>  
+<% for filter in @filters %>
+	<tr>
+		<td><%=h filter.id %></td>
+		<td><%=h filter.name %></td>
+		<td><%=h filter.description %></td>
+<% @current_filter = filter %>
+		<td><%= render :partial => "show_conditions" %></td>
+		<td>
+			<%= link_to image_tag( 'show.png' ), :action => 'show', :id => filter %><%= link_to image_tag( 'edit.png' ), :action => 'edit', :id => filter %>	<%= link_to image_tag('delete.png'), { :action => 'destroy', :id => filter }, :confirm => 'Are you sure?', :method => :post %>
+  		</td>
+	</tr>
+<% end %>
+	<tr>
+		<td class="button-bar" colspan="5">
+			<%= button_to "New #{@controller.controller_name.singularize.humanize}", :action => 'new' %>
+		</td>
+	</tr>
+</table>
+</div>

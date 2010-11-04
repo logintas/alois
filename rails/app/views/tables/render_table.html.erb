@@ -1,0 +1,6 @@
+<%= title("Render #{h @controller.controller_name.singularize.humanize} - #{h @table.name}") %>
+
+Datasource: <%= @datasource.name %><br>
+Conditions: <%= @conditions %><br>
+Count: <%= @count %><br>
+<pre><%= @data %></pre>

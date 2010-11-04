@@ -1,0 +1,40 @@
+sent1:
+ id: 1
+ name: "Some sentinel"
+ description: "Desc"
+ send_ossim: 0
+ send_mail: 0
+ view_id: 1
+ time_range:
+ threshold: 0
+ cron_interval: "0 0 0 0 0"
+
+sent2:
+ id: 2
+ name: "For testing today"
+ description: "Desc"
+ send_ossim: 0
+ send_mail: 0
+ view_id: 11
+ time_range: "today"
+ alarm_level: 3
+ action: 0
+ report_template: 1
+ threshold: 0
+ cron_interval: "0 0 0 0 0"
+ mail_to: ""
+
+sent3:
+ id: 3
+ name: "For testing yesterday"
+ description: "Desc"
+ send_ossim: 0
+ send_mail: 0
+ view_id: 11
+ time_range: "yesterday"
+ alarm_level: 3
+ action: 0
+ report_template_id: 2
+ threshold: 0
+ cron_interval: "0 0 0 0 0"
+ mail_to: ""

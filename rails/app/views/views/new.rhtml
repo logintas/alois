@@ -1,0 +1,26 @@
+<%= title "#{h @controller.action_name.humanize} #{h @controller.controller_name.singularize.humanize}" %>
+
+<div id="page">
+  <%= error_messages_for 'view' %>
+  
+  <table class="form">
+  <% form_tag :action => 'create' do %>
+    <%= render :partial => 'form' %>
+    <tr>
+      <td class="button-bar" colspan="2"><%= submit_tag "Create" %> <%= submit_tag "Cancel" %></td>
+    </tr>
+    <% end %>
+    <% form_tag :action=>'new', :state_id => @state_id do %>
+      <tr>
+        <th class="form_header" colspan="2">Upload</th>
+      </tr>
+      <tr>
+        <th>ZIP</th>
+        <td><%= text_area_tag 'view_zip', '', :rows => 4 %></td>
+      </tr>
+      <tr>
+        <td class="button-bar" colspan="2"><%= submit_tag "Load" %><%= submit_tag "Cancel" %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>

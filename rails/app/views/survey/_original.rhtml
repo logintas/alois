@@ -1,0 +1,21 @@
+<table class="data">
+<% found = false %>
+<%  @record.original.each {|orig| %>
+   <% found = true %>
+   <tr><th colspan="3">Original <%= if orig.respond_to?(:origin) then orig.origin end %><th></tr>
+   <% if orig.class.respond_to?("columns") %>
+       <% for column in orig.class.columns %>
+       <tr>
+          <th><%=h column.human_name %>:</td>
+          <td><%=h orig.send(column.name) %></td>
+          <td>&nbsp;</td>
+      </tr>
+      <% end %>
+   <% else %>
+      <tr><th><%= orig.class.name %></th><td><%= orig.to_s %></td></tr>
+   <% end %>
+<% } %>
+</table>
+<% unless found %>
+No original message found.
+<% end %>

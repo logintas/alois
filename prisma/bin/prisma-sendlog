@@ -1,0 +1,79 @@
+#! /usr/bin/ruby1.8
+require "libisi"
+init_libisi(:ui => "console")
+
+require 'socket'
+
+syslog_dest = 13
+$syslog_port = 514
+$syslog_server = nil
+file = nil
+message = nil
+$interval = 1
+repetition = 1
+
+opts = optparse do |o|
+
+  o.on( "-f", "--file FILE", "File containing log lines." ) do |file| end
+  o.on( "-s", "--server SERVER", "Server to send logs to. (instead of reading alois-configfile)" ) do |$syslog_server| end
+  o.on( "-p", "--port PORTNUM", "Port to use instead of port #{$syslog_port}." ) do |arg|
+    $syslog_port = arg.to_i
+  end
+
+  o.on( "-i", "--interval SECONDS", "Waiting time between sending the messages. (default: #{$interval}s)" ) do |i|
+    $interval = i.to_i
+  end
+
+  o.on( "-n", "--repetition TIMES", "Number of repetitions- (default: #{repetition}, -1 is infinite)" ) do |n|
+    repetition = n.to_i
+  end
+
+end
+
+message = ARGV[0]
+
+throw "Please specify either a file or a message." if 
+  (message.blank? and file.blank?)
+
+if $syslog_server.blank?
+  cf = Pathname.new(__FILE__).dirname + "../conf/prisma/environment.rb"
+  if cf.exist?
+    require cf 
+  else
+    require "/etc/prisma/environment.rb"
+  end
+  config = Prisma::Database.db_config("pumpy")
+  $syslog_server = config["host"]
+
+  $syslog_server ||= "localhost"
+end
+
+$log.info("Using server #{$syslog_server}:#{$syslog_port}...")
+
+$num = 1
+$socket = UDPSocket.new
+
+def send(msg)
+  print "Send(#{$num} to #{$syslog_server}:#{$syslog_port}): "
+  p msg
+  $num = $num + 1
+  $socket.send(msg, 0, $syslog_server, $syslog_port)
+  sleep($interval) if ($interval and $interval > 0)
+end
+
+while (repetition == -1 or repetition > 0)
+  if file 
+    for line in open(file)
+      send(line)
+    end
+  else
+    send(message)
+  end  
+  repetition = repetition -1
+end
+
+#EventLog.open('Application').tail{ |log|
+#   message = "WinEventLog 
+##{log.time_generated.asctime}||#{log.event_type}||#{log.source}||#{log.computer}||#{log.user}||#{log.description}"
+#   s.send("<#{syslog_dest}>#{message}",0,syslog_server,syslog_port)
+#}

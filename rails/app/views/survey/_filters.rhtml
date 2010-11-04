@@ -1,0 +1,35 @@
+<!-- Filters -->
+<%= render :partial => "edit_named_filters" %>
+
+<table class="form">
+<tr>
+  <th colspan="2" class="form_header">Conditions</th>
+</tr>
+<tr>
+  <td colspan="2">
+    <%= render :partial => "/filters/form", :state_id => @state_id %>
+  </td>
+</tr>
+<tr>
+  <td colspan="2" class="button-bar">
+    <!-- Filter-Actions -->
+	<%= button_to "Create Filter", :controller=> 'filters', :action => 'new', :use_current => true, :state_id => @state_id %><%= help_button "survey","create_filter" %>
+	<%= button_to_function "Clear", remote_function(:update => 'edit_filter', 
+		:before => "table_reload()",
+                :loaded => "update_table()", 
+		:url => {:controller=> 'filters', 
+			 :action => 'clear_current_filter', 
+			 :state_id => @state_id}) %>
+	
+	<% form_remote_tag( :update => 'named_filters', 
+      :loaded => "update_table()", 
+			:before => "table_reload()",
+			:url => {:action => 'add_filter',:state_id => @state_id}, 
+			:html => { :style => 'display: inline' }) do %>
+		<%= submit_tag "Add filter: ", :style => 'display: inline'  %>
+		<%= select "survey", "filter_id", Filter.find(:all).reject{|filter| !filter.applyable(@table_class)}.collect { |f| ["#{f.name} (ID #{f.id})", f.id]}  %><%= help_button "survey", "add_filter" %>
+	<% end %>
+  </td>
+</tr>
+</table>
+

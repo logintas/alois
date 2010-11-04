@@ -1,0 +1,32 @@
+<%= help_title("Survey Page") %>
+
+<p>This page is splited into 3 Parts:
+<ul>
+ <li>Condition part: Here you can modify the conditions 
+which should be applied to your current dataset.</li>
+ <li>Information part: Informations about the selected
+data.</li>
+ <li>Viewing part: Displaying the current selected data in
+a table or graphic.</li>
+</ul>
+</p>
+
+<%= help_subtitle("Condition part") %>
+<p>Here are all the currently selected conditions and filters
+displayed. These conditions and rules are applied to the current
+data set.</p>
+<p>Here you can do the following tasks:
+<ul>
+  <li>Add a filter <%= help_goto "survey", "add_filter" %></li>
+  <li>Remove a filter  <%= help_goto "survey", "remove_filter" %></li>
+  <li>Add a condition  <%= help_goto "filters", "add_condition" %></li>
+  <li>Remove a condition  <%= help_goto "filters", "remove_condition" %></li>
+  <li>Create a filter of the currently selected conditions and filters  <%= help_goto "survey", "create_filter" %></li>
+</ul>
+
+<%= help_subtitle("Information part") %>
+
+
+<%= help_subtitle("Viewing part") %>
+
+<p>

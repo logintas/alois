@@ -1,0 +1,3 @@
+var/lib/prisma/archive
+var/log/prisma
+

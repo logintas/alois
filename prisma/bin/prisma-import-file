@@ -1,0 +1,14 @@
+#! /usr/bin/ruby1.8
+require 'pathname'
+LOG_STDOUT = true
+LOG_VERBOSE = true
+require File.dirname(Pathname.new(__FILE__).realpath) + '/../config/boot'
+require File.dirname(Pathname.new(__FILE__).realpath) + '/../config/environment'
+
+if ARGV[0]
+  Prisma.transform_file(ARGV[0], :type => "log")
+else
+  print "\nUsage: alois-import-file FILENAME\n\nAdds the file to the configured sink file queue (file_raws).\n\n"
+end
+
+exit 0

@@ -1,0 +1,7 @@
+/etc/alois/apache2/apache.conf
+/etc/alois/apache2/alois.passwd
+/etc/alois/munin.conf
+
+/etc/logrotate.d/alois-prisma
+/etc/cron.d/alois-prisma
+/etc/init.d/prisma

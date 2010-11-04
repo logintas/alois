@@ -1,0 +1,7 @@
+<fieldset style="width: 100%">
+  <legend>DB Infos</legend>
+  Host: <%= @table_class.host %> <br/>
+  Name: <%= @table_class.connection.current_database %><br>
+  Time: <%= @table_class.connection.execute("SELECT CURRENT_DATE as date").fetch_hash['date'] %>
+	<%= @table_class.connection.execute("SELECT CURRENT_TIME as time").fetch_hash['time'] %> 
+</fieldset>

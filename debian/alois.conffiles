@@ -1,0 +1,7 @@
+/etc/alois/boot.rb
+/etc/alois/database.yml
+/etc/alois/environment.rb
+/etc/alois/routes.rb
+/etc/alois/environments/production.rb
+/etc/default/alois-environment.rb
+/etc/default/alois-environment-config.rb

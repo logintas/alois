@@ -1,0 +1,1 @@
+*/15 * * * *	root	/usr/bin/prisma-cleanup-raws syslogd_raws > /dev/null

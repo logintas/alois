@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html>
+<head>
+  <title><%=h page_title %></title>
+  <%= stylesheet_link_tag 'menu' %>
+  <%= stylesheet_link_tag 'common' %>
+  <%= stylesheet_link_tag 'logintas' %>
+  <%= javascript_include_tag :defaults %>
+</head>
+
+<body>	
+  <table id="header" summary="Table for formatting header">
+    <tr>
+      <td  id="header-logo" width="60">
+        <a href="http://www.logintas.ch"><%= image_tag "logo_logintas.png", :size => "50x50", :alt => "Logintas AG - Information Services" %></a>
+      </td>
+      <td id="header-text">
+        Alois <%= main_menu(common_menu) %> <%= status_traffic_light(:width => 15) rescue $! %> <%= bookmark_add_link %> <%= main_help_link nil,{} %>
+      </td>
+    </tr>
+  </table>
+
+<div style="margin-left:12px;">
+  <%= @controller.flash_text %>
+
+<!-- main page -->
+<table border="0" cellspacing="0" cellpadding="0" summary="Main formatting table">
+  <tr>
+   <td valign="top" width="0"><% if @controller.controller_name != "help" %><div id='help'></div><% end %></td>
+   <td valign="top"><%= @content_for_layout %></td>
+  </tr>
+</table>
+
+
+<!-- footer -->
+<span class="footer"><a href="http://public.logintas.ch/public/ProDucts/AloIs" style="font-family: Arial,Helvetica,Verdana; font-size: 10px">Alois</a> <%= ALOIS_VERSION %> &copy; <a href="http://www.logintas.ch" style="font-family: Arial,Helvetica,Verdana; font-size: 10px">Logintas AG</a>
+</span>
+</div>
+
+</body>
+</html>

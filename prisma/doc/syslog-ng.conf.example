@@ -1,0 +1,52 @@
+# Alois SQL Logging
+# =================
+# SQL logging support
+
+# adapt the wiki page if you change something here
+# wiki: https://socrates2.grey.in.here/mgmtwiki/InFra/AloIs
+
+filter f_alois_ignore {
+	# add here filters of messages that should be ingored
+	# at the source
+         match('.*');
+};
+filter f_not_alois_ignore { not(filter(f_alois_ignore));};
+
+source s_foreign {
+        udp();
+        tcp();
+};
+
+destination d_mysql {
+        pipe("/var/run/mysql.pipe"
+                template("INSERT INTO syslogd_raws (host,ip, facility, priority, level, tag, date,
+                          time, program, msg) VALUES ( '$FULLHOST', '$SOURCEIP', '$FACILITY', '$PRIORITY', '$LEVEL', '$TAG',
+                          '$YEAR-$MONTH-$DAY', '$HOUR:$MIN:$SEC', '$PROGRAM', '$MSG' );\n"
+                         )
+                template-escape(yes)
+            );
+};
+
+log {
+	# use this source if you only want to log foreign
+	# hosts per udp and tcp
+        # source(s_foreign);
+        source(s_all);
+        filter(f_alois_ignore);
+        destination(d_mysql);
+};
+
+destination df_alois { file("/var/log/alois-fallback.log"); };
+destination df_alois_ignored { file("/var/log/alois-ignored.log"); };
+
+log {
+        source(s_foreign);
+        filter(f_alois_ignore);
+        destination(df_alois);
+};
+
+log {
+        source(s_foreign);
+        filter(f_not_alois_ignore);
+        destination(df_alois_ignored);
+};

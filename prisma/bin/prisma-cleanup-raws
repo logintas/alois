@@ -1,0 +1,80 @@
+#! /usr/bin/ruby1.8
+require "libisi"
+init_libisi(:ui => "console")
+
+sleeping_time = 5
+count = nil
+dryrun = false
+
+opts = optparse(:arguments => [["RAW_TABLE","Raw table to check size and delete if necessary"]]) do |o|
+  o.on( "-c", "--count COUNT", "Max count in the table (default #{count})." ) do |c|
+    count = c.to_i
+  end
+  o.on("--dryrun", "Do not create stat record and do not delete") {|dryrun|}
+end
+
+cf = Pathname.new(__FILE__).dirname + "../conf/prisma/environment.rb"
+if cf.exist?
+  require cf 
+else
+  require "/etc/prisma/environment.rb"
+end
+
+raw_table = opts[0]
+raise "No raw table given" unless raw_table
+
+# create the mysql command string
+count ||= MAX_QUEUE_SIZES[raw_table]
+Prisma::Database.load_classes("pumpy")
+
+raw_klass = nil
+for klass in Prisma::Database.get_classes(:raw)
+  raw_klass = klass if klass.table_name == raw_table
+end
+
+raise "Raw class with table #{raw_table} not found" unless
+  raw_klass
+
+$log.info("Using #{raw_klass.name} with max count #{count.inspect}")
+
+stat = RawsState.new
+stat.table_name = raw_table
+stat.count_limit = count
+if dryrun
+  $log.info("Would create stat #{stat.inspect}")
+else
+  $log.info("Save stat #{stat.inspect}")
+  stat.save
+end
+
+start_time = Time.now()
+stat.count_value =  raw_klass.count()
+stat.count_time = (Time.now - start_time)
+if dryrun
+  $log.info("Would create stat #{stat.inspect}")
+else
+  $log.info("Save stat #{stat.inspect}")
+  stat.save
+end
+
+if count and stat.count_value > count 
+  from_records = raw_klass.find(:all,:order => "id DESC", :offset => count, :limit => 1)
+  if from_records.length >= 1    
+    from_record = from_records[0]    
+
+    if dryrun
+      $log.warn("Count #{stat.count_value} for #{raw_klass.table_name} > than max_count #{count }. " + 
+                "Would delete all records with id less or equal to #{from_record.id}")
+    else
+      $log.warn("Count #{stat.count_value} for #{raw_klass.table_name} > than max_count #{count }. " + 
+                "Deleting all records with id less or equal to #{from_record.id}")
+      start_time = Time.now
+      stat.delete_value = raw_klass.delete_all("id <= #{from_record.id}")
+      stat.delete_time = Time.now - start_time
+      stat.save
+    end
+  end
+else
+  $log.info("Count #{stat.count_value} is ok")
+  exit 0
+end

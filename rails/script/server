@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require "pathname"
+require Pathname.new(__FILE__).realpath + '../../config/boot'
+require 'commands/server'

@@ -1,0 +1,34 @@
+<%= title @controller.controller_name.humanize %>
+
+<div id="page">
+<%= error_messages %>
+
+<table class="form">
+  <tr>
+    <th class="form_header" style="width:0px;">ID</th>
+    <th class="form_header">Name</th>
+    <th class="form_header">Description</th>
+    <th class="form_header">From IP</th>
+    <th class="form_header">To IP</th>
+    <th class="form_header" style="width: 320px"/>
+  </tr>
+<% for ip_range in @ip_ranges %>
+  <tr>
+    <td><%=h ip_range.id %></td>
+    <td><%=h ip_range.name %></td>
+    <td><%=h ip_range.description %></td>
+    <td><%=h ip_range.from_ip %></td>
+    <td><%=h ip_range.to_ip %></td>
+    <td>
+    <%= link_to image_tag('show.png'), ip_range %>
+    <%= link_to image_tag('edit.png'), edit_ip_range_path(ip_range) %>
+    <%= link_to image_tag('delete.png'), ip_range, :confirm => 'Are you sure?', :method => :delete %></td>
+    </td>
+  </tr>
+<% end %>
+  <tr>
+    <td class="button-bar" colspan="6">
+      <%= button_to "New #{@controller.controller_name.singularize.humanize}", new_ip_range_path %>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,81 @@
+<% form_tag :action => 'add_condition', :loaded => update_table, :params => @current_filter.get_params, :id => nil do %>
+
+<table>
+  <tr>
+    <% for i in 0...@raw_descriptions.length %>
+      <th>
+        <span onmouseout="document.getElementById('titalt_<%= i %>').style.visibility = 'hidden';" onmouseover="document.getElementById('titalt_<%= i %>').style.visibility = 'visible';" >
+          <%= @raw_descriptions[i][1] %>
+        </span>
+
+        <div id="titalt_<%= i %>" style="position:absolute;background-color:yellow;visibility:hidden;">
+          <%= @raw_descriptions[i][0] %>
+        </div>
+      </th>
+    <% end %>
+  </tr>
+  <% if not @conditions == nil || @conditions.length == 0 then %>
+    <% for i in 0...@descriptions.length %>
+      <tr <% if @global_rule_number==i then %>style="background-color:lightgreen;"<% end %> >
+        <% for j in 0...@descriptions[i].length %>
+          <td>
+            <span onmouseout="document.getElementById('alt_<%= j %>_<%= i %>').style.visibility = 'hidden';" onmouseover="document.getElementById('alt_<%= j %>_<%= i %>').style.visibility = 'visible';">
+              <%= @descriptions[i][j][1] %>
+            <div id="alt_<%= j %>_<%= i %>" style="position:absolute;background-color:yellow;visibility:hidden;">
+
+              <% if @descriptions[i][j][0] != nil then %>
+                <table style="boder:10px solid black;">
+                  <tr>
+                    <td><%= @descriptions[i][j][2] %>#(<%= @descriptions[i][j][0][2] %>)</td>
+                    <td><% if @descriptions[i][j][0][3] != nil  %> - <% end %> </td>
+                    <td><% if @descriptions[i][j][0][3] != nil  %><%= @descriptions[i][j][3] %>#(<%= @descriptions[i][j][0][3] %>) <% end %></td>
+                  </tr>
+                    <% if @descriptions[i][j][0][4] != nil  %>
+                    <tr><td colspan="3" style="border:1 solid  black;">geteiltdurch</td></tr>
+                    <tr><td algin="center" colspan="3"><%= @descriptions[i][j][4] %>#(<%= @descriptions[i][j][0][4] %>)</td></tr>
+                  <% end %>
+                </table>
+              <% end %>
+            </div>
+          </span>
+          <% if @descriptions[i][j][0][6] != nil%>
+            <%= link_to  @descriptions[i][j][0][7],:action => @descriptions[i][j][0][6], :id => i, :params => @current_filter.get_params  %>
+          <% end %>
+        </td>
+      <% end %>  
+    </tr>
+  <% end %>
+<% end %>
+
+  <tr>
+  <td>
+  <select name="column_name">
+   <option value="ANY">ANY</option>
+   <% for column in @table.columns %>
+   <option value="<%= column.name %>"> 
+     <%= column.name %>
+   </option>
+   <% end %>
+  </select> 
+  </td>
+  <td>
+   <select name="operator">
+     <option value="LIKE">LIKE</option>
+     <option value="NOT LIKE">NOT LIKE</option>
+     <option value="=">=</option>
+     <option value="!=">!=</option>
+     <option value="IS NULL">IS NULL</option>
+     <option value="IS NOT NULL">IS NOT NULL</option>
+     <option value="SQL">SQL</option>
+   </select>
+  </td>
+  <td>
+    <input name="value"/>
+  </td>
+  <td><input type="submit" value="Create"/></td>
+  </tr>
+  <tr><td  <% if @negative_set %> style="background-color:red;"<%end%> ><%= link_to 'display negative set', :action => 'negative_set', :params => @current_filter.get_params  %></td></tr>
+ </table>
+<% end %>
+<% form_tag :action => 'add_sql_condition', :params => @current_filter.get_params ,:id => nil do %>
+<% end %>

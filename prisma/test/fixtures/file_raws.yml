@@ -1,0 +1,14 @@
+file1:
+ id: 1
+ dirname: "/var/log/messages"
+ basename: "messages"
+ ftype: "bz2"
+ size: "403"
+ mtime: 2008-01-01 10:00:00
+ atime: 2008-01-01 10:00:00
+ ctime: 2008-01-01 10:00:00
+ umask: 700
+ uid: 1000
+ gid: 1000
+ options: "filetype=syslog"
+ msg: "Apr 28 06:38:28 host1.example.com Some Message\nApr 28 06:38:29 host1.example.com Some Message 2\nApr 28 06:38:34 host3 syslogd 1.4.1#18: restart.\nApr 28 06:39:51 host1.example.com last message repeated 3 times\nApr 28 06:38:42 host3.example.com kernel: Redirect from 192.168.1.1 on tap11 about 192.168.11.111 ignored.\nApr 28 06:55:28 host1.example.com CRON[30589]: (pam_unix) session closed for user root\n"

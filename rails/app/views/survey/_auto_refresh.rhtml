@@ -1,0 +1,20 @@
+<% if params[:auto_refresh] %>
+  <%= periodically_call_remote :frequency => params[:auto_refresh],
+	:before => "table_reload()",
+        :loaded => "update_table()",
+        :update => 'auto_refresh_info', 
+	:url => { :controller=> 'survey', :action => 'auto_refresh_info', :auto_refresh => params[:auto_refresh],:state_id => @state_id } %>
+  Enabled. Reload every <%= params[:auto_refresh] %> seconds.
+  <%= link_to "Stop", { :controller=> 'survey', :action => params[:old_action], :state_id => @state_id } %>
+
+ <span id="auto_refresh_info"><%= render :partial => "auto_refresh_info" %></span>
+
+<% else %>
+  <% form_remote_tag(:update => 'auto_refresh', 
+	:url => { :controller=> 'survey', :action => "auto_refresh_inline", :state_id => @state_id, :old_action => (params[:old_action] or @controller.action_name) }) do %>
+    Refresh content every <%= text_field_tag "auto_refresh", 60, {:size => 3} %> seconds.
+    <%= submit_tag 'Start' %> 
+  <% end %>
+
+<% end %>
+

@@ -1,0 +1,33 @@
+<%= title @controller.controller_name.humanize %>
+
+<div id="page">
+<%= error_messages %>
+
+<table class="form">
+	<tr>
+		<th class="form_header">ID</th>
+		<th class="form_header">Sentinel Name</th>
+                <th class="form_header">Date</th>
+                <th class="form_header">Process State</th>
+		<th class="form_header" style="width: 160px"/>
+	</tr>  
+<% for alarm in @alarms %>
+	<tr>
+		<td><%=h alarm.id %></td>
+		<td><%=h alarm.sentinel.name if alarm.sentinel %></td>
+		<td><%=h alarm.created_at %></td>
+		<td><%=h alarm.process_state %></td>
+		<td>
+			<%= link_to image_tag( 'show.png' ), :action => 'show', :id => alarm %><%= link_to image_tag( 'edit.png' ), :action => 'edit', :id => alarm %>
+  		</td>
+	</tr>
+<% end %>
+	<tr>
+		<td class="button-bar" colspan="5">
+<%= link_to 'Previous page', { :page => @alarm_pages.current.previous } if @alarm_pages.current.previous %>
+<%= link_to 'Next page', { :page => @alarm_pages.current.next } if @alarm_pages.current.next %> 
+		</td>
+	</tr>
+
+</table>
+</div>

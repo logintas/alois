@@ -1,0 +1,40 @@
+<%= help_title("Overview") %>
+
+<p>A square in dark color represent a host of 
+your Alois configuration. Each host contains one
+or more appliances, indicated with squares in light
+color.</p>
+
+<%= help_subtitle("Host") %>
+<p>A square in dark color.</p>
+<p>The name at the top of the host is its short
+name. By clicking on it all measured
+<%= help_link "Munin" %>-statistics for that host 
+are displayed.</p>
+<p>There are the following hosts:
+ <%= help_link "Insink" %>,
+ <%= help_link "Dobby" %>,
+ <%= help_link "Reptor" %>
+</p>
+
+<%= help_subtitle("Appliance") %>
+<p>A square in light color.</p>
+<p>Represents an appliance installed on the host
+surrounded by the appliance square. The first line
+is the appliance's name followed by relevant status
+values.</p>
+<p>There are the following appliances: 
+ <%= help_link "Sink" %>,
+ <%= help_link "Pumpy" %>,
+ <%= help_link "Prisma" %>,
+ <%= help_link "Dobby" %>,
+ <%= help_link "Lizard" %>,
+ <%= help_link "Reporter" %>
+</p>
+
+<%= help_subtitle("Arrows") %>
+<p>The arrows indicate the flow of the messages.
+If you click on a number over or near the arrow,
+you get to the statistic page of this message flow.</p>
+
+

@@ -1,0 +1,14 @@
+/var/log/alois-ignored.log {
+   rotate 4
+   missingok
+   notifempty
+   weekly
+   compress
+}
+/var/log/alois-fallback.log {
+   rotate 4
+   missingok
+   notifempty
+   weekly
+   compress
+}

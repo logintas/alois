@@ -1,0 +1,26 @@
+= ALOIS =
+
+This is the Alois source tree. Here
+is a brief overview where to find
+what:
+
+== Important Files ==
+Todo list:	debian/TODO.Debian
+Changelog:	debian/changelog
+Bugs:		docs/BUGS
+
+== Directories ==
+./debian	The Debian package directory.
+./docs		Additional documents.
+
+== Guidelines ==
+ * Use wiki text format for all text documents.
+
+== Development ==
+After downloading the source please execute {{{make init}}} to ensure that all needes symlinks exists and all scripts are executable.
+
+== GEM ==
+* use the latest rubygems installation
+gem update --system
+ or
+gem1.8 update --system

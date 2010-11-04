@@ -1,0 +1,14 @@
+/var/log/alois/*.log {
+        daily
+        compress
+        rotate 20
+}
+
+/var/log/alois/*.err {
+        daily
+        compress
+        postrotate
+        /etc/init.d/prisma restart > /dev/null
+        endscript
+        rotate 20
+}

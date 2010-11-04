@@ -1,0 +1,69 @@
+  <table class="form">
+    <tr>
+      <th></th>
+      <th>X-Axis <%= short_help "Chart X-Axis","The column to use for the X-Axis of the chart." %></th>
+      <th>Y-Axis <%= short_help "Chart Y-Axis, Aggregation Function", "This function and column is used to compute the data values for the chart. The value used is then AGG_FUNC(AGG_COL) (e.g. COUNT(*) or SUM(bytes)...)." %></th>
+      <th>Z-Axis <%= short_help "Chart Z-Axis","The column to use for the Y-Axis of the chart (select a column to get a stacket chart)." %></th>
+      <th>Multi Chart <%= short_help "Mutli Chart","Select a column to define for which values a sepearate chart should be rendered."  %></th>
+    </tr>
+    <tr>
+      <th>Data</th>
+      <% if current_table %>
+        <td><%= select("chart", "column1", current_table.columns.map {|c| c.name }.sort) %></td>
+        <td style="white-space:nowrap;"><%= select("chart", "aggregation_function", Chart::AGGREGATION_FUNCTIONS) -%><%= select("chart", "aggregation_column", ["*"] + current_table.columns.map {|c| c.name}  ) %></td>
+        <td><%= select("chart", "column2", current_table.columns.map {|c| c.name }.sort, { :include_blank => true }) %></td>
+        <td><%= select("chart", "column3", current_table.columns.map {|c| c.name }.sort, { :include_blank => true }) %></td>
+      <% else %>
+        <td><%= text_field("chart", "column1",:size => 10) %></td>
+        <td style="white-space:nowrap;"><%= select("chart", "aggregation_function", Chart::AGGREGATION_FUNCTIONS) -%><%= text_field("chart", "aggregation_column", {:default => "*",:size => 10}) %></td>
+        <td><%= text_field("chart", "column2",:size => 10) %></td>
+        <td><%= text_field("chart", "column3",:size => 10) %></td>
+      <% end %>
+       <th></th>
+    </tr>
+    <% ["1st","2nd","3rd"].each {|num| %>
+     <tr>
+      <th><%= num %>-Order <%= short_help "How the data should be orderd in the chart", "Select an order an the chart will be ordered like this. SQL syntax is used here. For example COUNT(*) DESC means it will be orderd by COUNT(*) descending." %></th>
+        <% Chart::ORDER_NAMES.each_with_index {|order_name,index| %>
+          <td><%= image_tag("up.png") %><%= radio_button "chart", "order_#{num}", "#{order_name}" %>
+              <%= image_tag("down.png") %><%= radio_button "chart", "order_#{num}", "#{order_name}_desc" %></td>
+        <% } %>
+      <% if current_table %>
+        <td style="white-space:nowrap;"><%= radio_button "chart", "order_#{num}", "none" %><%= select("chart", "order_field_#{num}", @chart.possible_orders, { :include_blank => true  } ) %>
+      <% else %>
+        <td><%= text_field("chart", "order_by",:size => 10) %>
+      <% end %>     
+     </tr>
+    <% } %>
+
+<tr>
+  <th>Type</th>
+  <td colspan="5">
+
+   <table>
+     <tr>
+      <% Chart::CHART_TYPES.each {|chart_type| %>
+        <th>
+		<%= image_tag("#{chart_type}-chart.png") %>
+		<%= short_help "#{chart_type.to_s.camelize} Chart",Chart::CHART_TEXTS[chart_type][1] %>
+	</th>
+      <% } %>
+      <% Chart::CHART_OPTIONS.each {|option| %>
+        <th><%= option.to_s.camelize %></th>
+      <% } %>
+</tr>
+    <tr>
+      <% Chart::CHART_TYPES.each {|chart_type| %>
+        <td><%= radio_button "chart", "chart_type", chart_type %></td>
+      <% } %>
+      <% Chart::CHART_OPTIONS.each {|option| %>
+        <td><%= check_box "chart", option %></td>
+      <% } %>
+    </tr>
+  </td>
+  </tr></table>
+
+  </table>
+
+
+

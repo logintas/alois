@@ -1,0 +1,10 @@
+Install noniteractive
+---------------------
+apt-get install less joe
+
+echo "sun-java5-jdk shared/accepted-sun-dlj-v1-1 boolean true" | debconf-set-selections
+echo "sun-java6-jdk shared/accepted-sun-dlj-v1-1 boolean true" | debconf-set-selections
+
+export DEBIAN_FRONTEND=noninteractive
+export DEBIAN_FRONTEND=text
+apt-get -q -y install alois-single-system

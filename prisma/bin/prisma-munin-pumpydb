@@ -1,0 +1,37 @@
+#! /usr/bin/ruby1.8
+require "libisi"
+init_libisi(:ui => "console")
+
+args = optparse
+
+cf = Pathname.new(__FILE__).dirname + "../conf/prisma/environment.rb"
+if cf.exist?
+  require cf 
+else
+  require "/etc/prisma/environment.rb"
+end
+
+Prisma::Database.load_classes("pumpy")
+
+if args[0] == "config"
+
+  print "graph_title Sink input queues\n"
+  print "graph_category Alois\n"
+#  print "host_name #{config['pumpy']['host']}\n"
+  print "graph_vlabel records\n"
+
+ 
+  for klass in Prisma::Database.get_classes(:raw)
+    print "#{klass.table_name}.label #{klass.table_name}\n"
+  end
+
+else
+
+  for klass in Prisma::Database.get_classes(:raw)
+    $log.debug("Counting #{klass.name}")
+    # queue_size
+    queue_size = klass.approx_count
+    print "#{klass.table_name}.value #{queue_size}\n"
+  end
+
+end

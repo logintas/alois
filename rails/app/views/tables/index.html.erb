@@ -1,0 +1,27 @@
+<%= title @controller.controller_name.humanize %>
+
+<div id="page">
+<%= error_messages %>
+
+<table class="form">
+	<tr>
+		<th class="form_header">Name</th>
+		<th class="form_header">Description</th>
+		<th class="form_header" style="width: 160px"/>
+	</tr>  
+<% for table in @tables %>
+	<tr>
+		<td><%=h table.name %></td>
+		<td><%=h table.description %></td>
+		<td>
+			<%= link_to image_tag( 'show.png' ), :action => 'show', :id => table %><%= link_to image_tag( 'edit.png' ), :action => 'edit', :id => table %>	<%= link_to image_tag('delete.png'), { :action => 'destroy', :id => table }, :confirm => 'Are you sure?', :method => :post %>
+  		</td>
+	</tr>
+<% end %>
+	<tr>
+		<td class="button-bar" colspan="3">
+			<%= button_to "New #{@controller.controller_name.singularize.humanize}", :action => 'new' %>
+		</td>
+	</tr>
+</table>
+</div>

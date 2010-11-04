@@ -1,0 +1,14 @@
+<% k =  (@source_class or @global_source_class) %>
+<div <%= show_hide(k.name) %>>
+<%= link_to "#{k.name}", :controller => "survey", :action => "list", :table => k.table_name %>&nbsp;(<%= k.approx_count %>)
+<% if k.may_have_messages? %>
+with Messages
+<% end %>
+
+<div <%= show_hide_element(k.name) %>>
+<%= k.description_html %>
+</div>
+<% if params[:message] %>
+  
+<% end %>
+</div>

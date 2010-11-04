@@ -1,0 +1,16 @@
+  class ImportMeta < ActiveRecord::Base
+
+    description "Meta information for pumpy imports."
+
+    def compute_hash(msg)
+      return -1
+    end
+
+    def initialize( raw_message )
+      super()
+      self.raw_id = raw_message.id
+      self.content_hash = compute_hash(raw_message.msg)
+      self.size = msg.length
+      self.save      
+    end
+  end

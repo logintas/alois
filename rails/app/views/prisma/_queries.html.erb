@@ -1,0 +1,15 @@
+<% @queries = @connection.current_queries %>
+<% if @queries and @queries.length > 0 %>
+<table>
+<tr>
+  <% @queries[0].keys.sort.each {|col| %>
+  <th><%=h col %></th>
+  <% } %>
+</tr>
+<% @connection.current_queries.each {|@query| %>
+<%= render :partial => "query" %>
+<% } %>
+</table>
+<% else %>
+No queries.
+<% end %>

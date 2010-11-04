@@ -1,0 +1,37 @@
+<%= title @controller.controller_name.humanize %>
+
+<div id="page">
+<%= error_messages %>
+
+<table class="form">
+  <tr>
+    <th class="form_header" style="width:0px;">ID</th>
+    <th class="form_header">Name</th>
+    <th class="form_header">Description</th>
+    <th class="form_header">View</th>
+    <th class="form_header">Action</th>
+    <th class="form_header">Alarm Level</th>
+    <th class="form_header">Mail</th>
+    <th class="form_header" style="width: 320px"/>
+  </tr>
+<% for sentinel in @sentinels %>
+  <tr>
+    <td><%=h sentinel.id %></td>
+    <td><%=h sentinel.name %></td>
+    <td><%=h sentinel.description %></td>
+    <td><%=h begin View.find(sentinel.view_id).name rescue "NOT FOUND (#{sentinel.view_id})" end %></td>
+    <td><%=h sentinel.action_name %></td>
+    <td style="background-color:<%= sentinel.alarm_level_color %>"><%=h sentinel.alarm_level %></td>
+    <td><%=h sentinel.send_mail? ? h(sentinel.mail_to) : "No" %></td>
+    <td>
+      <%= link_to image_tag( 'show.png', :title => 'Detail anzeigen'), :action => 'show', :id => sentinel %><%= link_to image_tag( 'edit.png', :title => 'Editieren' ), :action => 'edit', :id => sentinel %><%= link_to image_tag('delete.png', :title => 'Löschen'), { :action => 'destroy', :id => sentinel }, :confirm => 'Are you sure?', :method => :post %>
+    </td>
+  </tr>
+<% end %>
+  <tr>
+    <td class="button-bar" colspan="8">
+      <%= button_to "New #{@controller.controller_name.singularize.humanize}", :action => 'new' %>
+    </td>
+  </tr>
+</table>
+</div>

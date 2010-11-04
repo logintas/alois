@@ -1,0 +1,8 @@
+<% form_tag :action => 'add_date_condition', :params => @current_filter.get_params ,:id => nil do %>
+<h1><%= select_date @current_filter.from_date, :prefix => "new_from_date", :include_blank => true %>
+&nbsp;-&nbsp;
+<%= select_date @current_filter.to_date, :prefix => "new_to_date", :include_blank => true %>
+<%= select "current_filter", "time_description", Filter.get_date_descriptions, { :include_blank => true } %>
+<input type="submit" value="Apply"/>
+</h1>
+<% end %>

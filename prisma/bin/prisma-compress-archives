@@ -1,0 +1,15 @@
+#! /usr/bin/ruby1.8
+require "libisi"
+init_libisi
+optparse
+
+cf = Pathname.new(__FILE__).dirname + "../conf/prisma/environment.rb"
+if cf.exist?
+  require cf 
+else
+  require "/etc/prisma/environment.rb"
+end
+
+Prisma::Archive.compress_archives
+
+exit 0

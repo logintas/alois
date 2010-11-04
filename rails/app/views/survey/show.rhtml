@@ -1,0 +1,79 @@
+<%= title("Log Meta Data") %>
+<div id="page" style="padding: 20px; min-width: 870px">
+	<% form_tag :controller => 'survey', :action => 'create_view_from_query', :id => @record["id"], :table => @record.class.table_name  do %>
+		
+	<%
+		meta = @record
+		meta_level_count = 0
+	 %>
+	<table>
+		<tr>
+			<% while meta != nil %>
+				<% meta_level_count += 1 %>
+				<td class="box">
+					<table class="data">
+						<tr>
+							<th colspan="3">
+								<%= link_to meta.class.table_name, :action => 'list', :table => meta.class.table_name %>
+								<%= link_to meta["id"], :action => 'show', :table => meta.class.table_name, :id => meta["id"] %>
+								<%= link_to "o", :controller => "tablelist", :action => 'schema', :table => meta.class.table_name, :id => meta["id"] %>
+							</th>
+						</tr>
+				
+						<% for column in meta.class.columns %>
+						<tr>
+							<th><%=h column.human_name %>:</td>
+							<td><%=h meta[column.name] %></td>
+							<td>
+								<% if @record == meta && column.name == 'id' %>
+									<input type="checkbox" name="select_columns[]" value="<%=meta.class.table_name%>.`<%= column.name %>`" checked="checked" readonly="readonly"/>
+								<% else %>
+									<input type="checkbox" name="select_columns[]" value="<%=meta.class.table_name%>.`<%= column.name %>`"/>
+								<% end %>
+							</td>
+						</tr>
+						<% end %>
+					</table>
+
+                                                <% if meta.class == SyslogdMeta %>
+							<% div_id = "orig_#{meta.class.table_name}_#{meta["id"]}" %>
+							<div id="<%= div_id %>">
+								<table class="data"><tr><th colspan="3"><%= link_to_remote "Find original...", :update => div_id, :url => {:action => "original_inline", :table => meta.class.table_name, :id => meta["id"] } %></th></tr></table>
+							</div>
+                                                <% end %>
+				</td>
+				<% 
+begin
+  if meta.respond_to?("parent")
+    meta = meta.parent
+  else
+    meta = nil
+  end
+rescue
+  meta = nil
+%>
+
+				<td class="box">
+					<table class="data">
+						<tr>
+							<th colspan="3">ERROR</th>
+						</tr>
+						<tr colspan="3">
+							<td><%= $! %></td>
+						</tr>
+					</table>
+				</td>
+
+<% end %>
+
+			<% end %>
+			</tr>
+			<tr>
+				<td class="button-bar" colspan="<%= meta_level_count %>">
+				<%= submit_tag 'Create View' %>
+				</td>
+			</tr>
+		</table>
+	<%= children_table(@record) %>
+  <% end %>
+</div>

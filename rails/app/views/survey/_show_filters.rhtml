@@ -1,0 +1,14 @@
+<!-- Filter Select -->
+
+<!-- Filters -->
+<div id="named_filters">
+  <%= render :partial => "named_filters", :params => {:disabled => true} %>
+</div>
+
+<!-- Current Filter -->
+<fieldset style="width: 100%">
+  <legend>Current Filter</legend>
+  <%= render_component :controller => "filters", :action => "show_inline", :params => {:state_id => @state_id}%>
+</fieldset>
+
+<!-- Filter-Actions -->

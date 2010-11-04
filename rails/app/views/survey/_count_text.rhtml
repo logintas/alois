@@ -1,0 +1,11 @@
+<span id="inner_count_text">
+  <%= get_count_text() %>
+  <% unless params[:slow_count] %>
+      <%= link_to_remote "Calculate", 
+	:update => 'count_text', 
+	:url => { :action => 'count_text', :slow_count => true, :state_id => @state_id}, 
+	:before => "Element.setStyle('inner_count_text', {'background-color' : '#FFBBBB'})"
+	 %> This can take a very long time.
+  <% end %>
+</span>
+

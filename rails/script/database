@@ -1,0 +1,82 @@
+#!/usr/bin/ruby
+require "libisi"
+init_libisi(:ui => "console")
+
+delete = false
+recreate = false
+create = false
+load = false
+check = false
+migrate = false
+set_db = nil
+schema = false
+$force_local_connect = false
+
+def rake_task(task, local_connect = false)
+  error_message = "Rake error."
+  load_env {
+    ENV["LOCAL_CONNECT"] = "true" if $force_local_connect
+    # RAKE
+    $log.info("Doing #{task} localconnect #{$force_local_connect}...")
+    unless system("cd #{RAILS_ROOT}; /usr/bin/rake #{if $log.debug? then "--trace" else "--silent" end} --rakefile=#{RAILS_ROOT}/Rakefile \"#{task}\"")
+      $log.error(error_message)
+      exit $?.exitstatus
+    end
+    $log.info("... #{task} done.")
+  }
+end
+
+optparse {|o|
+  o.separator ""
+  o.separator "Use RAILS_ENV=(development|test|production) to select the correct environment."
+  o.separator "E.g. RAILS_ENV=test alsoi-database [OPTIONS]"
+
+  o.on( "-d", "--drop", "Drop the old database before adding." ) {|delete|}
+  o.on( "-c", "--create", "Create the necessary databases for ossim and alois." ) {|create|}
+  o.on( "-l", "--load", "Load the schema to existing database." ) {|load|}
+  o.on( "-r", "--recreate", "Recreate the ossim and alois databases." ) do |r|
+    delete = true
+    create = true
+  end
+  o.on("--schema", "Print the schema version." ) {|schema|}
+  o.on("--check", "Check if the current database structure matches the actual version." ) {|check|}
+  o.on( "-m", "--migrate", "Migrate the database to latest version." ) {|migrate|}
+  o.on( "-f", "--force-local-connect", "Forces to connect to local database with user root." ) {|$force_local_connect|} 
+  o.on( "-s", "--set DATABASE", "Sets the default database. BE CAREFUL WITH THIS OPTION!") do |db|
+    set_db = db
+  end
+}
+
+raise "No action selected." if not (delete || create || recreate || migrate || check|| set_db || schema || load)
+
+initialize_rails
+require "alois/utils"
+require "alois/config"
+
+if set_db
+  if set_db != ENV['DEFAULT_CONNECTION']
+    $log.warn("YOU WANT TO CHANGE THE DEFAULT DATABASE.")
+    $log.warn("ONLY CONTINUE IF YOU KNOW WHAT YOU DO.")
+    $log.warn("CURRENT DEFAULT IS '#{ENV['DEFAULT_CONNECTION']}'")
+    question_continue if $log.warn?
+    rake_task("alois:db:set_#{set_db}_db")
+  else
+    $log.warn("NOT CHANGING DEFAULT DATABASE.")
+    $log.warn("DEFAULT DATABASE IS ALREADY #{ENV['DEFAULT_CONNECTION']}.")
+  end
+end
+
+if $log.warn?
+  rake_task("alois:db:print_database")
+  question_continue
+end
+
+rake_task("alois:db:print_schema_version") if schema
+rake_task("alois:db:drop") if delete
+
+
+rake_task("alois:db:create") if create
+rake_task("db:schema:load") if create or load
+
+rake_task("alois:db:compare_schema") if check
+rake_task("db:migrate") if migrate

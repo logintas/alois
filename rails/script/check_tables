@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+require 'pathname'
+require File.dirname(Pathname.new(__FILE__).realpath) + '/../config/boot'
+require File.dirname(Pathname.new(__FILE__).realpath) + '/../config/environment'
+
+print "Table check\n"
+print "-----------\n\n"
+
+def check_type(description, type)
+  print "Checking #{description}:\n"
+  for klass in Prisma.get_classes(type)
+    print "  #{klass.name} --> #{klass.status}\n"
+  end
+end
+
+check_type("Raw Tables", :raw)
+check_type("Meta Tables", :meta)
+check_type("Message Tables", :message)
+

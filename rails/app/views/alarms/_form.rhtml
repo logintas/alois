@@ -1,0 +1,17 @@
+<%= error_messages_for 'alarm' %>
+
+  <tr>
+    <th class="form_header" colspan="2">Alarm</th>
+  </tr>
+
+  <tr>
+    <th><label for="alarm_comment">Comment</label></th>
+    <td><%= text_area 'alarm', 'comment'  %></td>
+   </tr>
+   <tr>
+     <th><label for="sentinel_process_state">Process State</label></th>
+     <td><%= select("alarm", "process_state", Alarm::PROCESS_STATES.map {|num, name| [name.to_s,num]}.sort_by{|p| p[1]}) %></td>
+   </tr>
+
+
+

@@ -1,0 +1,35 @@
+<%= help_title "Cron interval" %>
+<p>The following is an extract from linux contab man pages and gives you a explanation how to format the cron field.
+In our environment there is only a list of numbers or asterix allowed.<br>
+</p>
+
+<pre>
+Commands are executed by cron(8) when the minute, hour,
+and month of year fields match the  current  time,  and
+when at least  one  of  the  two  day fields (day of
+month, or day of week) match the current time examines
+cron entries once every minute.  The time and date fields
+are:
+
+field          allowed values
+-----          --------------
+minute         0-59
+hour           0-23
+day of month   1-31
+month          1-12 (or names, see below)
+day of week    0-7 (0 or 7 is Sun, or use names)
+
+A field may be an asterisk (*), which always stands for
+first-last.
+
+</pre>
+<p>Here is a list of examples:<p>
+<pre>
+Run once a year, "0 0 1 1 *".
+Run once a month, "0 0 1 * *".
+Run once a week, "0 0 * * 0".
+Run once a day, "0 0 * * *".
+Run once an hour, "0 * * * *".
+Run once an hour at five past, "5 * * * *".
+
+</pre>

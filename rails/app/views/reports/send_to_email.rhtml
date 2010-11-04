@@ -1,0 +1,9 @@
+Please select a type:
+<% form_tag :action => :deliver_to_email, :id => @report do %>
+ <% @email_types.each {|et| %>
+  <%= et %>: <%= radio_button_tag "type", et, (@email_types[0] == et) %> <%= link_to "Preview", {:action => "email_preview", :type => et, :id => params[:id]},:popup => ['email_preview', 'height=600,width=600'] %><br>
+<% } %>
+
+ <%= text_field_tag 'addresses' %>
+ <%= submit_tag "Send to email" %>
+<% end %>

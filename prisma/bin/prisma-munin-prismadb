@@ -1,0 +1,33 @@
+#! /usr/bin/ruby1.8
+require "libisi"
+init_libisi(:ui => "console")
+
+args = optparse
+
+cf = Pathname.new(__FILE__).dirname + "../conf/prisma/environment.rb"
+if cf.exist?
+  require cf 
+else
+  require "/etc/prisma/environment.rb"
+end
+
+Prisma::Database.load_classes("prisma")
+
+if ARGV[0] == "config"
+
+  print "graph_title Log rates\n"
+  print "graph_category Alois\n"
+#  print "host_name #{config['alois']['host']}\n"
+  print "graph_vlabel new records\n"
+ 
+  for klass in Prisma::Database.get_classes(:meta) << Message
+    print "#{klass.table_name}.label #{klass.table_name}\n"
+    print "#{klass.table_name}.type COUNTER\n"
+  end
+
+else
+  for klass in Prisma::Database.get_classes(:meta) << Message
+      print "#{klass.table_name}.value #{klass.auto_increment}\n"
+  end
+
+end

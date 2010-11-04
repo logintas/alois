@@ -1,0 +1,92 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  name: Date Test Bars
+  description: For date report testing
+  column1: date
+  column2: time
+  aggregation_column: date
+  aggregation_function: COUNT
+  chart_type: bars
+  time_range: "2008-04-09"
+  height: 300
+  width: 300
+
+two:
+  id: 2
+  name: Other Test
+  description: Blabla
+  column1: date
+  column2: something
+  aggregation_column: date
+  aggregation_function: COUNT
+  chart_type: bars
+  height: 300
+  width: 300
+
+three:
+  id: 3
+  name: Date Test Pie
+  description: Aha
+  column1: date
+  column2:
+  aggregation_column: *
+  aggregation_function: COUNT
+  chart_type: pie
+  height: 300
+  width: 300
+
+bars:
+  id: 7
+  name: Bars test
+  description: Blabla
+  column1: date
+  column2:
+  aggregation_column: date
+  aggregation_function: COUNT
+  chart_type: bars
+  height: 400
+  width: 800
+  time_range:
+
+facility_pie:
+  id: 4
+  time_range: ""
+  name: Facility Pie
+  chart_type: pie
+  description: ""
+  height: "480"
+  order_by: COUNT(*) DESC
+  aggregation_column: "*"
+  column1: facility
+  width: "640"
+  aggregation_function: COUNT
+  column2: ""
+
+level_bars:
+  id: 5
+  time_range: ""
+  name: Understood Level Bars
+  chart_type: bar
+  description: ""
+  height: "480"
+  order_by: COUNT(*) DESC
+  aggregation_column: "*"
+  column1: level
+  width: "640"
+  aggregation_function: COUNT
+  column2: understood
+
+chart_bar:
+  id: 6
+  time_range: ""
+  name: Host Chart
+  chart_type: bar
+  description: ""
+  height: "480"
+  order_by: COUNT(*) DESC
+  aggregation_column: "*"
+  column1: host
+  width: "640"
+  aggregation_function: COUNT
+  column2: ""

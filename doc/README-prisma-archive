@@ -1,0 +1,8 @@
+## how the logs are archived. The following
+## values will be replaced:
+##  %c: with the class name (Prisma::XyzRaw)
+##  %t: with the table name (xyz_raw)
+##  %i: with the incoming date (the current system date)
+##  %d: with the log date (the date contained by in the raw class)
+# Default structure is  "/var/lib/prisma/archive/%t/%i/%d.arch"
+# you can adapt this structure in /etc/alois/prisma/config.rb

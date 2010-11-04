@@ -1,0 +1,20 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  title: My Bookmark
+  description: For testing
+  table_name: MyString
+  mode: 
+  controller: AlarmsController
+  action: list
+  created_on: 2007-12-11
+
+two:
+  id: 2
+  title: MyString
+  description: MyText
+  table_name: MyString
+  mode: MyString
+  controller: MyString
+  action: MyString
+  created_on: 2007-12-11

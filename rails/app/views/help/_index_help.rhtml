@@ -1,0 +1,14 @@
+<%= help_title("Help Index") %>
+<p>
+<table><tr><td><ul>
+<% lc = nil %>
+<% get_all_help_pages.each {|category,name,context,page| %>
+<% unless lc == category %>
+<% lc = category %>
+</ul></td><td style="vertical-align:top;"><h2><%= category %></h2><ul>
+<% end %>
+<li><%= name %>: <%= link_to image_tag("goto.png"),:context => context,:page => page %></li>
+<% } %>
+</ul>
+</td></tr></table>
+</p>

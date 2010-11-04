@@ -1,0 +1,30 @@
+<%= title @controller.controller_name.humanize %>
+
+<div id="page">
+<%= error_messages %>
+
+<table class="form">
+	<tr>
+		<th class="form_header">Name</th>
+		<th class="form_header">Description</th>
+		<th class="form_header" style="width: 160px"/>
+	</tr>  
+<% for report_template in @report_templates %>
+	<tr>
+		<td><%=h report_template.name %></td>
+		<td><%=h report_template.description %></td>
+		<td>
+			<%= link_to image_tag( 'show.png' ), :action => 'show', :id => report_template %><%= link_to image_tag( 'edit.png' ), :action => 'edit', :id => report_template %>	<%= link_to image_tag('delete.png'), { :action => 'destroy', :id => report_template }, :confirm => 'Are you sure?', :method => :post %>
+  		</td>
+	</tr>
+<% end %>
+	<tr>
+		<td class="button-bar" colspan="3">
+			<%= button_to "New #{@controller.controller_name.singularize.humanize}", :action => 'new' %>
+			<%= will_paginate(@reports) %>
+		</td>
+	</tr>
+</table>
+</div>
+
+

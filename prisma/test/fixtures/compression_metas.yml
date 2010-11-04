@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  extname: MyString
+  inflate_command: MyString
+  inflated_size: 1
+  deflated_size: 1
+  file_metas_id: 1
+
+two:
+  extname: MyString
+  inflate_command: MyString
+  inflated_size: 1
+  deflated_size: 1
+  file_metas_id: 1

@@ -1,0 +1,3 @@
+<% @current_filter.conditions.each_with_index { |@condition, @condition_index|  %>
+  <%= @condition.sql(nil) rescue $! %><br/>
+<% } %>

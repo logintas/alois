@@ -1,0 +1,6 @@
+#!/usr/bin/ruby
+require 'pathname'
+require File.dirname(Pathname.new(__FILE__).realpath) + '/../config/boot'
+require File.dirname(Pathname.new(__FILE__).realpath) + '/../config/environment'
+print "Loading default working items.\n"
+Prisma.load_default_working_items

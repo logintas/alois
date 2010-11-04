@@ -1,0 +1,26 @@
+<%= error_messages_for 'bookmark' %>
+
+<!--[form:bookmark]-->
+<p><label for="bookmark_title">Title</label><br/>
+<%= text_field 'bookmark', 'title'  %></p>
+
+<p><label for="bookmark_description">Description</label><br/>
+<%= text_area 'bookmark', 'description'  %></p>
+
+<p><label for="bookmark_table_name">Table name</label><br/>
+<%= select 'bookmark', 'table_name', Prisma::Database.data_sources.map {|s| [s.name,s.table.table_name] }.sort_by{|x|(x[0] or "")}, {:include_blank => true} %>
+
+<p><label for="bookmark_controller">Controller</label><br/>
+<%= text_field 'bookmark', 'controller'  %></p>
+
+<p><label for="bookmark_action">Action</label><br/>
+<%= text_field 'bookmark', 'action'  %></p>
+
+<p><label for="bookmark_identifier">Identifier</label><br/>
+<%= text_field 'bookmark', 'identifier'  %></p>
+
+<p><label for="bookmark_mode">Mode</label><br/>
+<%= text_field 'bookmark', 'mode'  %></p>
+
+<!--[eoform:bookmark]-->
+

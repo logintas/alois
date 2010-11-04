@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+<% 50.times {|i| %>
+
+alarm_<%= i %>:
+  id: <%= i %>
+  sentinel_id: 1
+  alarm_level: 4
+
+<% } %>

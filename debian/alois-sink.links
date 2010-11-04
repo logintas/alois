@@ -1,0 +1,3 @@
+/etc/alois/munin-sink.conf		/etc/munin/plugin-conf.d/sink
+
+/usr/bin/prisma-munin-iptablesflows	/etc/munin/plugins/alois_sink

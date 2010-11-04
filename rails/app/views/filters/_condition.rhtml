@@ -1,0 +1,18 @@
+  <td><%= @condition.column %></td>
+  <td><%= @condition.operator %></td>
+<% if @condition.updatable? then %>
+  <td><% form_remote_tag :update => 'edit_filter',:url => {:controller=> 'filters', 
+				:action => 'update_condition',
+				:state_id => @state_id,
+				:condition_id => @condition_index} do -%>
+	<%= submit_to_remote "Send","Update",
+		:update => 'edit_filter', 
+  		:before => 'table_reload()',
+		:loaded => 'update_table()', :url => {:controller=> 'filters', 
+				:action => 'update_condition',
+				:state_id => @state_id,
+				:condition_id => @condition_index}  -%>
+     <% if @condition.operator == "DATE" and @condition_index -%><%= text_field_with_auto_complete :condition, :value, :autocomplete => "off", :size => 25 -%><% else -%><%= text_field :condition, :value, :size => 25 %><% end -%><% end -%></td>
+<% else %>
+<td><%= @condition.value %></td>
+<% end %>

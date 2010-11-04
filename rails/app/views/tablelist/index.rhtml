@@ -1,0 +1,30 @@
+<%= title "Tabellen" %>
+
+<div id="page">
+<table class="form">
+  <tr>
+    <th class="form_header">Name</th>
+    <th class="form_header">Beschreibung</th>
+  </tr>
+<% for name, type in {"Log Tables" => :meta, "Raw Logs" => :raw, "Log Queue" => :message} %>
+  <tr>
+    <th colspan="2" style="text-align: left"><%=h name %></th>
+  </tr>
+    <% for klass in Prisma::Database.get_classes(type).sort{ |x,y| ((x.name <=> y.name) == 0) ? x.description <=> y.description : x.name <=> y.name } %>
+      <tr>
+        <td>
+          <%= link_to( h( klass.name ), :controller => 'survey', :table=> klass.table_name) %>
+          <span style='font-weight: bold'>(<span id='count_<%=h klass.table_name %>' align='right'><%= klass.approx_count %></span>)</span>
+        </td>
+        <td><%=h klass.description %></td>
+      </tr>
+
+      <script type="text/javascript">
+      <%= remote_function(:update => 'count_' + klass.table_name, :url => {:action => 'count', :params => {:table_name => klass.table_name} }) %>
+      </script>
+      
+      <%= periodically_call_remote(:update => 'count_' + klass.table_name, :frequency => 300, :url => {:action => 'count', :params => {:table_name => klass.table_name} }) %>
+    <% end %>
+<% end %>
+  </table>
+</div>

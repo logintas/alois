@@ -1,0 +1,113 @@
+Restlichen Pendenzen bis zur Inbetriebnahme 1.0 am 15.12. 2006
+
+tiny-mce
+
+Simon:
+- Webserver Authentication auf Server benötigt
+- 3 Nutzergruppen: Administrator, Power User, Easylook
+
+Flavio:
+- Titel von Grafiken, view name
+- In Bar Graphs Achsen beschriften
+- Bei Generierung von Grafiken aus der Tabelle die Wahl von "ORDER BY" beibehalten
+2 in Kuchendiagrammen absolute Zahlen zusätzlich zu Prozentzahlen darstellen
+- in allen Grafiken Totalzahlen (Anz. Records) darstellen
+- Farbverteilung in Grafiken?
+- restliche CISCO-Meldungen analysieren / Parsen
+- Firewall view, direkte Links auf "Sourcen der Kopo-Zugriffe"
+- Präsentation beim Einstieg: Möglichkeit der Wahl der Homepage zwischen drei Varianten
+   "Sign" Ampel zeigt rot, gelb, grün (in opencliparts Ampel-Darstellungen suchen), momentan fake, d.h. immer grün
+   "ISM": Zusammenfassung der wichtigsten Events und statistischen Werte des Systems
+   "Servers": bestehender View
+- Implemetation der Ampel-Zustandserierung
+
+Später:
+- Tabellen entfernen bei Easylook
+- Datenbankoptimierung bzgl. Cache
+
+- "sicherstelllen dass syslog die richtige source in tabellen einträgt"
+(formulierung von flavio: syslog-ng konfigurieren)
+
+== REPORTER ==
+>* Status page with actual troughput
+>* Create frontpage with statistics
+>* Test frontend
+>* Table invalid reload display when filter added/deleted.
+>* display conditions in graphic
+>* colors in pie/chart and munin
+==== Sentinel ====
+>* alarming over sms
+
+
+
+
+== SINK ==
+* alois-mysqlpipe init.d reload
+* Test how many logs per second can be processed.
+
+== REPORTER ==
+>* Status page with actual troughput
+* Munin page does not work in konqueror
+>* Create frontpage with statistics
+* Create statistic with counts from views
+* Interface for importing archive files
+* copy archive files with crontjob to share from dobby
+>* Test frontend
+>* Table invalid reload display when filter added/deleted.
+* do not join message or with ajax
+>* display conditions in graphic
+* function do determin where the children (of e.g. log_meta) are
+>* colors in pie/chart and munin
+* check rico (prototype) for big tables
+* Permissions. At the moment set
+ $_SESSION['_user'] = 'admin';
+ in /usr/share/ossim/include/classes/Session.inc
+
+
+== PRISMA ==
+* ?Make different log files for different raw sources		
+* Use Parallel prismas for better troughput
+* Enable basic output in prisma-admindb by default
+* For rotating log. Reopen logfile at reload (now prisma is restarted on logrotate)
+* maybe use myisam tables for insink (fast count)
+* overwork shorewall logs
+
+
+==== Sentinel ====
+* fehler bei sentinel flicken (+ nil fehler) wahrscheinlich id fehlt in query
+  check that every query used in a sentinal contains an id
+>* alarming over sms
+
+== Testing ==
+
+=== Prisma ===
+* Test if prisma starts and stops properly
+* Test if each log type is processed correctly
+* Test if sentinel executes alarm (how?)
+* Test if archive file is written
+* Test if archive file is compressed
+* Test if logfile is written
+* Test if logfile is rotated
+* Test if old logs are deleted
+
+=== Sink ===
+* Test if log is written into queue
+
+
+
+= BIG TASKS =
+* Access control
+* Self logging
+
+
+# UNTIL 2006-11-14
+
+* make select over date in source
+* test and finish implementation of charts
+* implement transactions (against crashes)
+
+------------------------
+* disable snort mails
+* integreate gems installation into the alois-util installation
+* integrate the command :"gem install -v=1.1.2 rails" into the alois-reporter install
+* anzahl wird falsch angezeigt bei keiner rule

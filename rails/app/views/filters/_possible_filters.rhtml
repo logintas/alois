@@ -1,0 +1,3 @@
+Possible Filters for source <%= current_datasource.name %>: <% @filters.each {|f| %>
+  <%= f.id %>: <%= fobj(f) %>
+<% } %>

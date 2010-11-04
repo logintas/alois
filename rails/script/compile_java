@@ -1,0 +1,7 @@
+#!/usr/bin/ruby
+require 'libisi'
+init_libisi
+optparse
+initialize_rails
+Chart.compile_command
+exit 0	

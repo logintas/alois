@@ -1,0 +1,143 @@
+#! /usr/bin/ruby1.8
+require "libisi"
+init_libisi(:ui => "console")
+
+$pipe_file = "/var/run/mysql.pipe"
+daemon = false
+dryrun = false
+
+sleeping_time = 5
+opts = optparse(:arguments => [["[PIPENAME]","Create this file as input pipe (default #{$pipe_file})"]]) do |o|
+  o.on( "-d", "--daemon", "Run as daemon." ) do |c|
+    daemon = true
+  end
+  
+  o.on( "-s", "--sleep SECONDS", "How many seconds the program waits until a new connect to the database (default is #{sleeping_time}s)." ) do |s|
+    sleeping_time = s
+  end
+
+  o.on("--dryrun","Do not start pipe real") {|dryrun|}
+end
+
+cf = Pathname.new(__FILE__).dirname + "../conf/prisma/environment.rb"
+if cf.exist?
+  require cf 
+else
+  require "/etc/prisma/environment.rb"
+end
+
+$pipe_file = opts[0] if opts.length > 0
+
+config = Prisma::Database.db_config("pumpy")
+
+raise "Adapter is #{config["adapter"]}. Mysqlpipe only works with mysql adapter!" unless config["adapter"] == "mysql"
+
+cmd = ""
+
+if $log.debug?
+  if daemon
+    cmd += "tee /var/log/prisma-mysqlpipe.debug < #{$pipe_file} | "
+  else
+    tmp_debug = "/tmp/prisma-mysqlpipe.debug"
+    $log.warn("Writing debug output to #{tmp_debug}")
+    cmd += "tee #{tmp_debug} < #{$pipe_file} | "
+  end
+else
+  cmd += "cat < #{$pipe_file} | "
+end
+
+cmd += "mysql "
+cmd += "-u #{config["username"]} "         unless config["username"].blank?
+cmd += "--host #{config["host"]} "         unless config["host"].blank?
+cmd += "--password='#{config["password"]}' " unless config["password"].blank?
+cmd += "--port #{config["port"]} "         unless config["port"].blank?
+cmd += "#{config["database"]} "
+#cmd += " < #{$pipe_file}"
+
+if daemon
+  cmd += ">> /var/log/prisma-mysqlpipe.mysql "
+end
+
+# create the fifo file if it does not yet exists
+pipe_cmd = "/usr/bin/mkfifo #{$pipe_file}"
+if not File.exists?($pipe_file)
+  if dryrun
+    $log.info("Would create pipe with: #{pipe_cmd.inspect}")
+  else 
+    system(pipe_cmd) 
+  end
+end
+
+# make a deamon if necessary
+daemonize(:pid_file => "/var/run/prisma-mysqlpipe") if daemon
+
+system("logger","Started prisma-mysqlpipe") unless dryrun
+
+$log.info{"#{$pipe_file} not found!"} unless File.exists?($pipe_file)
+$log.info{"Starting pipe."}
+
+$terminate = false
+pid = fork do
+  $log.info{"Forked to restart daemon."}
+
+  def stop_pipe
+    $terminate = true
+    $log.info("Caught signal TERM.")
+    $log.info("Write exit.")
+    begin 
+      open($pipe_file,"w") {|f| f.write("quit\n")}
+    rescue
+      $log.error($!)      
+    end
+  end
+
+  Signal.trap("TERM") do stop_pipe end
+  Signal.trap("INT") do stop_pipe end
+
+  while not $terminate and (dryrun or File.exists?($pipe_file)) 
+    $log.info("Executing command #{cmd.inspect}.")
+    if dryrun
+      $log.info("Would start cmd: #{cmd}")
+      while !$terminate
+        sleep(sleeping_time)
+      end
+    else
+      if not system(cmd)
+        $log.info("No success in:#{cmd}\n")
+        if not $terminate
+          sleep(sleeping_time)
+          $log.info("Retrying...")
+        end
+      else
+        $log.info("#{cmd} terminated\n")
+      end
+    end
+  end
+
+  if dryrun or File.exists?($pipe_file)
+    # do not remove that or ensure to restart
+    # syslog after creating new pipe. Syslog does not 
+    # know when pipe is recreated and writes to
+    # old file.
+    # File.delete($pipe_file) 
+  else
+    $log.info("pipe does not exist anymore!")
+  end
+  $log.info("Ended mysqlpipe\n")
+end
+
+$log.info("Forked pid #{pid}")
+Signal.trap("TERM") do process_signal(pid,"TERM") end
+Signal.trap("INT") do process_signal(pid,"INT") end
+
+def process_signal(pid,signal)
+  $log.info("Stopping on signal #{signal}.")
+
+  $terminate = true
+  $log.info("Killing child #{pid} with signal #{signal}")
+  Process.kill(signal,pid)
+  Process.kill(signal,pid)
+end
+ret = Process.wait
+
+$log.info("Program ended.")

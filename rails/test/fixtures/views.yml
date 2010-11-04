@@ -1,0 +1,69 @@
+test1:
+ id: 1
+ name: "For always generating records"
+ sql_declaration: "SELECT CURRENT_DATE as date, CURRENT_TIME as time"
+
+test2:
+ id: 2
+ name: "Test 2"
+ sql_declaration: "SELECT CURRENT_DATE as date, CURRENT_TIME as time"
+
+test3:
+ id: 3
+ name: "Test X"
+ sql_declaration: "SELECT CURRENT_DATE as date, CURRENT_TIME as time"
+
+test4:
+ id: 4
+ name: "Test Y"
+ sql_declaration: "SELECT CURRENT_DATE as date, CURRENT_TIME as time"
+
+test5:
+ id: 5
+ name: "Test Z"
+ sql_declaration: "SELECT CURRENT_DATE as date, CURRENT_TIME as time"
+
+alois1:
+ id: 6
+ name: "Alois normal"
+ sql_declaration: "SELECT CURRENT_DATE as date, CURRENT_TIME as time"
+
+alois2:
+ id: 7
+ name: "Alois schnell"
+ sql_declaration: "SELECT CURRENT_DATE as date, CURRENT_TIME as time"
+
+alois3:
+ id: 8
+ name: "Alois ultraschnell"
+ sql_declaration: "SELECT CURRENT_DATE as date, CURRENT_TIME as time"
+
+allone:
+ id: 9
+ name: "Allone"
+ sql_declaration: "SELECT CURRENT_DATE as date, CURRENT_TIME as time"
+
+stallone:
+ id: 10
+ name: "Stallone Rock 5"
+ sql_declaration: "SELECT CURRENT_DATE as date, CURRENT_TIME as time"
+
+log_metas_with_syslogd_metas:
+ id: 11
+ name: Alois-Basis application_logs with syslogd_metas and messages
+ id_source_table: application_logs
+ description: Application logs
+ sql_declaration: "SELECT application_logs.`id`, application_logs.`date`, application_logs.`time`, message from application_logs"
+# sql_declaration: "SELECT application_logs.`id`, application_logs.`date`, application_logs.`time`, application_logs.`host`, application_logs.`syslogd_metas_id`, syslogd_metas.`ip`, syslogd_metas.`facility`, syslogd_metas.`priority`, syslogd_metas.`level`, hour(application_logs.time) as hour, minute(application_logs.time) minute , hour(application_logs.time) + minute(application_logs.time) / 100 as hourminute, msg, left(msg,10) as left_5_msg, left(msg,10) as left_10_msg, left(msg,15) as left_15_msg, msg is NULL as understood, replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(substring(msg,1, instr(msg, ' ')-1),'1',''),'2',''),'3',''),'4',''),'5',''),'6',''),'7',''),'8',''),'9',''),'0','') as msg_first FROM application_logs LEFT JOIN syslogd_metas ON application_logs.syslogd_metas_id = syslogd_metas.id LEFT JOIN source_db_metas ON syslogd_metas.source_db_metas_id = source_db_metas.id LEFT JOIN messages ON messages.`meta_type_name` = 'Prisma::LogMeta' AND messages.meta_id = application_logs.id"
+
+application_logs:
+ id: 12
+ name: 
+ sql_declaration: "SELECT * FROM application_logs"
+ id_source_table: application_logs
+
+union:
+ id: 13
+ name: Union query
+ sql_declaration: "SELECT * FROM view_11 UNION SELECT * FROM view_11"
+ id_source_table: application_logs

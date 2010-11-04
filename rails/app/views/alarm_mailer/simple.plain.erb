@@ -1,0 +1,12 @@
+Alarm ocurred on <%=h @alarm.created_at %>.
+ ID: <%=h @alarm.id %>
+<% if @sentinel = @alarm.sentinel -%>
+ Created by Sentinel: <%= @sentinel.name %>
+<% end -%>
+ Alarm Level: <%=h @alarm.alarm_level %>
+ Link: <%= url_for :only_path => false,:controller => :alarms, :action => :show, :id => @alarm %>
+
+Comment:
+<%=h @alarm.comment %>
+
+

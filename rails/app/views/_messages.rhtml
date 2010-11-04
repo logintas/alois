@@ -1,0 +1,24 @@
+<%
+  message_class = nil
+  message_class = "messages" unless notices.empty?
+  message_class = "important_messages" unless errors.empty?
+%>
+
+<% unless message_class.nil? %>
+  <table class="form">
+    <tr>
+      <th colspan="2" class="<%= message_class %>">Hinweis</th>
+    </tr>
+    <% for message in errors %>
+    <tr>
+      <td style="width: 20px" class="important_message"><%= image_tag 'important_message.png' %></td><td class="important_message"><%=h message %></td>
+    </tr>
+    <% end %>
+    
+    <% for message in notices %>
+    <tr>
+      <td style="width: 20px"><%= image_tag 'message.png' %></td><td><%=h message %></td>
+    </tr>
+    <% end %>
+  </table>
+<% end %>

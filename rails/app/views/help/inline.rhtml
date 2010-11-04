@@ -1,0 +1,8 @@
+<div id="help">
+  <% if params[:title] and params[:text] %>
+    <%= help_title(h params[:title]) %>
+    <p><%= params[:text] %></p>
+  <% else %> 
+    <%= render :partial => get_page %>
+  <% end %> 
+</div>

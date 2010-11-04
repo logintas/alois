@@ -1,0 +1,76 @@
+<%= title("Report Template - #{@report_template.name}") %>
+
+<div class="page">
+<table class="form">
+  <tr>
+    <th class="form_header" colspan="2">Report Template</th>
+  </tr>
+  <tr>
+    <th><label for="report_template_name">Name</label></th>
+    <td><%=h @report_template.name %></td>
+  </tr>
+  <tr>
+    <th><label for="report_template_description">Description</label></th>
+    <td><%=h @report_template.description %></td>
+  </tr>
+  <tr>
+    <th><label for="report_template_title">Title</label></th>
+    <td><%=h @report_template.title %></td>
+  </tr>
+  <tr>
+    <th><label for="report_template_text">Text</label></th>
+    <td>
+      <% if @preview %>
+        <%= @report_template.text(@options) rescue $! %>
+      <% else %>
+        <pre><%=h @report_template.text %>
+        </pre>
+      <% end %>
+    </td>
+  </tr>
+
+  <tr>
+    <th><label for="report_template_view">View</label></th>
+    <td><%= fobj(@report_template.view) %></td>
+  </tr>
+  <tr>
+    <th><label for="report_template_version">Version</label></th>
+    <td><%=h @report_template.version %></td>
+  </tr>
+
+  <%= post_attributes_show %>
+<%= render :partial => "edit_objects" %>
+
+  <tr>
+    <td class="button-bar" colspan="2">
+ <% if @preview %>
+   <%= button_to "Disable Preview", :delete_cache => true, :id => @report_template %>
+ <% else %>
+   <%= button_to "Edit", :action => :edit, :id => @report_template %>
+   <%= button_to "Delete", { :action => :destroy, :id => @report_template }, :confirm => 'Are you sure?' %>
+   <%= button_to "List all", :action => :list %></td>
+ <% end %>
+  </tr>
+
+<% unless @preview %>
+   <tr>
+    <th class="form_header" colspan="2">Render</th>
+  </tr>
+  <tr>
+    <td colspan="2">
+<% form_tag :action => :show, :render => true, :id => @report_template do %>
+	<%= datasource_fields {|ds| @report_template.applyable?(ds) }%>	
+	
+
+        <%= submit_tag "Preview with fake data" %>
+        <%= submit_tag "Preview with real data" %>
+	<%= submit_tag "Save as Report" %><br>
+<!-- Disabled, use function in report/show	 and send Email to: <%=  text_field_tag "email" %><br> -->
+
+<% end %>
+
+    </td>
+  </tr>
+<% end %>
+</table>
+</div>

@@ -1,0 +1,60 @@
+#!/usr/bin/ruby
+require 'libisi'
+init_libisi
+
+action, args = optparse( :actions =>{"objects" => "List all ACL objects"})
+
+require 'langscan'
+initialize_rails
+
+case action
+when "objects"
+  print "= Controllers =\n"
+  Dir.glob(RAILS_ROOT + "/app/controllers/*_controller.rb").sort.map {|c|
+    c =~ /([^\/]+)_controller.rb/
+    print " * " + $1.camelize + "Controller\n"
+    scanner = LangScan.choose(c)
+    c = Pathname.new(c)
+
+    scan = []
+
+    scanner.scan(c.readlines.join) {|element| scan << element}
+    
+    functions = []
+    acl = nil
+
+    scan.each_with_index { |el, i|
+      if el.type == :comment
+	acl = $1.strip if el.text =~ /ACL: (.*)/
+      end
+
+      next unless el.type == :fundef
+      nl = i
+      # find newline
+      while (scan[nl].type != :punct and scan[nl].text != "\n")
+	nl += 1
+      end
+      
+      if scan[i..nl].select {|e|
+	  e.type == :punct and e.text == "("
+	}.length > 0
+	# there are arguements, this is not accessible
+	# from outside
+      else
+	# this is accessible from outside
+	functions << {:name => el.text, :acl => acl}
+      end
+      acl = nil
+    }
+    
+    functions.sort_by {|f| f[:name] }.each {|f|
+      print "   * Function: #{f[:name]} => #{f[:acl]}\n"	  
+    }      
+  }
+
+  print "= Tables =\n"
+  $used_tables.sort_by(&:table_name).each {|t|
+    print " * #{t.table_name}\n"
+  }
+  end
+

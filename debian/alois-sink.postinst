@@ -1,0 +1,17 @@
+#!/bin/sh
+set -e
+
+# (sh) there's a script that only starts the script if it's enabled in current
+# runlevel, probably wanna use it...
+
+# change to level 99
+if [ -e /etc/rc2.d/S20prisma-mysqlpiped ] ; then
+    update-rc.d -f prisma-mysqlpiped remove
+fi
+update-rc.d prisma-mysqlpiped defaults 99
+
+invoke-rc.d munin-node restart 
+
+exit 0
+
+

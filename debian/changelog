@@ -1,0 +1,585 @@
+alois (1.2.51) all; urgency=low
+
+  * New release
+  * Reverted munin configs, recreated reporter package.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Wed, 03 Nov 2010 09:48:12 +0100
+
+alois (1.2.50) all; urgency=low
+
+  * New release
+  * Reverted munin configs, recreated reporter package.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Wed, 03 Nov 2010 09:31:48 +0100
+
+alois (1.2.49) all; urgency=low
+
+  * New release
+  * Last changes for productive alois version.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Tue, 02 Nov 2010 15:05:11 +0100
+
+alois (1.2.48) unstable; urgency=low
+
+  * New release
+  * included db files to alois
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Tue, 02 Nov 2010 11:11:29 +0100
+
+alois (1.2.47) unstable; urgency=low
+
+  * New release
+  * Changes for stabilize package.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Tue, 02 Nov 2010 10:36:06 +0100
+
+alois (1.2.46) unstable; urgency=low
+
+  * New release
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 01 Nov 2010 18:56:08 +0100
+
+alois (1.2.45) ubstable; urgency=low
+
+  * New release
+  * New package splitting
+  * Use local gems if GEM_HOME defined.
+  * Added prisma test script
+  * Big for prisma scripts and instlal.
+  * Prisma working with setup.rb
+  * More changes concerning prisma split.
+  * Added missing files for spearated prisma.
+  * Added connection and application logs table.
+  * Separated prisma functionality from alois.
+  * Moved a lot of files to prisma module.
+  * Created directories for prisma module
+  * Remove mysql some mysql specific stuff.
+  * Added INSTALL text
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 01 Nov 2010 17:26:33 +0100
+
+alois (1.2.44) ubstable; urgency=low
+
+  * New release
+  * New package splitting
+  * Use local gems if GEM_HOME defined.
+  * Added prisma test script
+  * Big for prisma scripts and instlal.
+  * Prisma working with setup.rb
+  * More changes concerning prisma split.
+  * Added missing files for spearated prisma.
+  * Added connection and application logs table.
+  * Separated prisma functionality from alois.
+  * Moved a lot of files to prisma module.
+  * Created directories for prisma module
+  * Remove mysql some mysql specific stuff.
+  * Added INSTALL text
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 01 Nov 2010 16:35:11 +0100
+
+alois (1.2.43) ubstable; urgency=low
+
+  * New release
+  * Use local gems if GEM_HOME defined.
+  * Added prisma test script
+  * Big for prisma scripts and instlal.
+  * Prisma working with setup.rb
+  * More changes concerning prisma split.
+  * Added missing files for spearated prisma.
+  * Added connection and application logs table.
+  * Separated prisma functionality from alois.
+  * Moved a lot of files to prisma module.
+  * Created directories for prisma module
+  * Remove mysql some mysql specific stuff.
+  * Added INSTALL text
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 01 Nov 2010 12:12:50 +0100
+
+alois (1.2.42) all; urgency=low
+
+  * New release
+  * Added option to only transform one clas in prisma.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 11 Oct 2010 11:38:52 +0200
+
+alois (1.2.41) all; urgency=low
+
+  * New release
+  * Fixed tests
+  * Changed save to save_without_validation for better prisma
+    performance
+  * Added a lot of comments and did some tidyup.
+  * removed memory profiler class.
+  * Removed old mail.rb model.
+  * Value should be value in sql condition. (Prevent brackets in
+    condition field)
+  * Fixes in tests, test working again, performance not.
+  * Added lot more comments.
+  * Added comments to alarm class.
+  * removed unnecessary newlines in config files.
+  * Added set alois db and java compile to Makefile init task.
+  * Changed preformance test.
+  * Do disconnect after daemonize (otherwise connection does not work
+    anymore)
+  * Use fifo instead of lasts by default in prisma.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Fri, 08 Oct 2010 11:16:55 +0200
+
+alois (1.2.40) all; urgency=low
+
+  * New release
+  * Moved theme initialization to envinronment-config.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Thu, 23 Sep 2010 10:06:38 +0200
+
+alois (1.2.39) all; urgency=low
+
+  * New release
+  * Removed dependency to logintas-libisi-ruby
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Wed, 22 Sep 2010 10:37:05 +0200
+
+alois (1.2.38) all; urgency=low
+
+  * New release
+  * Updated todo list
+  * Fixed smtp_server configuration setting.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Fri, 17 Sep 2010 09:34:40 +0200
+
+alois (1.2.37) unstable; urgency=low
+
+  * New release
+  * Fixed help template finding.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Thu, 16 Sep 2010 14:43:59 +0200
+
+alois (1.2.36) unstable; urgency=low
+
+  * New release
+  * Some more dependency fixes.
+  * Added TODO doc
+  * Added INSTALL doc
+  * Prisma testing, problems with mysql connection timeout solved once
+    more.
+  * Small bugfixes for test to work.
+  * Some cosmetic fixes (output)
+  * database script fixes (Rake call)
+  * Corrected bindir in alois-setup script.
+  * Require will_paginate in environement
+  * Added further dependencies
+  * Corrected apache configuration for phusion passenger
+  * Commented out config.gem dependencies.
+  * Removed gem freeze things for building with deb dependencies.
+  * Disabled gem install and rake freeze for build (dependencies now in
+    debian packages)
+  * Corrected dependencies to libisi-ruby
+  * ApacheMeta: Log remainder of message (after 'host' field) to table
+    'Message'
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Thu, 16 Sep 2010 14:22:34 +0200
+
+alois (1.2.35) unstable; urgency=low
+
+  * New release
+  * Fixed calling console and server via /usr/bin
+  * Removed htaccess fiel.
+  * Replaced reconnect with verify!.
+  * Added new gem dependencies to pdf-writer
+  * Fixed debian dependencies.
+  * Removed comment out of a postinst.
+  * Makefile
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Tue, 03 Nov 2009 14:25:50 +0100
+
+alois (1.2.34) unstable; urgency=low
+
+  * New release
+  * Added single system doc
+  * Added compatibility file for debian.
+  * Speed up delete old logs.
+  * Removed finally gemsonrails dependency
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Tue, 03 Nov 2009 10:36:13 +0100
+
+alois (1.2.33) unstable; urgency=low
+
+  * New release
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 26 Oct 2009 18:02:21 +0100
+
+alois (1.2.32) unstable; urgency=low
+
+  * New release
+  * Makefile, fastthread.
+  * Delete old logs verbessert.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 26 Oct 2009 17:17:25 +0100
+
+alois (1.2.31) unstable; urgency=low
+
+  * New release
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 26 Oct 2009 16:21:59 +0100
+
+alois (1.2.30) unstable; urgency=low
+
+  * New release
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 26 Oct 2009 16:14:39 +0100
+
+alois (1.2.29) unstable; urgency=low
+
+  * New release
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 26 Oct 2009 16:03:15 +0100
+
+alois (1.2.28) unstable; urgency=low
+
+  * New release
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 26 Oct 2009 16:01:25 +0100
+
+alois (1.2.27) unstable; urgency=low
+
+  * New release
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 26 Oct 2009 15:50:33 +0100
+
+alois (1.2.26) unstable; urgency=low
+
+  * New release
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 26 Oct 2009 15:49:08 +0100
+
+alois (1.2.25) unstable; urgency=low
+
+  * New release
+  * Table finding fixed in session loading/init.
+  * Removed DISPLAY environment settings, xvfb not used anymore for java
+    rendering.
+  * Apache.conf
+  * Makefile fix
+  * Made alois run with apache, included munin into virtual host.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 26 Oct 2009 15:12:06 +0100
+
+alois (1.2.24) unstable; urgency=low
+
+  * New release
+  * added fastthread
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Fri, 23 Oct 2009 16:29:25 +0200
+
+alois (1.2.23) unstable; urgency=low
+
+  * New release
+  * Update for passenger.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Fri, 23 Oct 2009 15:26:11 +0200
+
+alois (1.2.22) unstable; urgency=low
+
+  * New release
+  * Corrected passenger build command.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Fri, 23 Oct 2009 14:45:20 +0200
+
+alois (1.2.21) unstable; urgency=low
+
+  * New release
+  * Added passenger for apache.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Fri, 23 Oct 2009 14:16:08 +0200
+
+alois (1.2.20) unstable; urgency=low
+
+  * New release
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Fri, 23 Oct 2009 11:51:18 +0200
+
+alois (1.2.19) unstable; urgency=low
+
+  * New release
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Fri, 23 Oct 2009 11:42:57 +0200
+
+alois (1.2.18) unstable; urgency=low
+
+  * New release
+  * Neue gem und lib abh[_\c3_][_\a4_]ngigkeiten eingef[_\c3_][_\bc_]gt.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Fri, 23 Oct 2009 11:14:04 +0200
+
+alois (1.2.17) unstable; urgency=low
+
+  * New release
+  * Added missing dirs files.
+  * Catch LoadErrors when libraries missing, so that rake works also on
+    missing libraries (for rake gems:install).
+  * Single system setup script is working now.
+  * Added autoclean plugin
+  * Tidyed up dbian packaging.
+  * Added file mysqltest
+  * Update makefile.
+  * Removed boot testing.
+  * Moved default working items under rails/config by default.
+  * Worekd on makefile
+  * Added acl script
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Thu, 22 Oct 2009 18:08:26 +0200
+
+alois (1.2.16) unstable; urgency=low
+
+  * New release
+  * Added dependencies gem and update for installing.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 12 Oct 2009 18:44:01 +0200
+
+alois (1.2.15) etch; urgency=low
+
+  * New release
+  * Replaced /etc/init.d/... with invoke-rc.d in postinst scripts.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 12 Oct 2009 18:19:15 +0200
+
+alois (1.2.14) unstable; urgency=low
+
+  * New release
+  * Some updates in packaging.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 12 Oct 2009 18:02:02 +0200
+
+alois (1.2.13) unstable; urgency=low
+
+  * New release
+  * Added pumpy schmea migration.
+  * Added performance test.
+  * Changes for new rails env and single-system setup script.n
+  * Added documentation charts.
+  * Upgraded to Rails 2.3, Tests working except the primsa integration
+    tests.
+  * Added squid files.
+  * Added squid extended parsing.
+  * Fixed Tests (strange new behaviour in tmail).
+  * Libisi update.
+  * compact found list in archivator for finding original files.
+  * Integrated alois in libisi.
+  * Wokred on mysql_table_progress.
+  * Bugfix in apache message parsing.
+  * Timeout for munin are now 120seconds.
+  * TODO: Brown Bug 137 link auf originalmeldung in alarme einbauen
+  * Added mysql  progress script to alois-db-mysql
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 12 Oct 2009 15:25:23 +0200
+
+alois (1.2.12) etch; urgency=low
+
+  * New release
+  * Changed default processing of prisma records with fifo to keep order
+    of the incoming logs.
+  * Add original message into alarm and into survey.
+  * Added script to generate testdata.
+  * Added queue_id to syslogd_meta to find original fast.
+  * Added script to get progress of a altering query table
+  * Added queue id to syslogd_metas.
+  * TODO: Brown Bug 162 Load Serialized funktioniert nicht wenn es am
+    anfang leerzeichen hat.
+  * TODO: Brown Bug 138 seite mit prisma-informationen
+  * Added flipped option to charts.
+  * Grep out sentinels on testing if prisma is already running.
+  * Better benchmarking and skip counting if count last long in
+    source_db messages.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Fri, 14 Aug 2009 12:39:28 +0200
+
+alois (1.2.11) unstable; urgency=low
+
+  * New release
+  * Extended postfix mail_message_id to 15 characters.
+  * Removed space in posftix dsn field.
+  * added possible spaces at the end of psotfix messags.
+  * use tablename.id for search items in views wich are parsed.
+  * Added unstable to makefile
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 18 May 2009 16:55:33 +0200
+
+alois (1.2.10) unstable; urgency=low
+
+  * New release
+  * Fixed test for mailing. (alarm is now sent always).
+  * disabling transaction only for deleting sources.
+  * Combined migrations from dlutz and fpellanda.
+  * Add index 'log_metas_time_index' to log_metas table
+  * Sentinel: send two separate mails if alarm_and_report is chosen
+    (instead of alarm only)
+  * added ulogdnfc meta.
+  * Delete old logs may run only once now.
+  * Do not work with transitions in source metas. lasts too long.
+  * Postfix prisma extended.
+  * Sql with options for filter generation.
+  * Bugfix filterid not recognized.
+  * added default count to file_raw
+  * added dependency to logintas-libisi-ruby
+  * Changelogs
+  * Removed print statement in validate
+  * Check class of params[:chart] in load_params
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Thu, 14 May 2009 10:58:29 +0200
+
+alois (1.2.9) etch; urgency=low
+
+  * Added ulgd_nfct parsing
+  * Fixed ulogd_nftc processing.
+  * Removed "end" (too much)
+  * Cleanup of old code in UlogdNfctMeta
+  * Table for Ulogd Nfct Metas
+  * Class for Ulogd Nfct Metas
+  * updated changelog for version 1.2.7ubuntu3
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Thu, 04 Dec 2008 18:56:22 +0100
+
+alois (1.2.8) etch; urgency=low
+
+  * New release
+  * Better default layout (with table comments) to support XHTML.
+  * Added support for old an new inet log format.
+  * Fixed ip range condition. Now testing with a test.
+  * Default layout is "alois" and not variable alois.
+  * Fixed bug that a original message could not be found in archive if
+    it contained a "
+  * updated changelog for version 1.2.7ubuntu2
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 01 Dec 2008 17:09:20 +0100
+
+alois (1.2.7ubuntu2) public-etch; urgency=low
+
+  * New release
+  * Added column location for inet objects.
+  * Fix
+  * updated changelog for version 1.2.7ubuntu1
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Tue, 04 Nov 2008 14:02:12 +0100
+
+alois (1.2.7ubuntu1) public-etch; urgency=low
+
+  * New release
+  * Added frontend for editing tables.
+  * Include csv in email.
+  * Removed obsolet function safe_filename.
+  * Possibility to download data from report.
+  * Unification of datasource selection for report template rendreing.
+  * Fixed email preview and added options to sentinel how to deliver
+    email.
+  * Added FilterCondition file.
+  * Tests
+  * Added new condition type Filter for adding support for "or" clause.
+  * Solved some compatibility isseus due to new versions of gem.
+  * Solved gem native extension issue.
+  * updated changelog for version 1.2.7
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Fri, 10 Oct 2008 11:05:11 +0200
+
+alois (1.2.7) etch; urgency=low
+
+  * Included hpricot native extension.
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Mon, 06 Oct 2008 10:29:35 +0200
+
+alois (1.2.6) etch; urgency=low
+
+  * New release
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Fri, 03 Oct 2008 13:51:53 +0200
+
+alois (1.2.5) unstable; urgency=low
+
+  * New release
+  * Added tidy_html check and tidied up a bit.
+  * updated changelog for version 1.2.3.6ubuntu1
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Fri, 03 Oct 2008 11:47:56 +0200
+
+alois (1.2.4) etch; urgency=low
+
+  * New release
+  * Corrected flowchart link in 3-tier for overview.
+  * Fixed problem for terminating after saving between long sleeps.
+  * All tests are working again.
+  * Implemented testfunctions for new mailer class. mail.rb not needed
+    anymore.
+  * save_mail testhelper.
+  * Sending html default with multipart/related.
+  * Updated alarm mailing. View and deliverin with latest methods.
+  * Updated dependencies freezing.
+  * Makefile update to install awesome_email.
+  * Added function to deliver alarm notification to an email.
+  * Added awesome_email plugin
+  * Execute every 5 seconds an action if waiting on raws have to sleep.n
+  * added mailer layout directory.
+  * Huge effort in emailing. (Templates, Layouts, css...)
+  * Setup script.
+  * Corrected schema page, threw error if no record was given.
+  * Add information about table count and message availability in
+    schema.
+  * Commented out some unnecessary output.
+  * added ruby depencies to debian/control.
+  * changelog
+  * do only restart munin node if munin node is installed in postinst
+    script.
+  * added file default_working_items to debian packaging.
+  * Added function to models if they have can have messages in messages
+    table.
+  * Added link to schema page.
+  * updated changelog for version 1.2.3.3ubuntu2
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Thu, 02 Oct 2008 16:54:18 +0200
+
+alois (1.2.3.6) etch; urgency=low
+
+  * added depency libgcj8-1-awt
+
+ -- Flavio Pellanda <flavio.pellanda@logintas.ch>  Mon, 28 Jul 2008 17:04:00 +0200
+
+alois (1.2.3.5) etch; urgency=low
+
+  * Packaging
+
+ -- Flavio Pellanda <flavio.pellanda@logintas.ch>  Fri, 25 Jul 2008 14:40:01 +0200
+
+alois (1.2.3.4) etch; urgency=low
+
+  *  Setup script update
+
+ -- Flavio Pellanda <flavio.pellanda@logintas.ch>  Fri, 25 Jul 2008 14:12:33 +0200
+
+alois (1.2.3.4) etch; urgency=low
+
+  * Worked on setup script added missing files.
+  * Initialisation for public release without internal data.
+
+ -- Flavio Pellanda <flavio.pellanda@logintas.ch>  Fri, 25 Jul 2008 13:28:24 +0200
+
+alois (1.2.3.3) etch; urgency=low
+
+  * Single host setup automatic execution without user interaction (--auto)
+
+ -- Flavio Pellanda <flavio.pellanda@logintas.ch>  Fri, 25 Jul 2008 13:26:20 +0200
+
+alois (1.2.3.2) etch; urgency=low
+
+  * Some changes to setup script.
+
+ -- Flavio Pellanda <flavio.pellanda@logintas.ch>  Thu, 24 Jul 2008 17:22:31 +0200
+
+alois (1.2.3.1) etch; urgency=low
+
+  * First Public Release
+
+ -- Flavio Pellanda <flavio.pellanda@logintas.ch>  Thu, 24 Jul 2008 15:05:39 +0200
+
+alois (1.2.3) -etch; urgency=low
+
+  * Tidied up and removed old changelog-entries.
+
+ -- Flavio Pellanda <flavio.pellanda@logintas.ch>  Tue, 22 Jul 2008 11:28:33 +0200

@@ -1,0 +1,39 @@
+<tr>
+  <td>
+    <% if current_table %>
+      <select name="column" style="width: 99%">
+        <option value="ANY">ANY</option>
+        <% for column in current_table.columns %>
+          <option value="<%= column.name %>"> 
+            <%= column.name %>
+          </option>
+        <% end %>
+      </select>
+    <% else %>
+      <%= text_field_tag "column", nil, :style => "width: 99%" %>
+    <% end %>
+  </td>
+  <td>
+    <select name="operator" style="width: 99%">
+      <% Condition::OPERATORS.each {|operator| %>
+        <option value="<%= operator %>"><%=h operator %></option>
+      <% } %>
+    </select>
+  </td>
+  <td>
+    <input name="value" style="width: 99%"/>
+  </td>
+  <td>
+	<%= submit_to_remote "Send", "Add", 
+		:update => 'edit_filter', 
+		:before => "table_reload()",
+  :loaded => 'update_table()', 	
+		:url => { :controller=> 'filters', 
+			:action => 'add_condition', 
+			:state_id => @state_id} %>
+
+      <%= help_button "filter","condition_form" %>
+  </td>
+</tr>
+<!--
+ <tr><td  < if @negative_set > style="background-color:red;"<en%> ><= link_to 'display negative set', :action => 'negative_set'  ></td></tr> -->

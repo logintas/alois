@@ -1,0 +1,131 @@
+#! /usr/bin/ruby1.8
+require 'libisi'
+init_libisi(:log_levels => [:DEBUG, :INFO, :PERF, :WARN, :ERROR, :FATAL],
+	    # Enable PERF level by default
+	    :level => :perf)
+
+count = nil
+daemon = false
+force = false
+messages = false
+type = :fifo
+waiting_time = nil
+kill = false
+klass = nil
+
+args = optparse do |o|
+  o.on( "-c", "--count COUNT", "Amount of recrods to process per step.") do |c|
+    count = c
+  end
+
+  o.on( "-w", "--waiting WAITINGTIME", "The time in seconds to wait if the queue table is empty.") do |w|
+    waiting_time = w.to_i
+  end
+
+  o.on( "-m", "--messages", "Transform untransformed messages." ) do |a|
+    messages = true
+  end
+
+  o.on( "-k", "--klass name", "Transform only queue with this class (no subtrheads.") do |klass| end
+
+  o.on( "--all", "Transform all messages in the queue." ) do |a|
+    type = :all
+  end
+  
+  o.on( "-d", "--daemon", "Run as daemon." ) do |a|
+    daemon = true
+  end
+
+  o.on( "-f", "--force", "Force prisma to run even if do_not_run_prisma is defined." ) do |a|
+    force = true
+  end
+
+  o.on( "--kill", "Kill still running prisma processes if some available." ) do |a|
+    kill = true
+  end
+end
+arg = args[0]
+
+initialize_rails
+unless ENV["LOG_OUTPUT"]
+  new_logger("prisma", (rails_root + "log/prisma.log").to_s)
+end
+
+def prisma_processes
+  open("|ps ax | grep '/usr/bin/prisma' | grep -v sentinel | grep -v grep") {|f| f.readlines}.map {|l|
+    l =~ /^\s*(\d+) /; $1.to_i
+  }.reject {|p| p == Process.pid}
+end
+# check that no other prisma processes are running
+# -d means only children.
+running_pids = prisma_processes
+if (num = running_pids.length) > 0
+  unless kill
+    throw "There are still #{num} prisma #{running_pids.inspect} around. Not starting Prisma!"
+  else
+    STDERR.print("Killing running prismas #{running_pids.inspect}.\n")
+    $log.warn("Killing running prismas #{running_pids.inspect}.")
+    running_pids.each {|running_pid|
+      Process.kill("KILL", running_pid)
+    }
+    sleep 1
+    
+    if prisma_processes.length > 0
+      throw "Could not kill all prismas."      
+    end
+  end
+end
+
+
+# make a deamon if necessary
+if (daemon) then
+  fork and exit
+  File.open("/var/run/prisma","w") do |f| 
+    f << Process.pid
+  end
+  
+  # child becomes session leader and disassociates controlling tty.
+  # namely do Process.setpgrp + \alpha.
+  Process.setsid
+  
+  # at here already the child process have become daemon. the rest
+  # is just for behaving well.
+  
+  # ensure no extra I/O.
+  File.open("/dev/null", "r+") do
+    |devnull|
+    $stdin.reopen(devnull)
+    $stdout.reopen("/var/log/alois/prisma.log")
+    $stderr.reopen("/var/log/alois/prisma.err")
+  end
+  # ensure daemon process not to prevent shutdown process.
+  Dir.chdir("/")
+end
+
+if $default_niceness
+  Process.setpriority(Process::PRIO_USER, 0, $default_niceness)      
+  Process.setpriority(Process::PRIO_PROCESS, 0,$default_niceness)   
+end
+
+if force; $do_not_run_prisma = false; end
+
+# if daemon this must be done
+Prisma.reconnect if daemon
+
+# check if the databases have the right scheme
+DefaultSchemaMigration.check_schema_versions!
+
+if klass
+  source = SourceDbMeta.new.prisma_initialize(type, eval(klass), count,nil, false, waiting_time)
+  $enable_dublette_recognition = source.may_contain_dublettes
+  source.transform
+  exit 0
+end
+
+if messages then
+  Prisma.transform_messages
+else
+  Prisma.transform_queues(type,count,waiting_time)
+end
+
+exit 0

@@ -1,0 +1,40 @@
+Debian Package Maintainer:
+
+  Flavio Pellanda <flavio.pellanda@logintas.ch>
+
+Copyright Holders:
+
+  Copyright (C) 2006 Logintas AG <http://www.logintas.ch>
+  Copyright (C) 2006 IMSEC GmbH <http://www.imsec.ch>
+  Copyright (C) 2006 Flavio Pellanda <flavio.pellanda@logintas.ch>
+  Copyright (C) 2006 Simon Huerlimann <simon.huerlimann@logintas.ch>
+  Copyright (C) 2006 Marcus Holthaus <marcus.holthaus@logintas.ch>
+
+Sponsors:
+
+  Flavio Pellanda, Simon Huerlimann, and Marcus Holthaus are sponsored 
+  by IMSEC GmbH (http://www.imsec.ch) to work on Alois.
+
+Contact:
+
+  Feel free to mail the developers listed in the Copyright Holders section.
+  They're hanging around on the #alois IRC channel on irc.freenode.org.
+  You may find further information on our website: http://www.loginas.ch/alois
+
+License:
+
+  IsiSetup is free software; you can redistribute it and/or modify it under
+  the terms of the GNU General Public License as published by the Free
+  Software Foundation; either version 2, or (at your option) any later
+  version.
+
+  IsiSetup is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  for more details.
+
+  You should have received a copy of the GNU General Public License with
+  your Debian GNU system, in /usr/share/common-licenses/GPL.  If not, write
+  to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,
+  MA 02110-1301, USA.
+

@@ -1,0 +1,33 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  process_id: 1
+  seconds_since_epoch: 1
+  subsecond_time: 1
+  response_time_milliseconds: 1
+  client_source_ip: MyString
+  request_status: MyString
+  http_status_code: 1
+  reply_size: 1
+  request_method: MyString
+  request_url: MyString
+  user_name: MyString
+  hierarchy_status: MyString
+  client_fqdn: MyString
+  mime_type: MyString
+
+two:
+  process_id: 1
+  seconds_since_epoch: 1
+  subsecond_time: 1
+  response_time_milliseconds: 1
+  client_source_ip: MyString
+  request_status: MyString
+  http_status_code: 1
+  reply_size: 1
+  request_method: MyString
+  request_url: MyString
+  user_name: MyString
+  hierarchy_status: MyString
+  client_fqdn: MyString
+  mime_type: MyString

@@ -1,0 +1,87 @@
+
+<table style="width:100%" id="log_table">
+<% if @records %>
+ <tr>
+  <% for column in current_table.columns %>
+   <% if not column.name =~ /metas_id$/ then %>
+    <th nowrap="true" style="text-align: left" <%= show_hide(column.name,nil) %>">
+		<div style="position: relative; width: 100%">
+			<%= column.human_name %>
+			
+    <div <%= show_hide_element(column.name) %> style="right:0px;top:0px;">
+			<%= link_to_remote image_tag("up.png"), :update => 'survey_table', :before => "table_reload()", :url => { :action => 'list_inline', :order => "#{column.name}", :state_id => @state_id} %>
+				<%= link_to_remote image_tag("down.png"), :update => 'survey_table', :before => "table_reload()", :url =>{ :action => 'list_inline', :order => "#{column.name} DESC", :state_id => @state_id} %>
+				<%=link_to image_tag("pie-chart.png"), :action => 'chart', :chart_type => :pie, "chart[column1]" => column.name, "chart[column2]" => "", "chart[aggregation_column]"=>"*", "chart[aggregation_function]" => "COUNT",  :state_id => @state_id %>
+				<%=link_to image_tag("bar-chart.png"), :action => 'chart', :chart_type => :bar, "chart[column1]" => column.name, "chart[column2]" => "", "chart[aggregation_column]"=>"*", "chart[aggregation_function]" => "COUNT",  :state_id => @state_id %>
+				<% if Chart.column_supports_type?(column,"line") then %><%= link_to image_tag("line-chart.png"), :action => 'chart', :chart_type => :line, "chart[column1]" => column.name, "chart[column2]" => "", "chart[aggregation_column]"=>"*", "chart[aggregation_function]" => "COUNT", :state_id => @state_id %><% end %>
+			<span>
+		</div>
+	</th>
+   <% end %>
+  <% end %>
+<% if params[:show_originals] %>
+  <th>Original Message</th>
+<% end %>
+<% if not current_table.class.name =~ /View$/ %>
+  <th>
+    <%= link_to_remote image_tag("show.png"), :update => 'survey_table', :before => "table_reload()", :url => { :action => 'list_inline', :show_originals => !params[:show_originals], :state_id => @state_id} unless params[:show_originals]%>
+  </th>
+<% end %>
+  </tr>
+  <tr>
+<% record_index = 0 %>
+<% for record in @records %>
+  <% record_index = record_index + 1 %>
+  <tr>
+  <% column_index = 0 %>
+  <% for column in current_table.columns %>
+   <% if not column.name =~ /metas_id$/ then %>
+    <% column_index = column_index + 1 %>    
+    <% color_index = (column_index % 2 + record_index % 2) %>
+    <% color = "#FFFFFF;" if color_index == 2 %>
+    <% color = "#DDDDDD;" if color_index == 1 %>
+    <% color = "#BBBBBB;" if color_index == 0 %>
+    <td style="background-color:<%= color %>" <%= show_hide("#{record_index.to_s}x#{column_index}",nil) %> >
+		<div style="position: relative; width: 100%">
+			<%= format_column(record,column,record_index) %> 
+    <div <%= show_hide_element("#{record_index}x#{column_index}") %> style="right:0px;top:0px;">
+			<%= link_to_remote image_tag("remove.png"), 
+			:update => 'edit_filter', 
+			:url => { :controller=> 'filters', 
+				:action => 'add_condition', 
+				:column => column.name, 
+				:operator => '!=',
+				:value => record.send("#{column.name}_before_type_cast"), 
+				:state_id => @state_id},
+			:before => "table_reload()",
+			:loaded => 'update_table()'  %>
+		
+			<%= link_to_remote image_tag("add.png"), 
+			:update => 'edit_filter', 
+			:url => { :controller=> 'filters',
+				:action => 'add_condition', 
+				:column => column.name, 
+				:operator => '=', 
+				:value => record.send("#{column.name}_before_type_cast"), 
+				:state_id => @state_id},
+			:before => "table_reload()",
+			:loaded => 'update_table()'  %>
+		</div>
+	</div>
+   </td>
+  <% end %>
+ <% end %>
+<% if params[:show_originals] %>
+  <th><%=h record.original_text %></th>
+<% end %>
+
+<% if record.class.columns.map {|col| col.name}.include?("id") %>
+    <td><%= link_to image_tag("show.png", :title => 'Show'), :action => 'show', :id => record["id"], :state_id => @state_id %></td>
+<% end %>
+  </tr>
+<% end %>  
+<% else %>
+<tr><td>No records to display.</td></tr>
+<% end %>
+
+</table>	

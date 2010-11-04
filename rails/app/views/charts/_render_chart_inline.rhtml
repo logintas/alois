@@ -1,0 +1,19 @@
+<% if @chart.datasource(true) %>
+  <%= @chart.image_tag({:url => url_for(:action => "chart_image", :id => @chart, :table => params[:table])}) %>
+  <%= @chart.image_map({:link => url_for(:controller => "survey",:action => "chart_click",:table => @chart.datasource.table.table_name) + "?"}) %>
+
+<br>
+  <% if @chart.data_date %>
+    Data generated: <%= @chart.data_date.strftime("%c") %>
+  <% end %>
+  <% if @chart.image_date %>
+    Image generated: <%= @chart.image_date.strftime("%c") %>
+  <% end %>
+
+  <%= link_to_remote "Reload", 
+	:before => "table_reload()",
+        :update => 'survey_chart', 
+	:url => { :controller=> 'survey', :action => 'chart_inline', :state_id => @state_id, :recreate_data => true} %>
+<% else %>
+
+<% end %>

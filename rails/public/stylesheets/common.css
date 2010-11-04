@@ -1,0 +1,188 @@
+h1 { 
+  white-space:nowrap;
+}
+.homepageTitle { 
+  font-size: 2em;
+}
+
+a{ 
+  text-decoration:underline;
+ }
+
+.form { 
+  width: 100%;
+  border: 1px solid black;
+}
+
+.form_header, .form tr th.form_header { 
+  background-color:#A5314A;
+  font-weight:bold;
+}
+
+.form tr th { 
+  background-color:#DDDDDD;
+}
+.form tr td { 
+  background-color:#F0F0FF;
+}
+
+.box {
+	padding: 1px;
+        border:  1px dotted #A5314A;
+ 	vertical-align: top;
+	min-width: 62px;
+}
+
+.data * td {
+	background-color: #efefef;
+	border: none;
+}
+
+.data * th {
+	background-color: #d2d2d2;
+	border: none;
+}
+
+
+.show_hide { 
+  border-bottom:1px dotted black; 
+}
+.show_hide:hover { 
+  background-color:white;
+}
+
+.show_hide_element { 
+  z-index:10;
+  border:solid 1px black;
+  background-color: #d2d2d2;
+  position: absolute;
+  padding: 0px;
+  display: none; 
+  white-space:nowrap;
+}
+.show_hide_element:hover { 
+  display: block;
+}
+
+.button-bar, .form td.button-bar {
+  width: 100%;
+  background-color:#99BBFF;
+  padding: 3px;
+  text-align: center;
+}
+.button-bar input, .button-bar .button-to, .button-bar .button-to div, .button-bar div input {
+  display: inline;
+}
+
+#log_table th { 
+  background-color:#DDDDDD;
+ }
+
+
+#footer {
+    padding: 10px;
+}
+
+#header {
+  padding: 0px;
+  margin: 0px;
+}
+
+#page {
+  padding: 5px;
+  border:  1px dotted #A5314A;
+}
+
+.table-classes-center { 
+  border:1px solid black;
+}
+.table-classes-child { 
+  border-right:1px solid black;
+  border-top:1px solid black;
+  border-bottom:1px solid black;
+}
+.table-classes-parent { 
+  border-left:1px solid black;
+  border-top:1px solid black;
+  border-bottom:1px solid black;
+}
+
+.table-classes-selected { 
+  background-color: #76FF76;
+ }
+
+/** overview **/
+.paint_arrow {
+  margin-top:2px;
+  position:absolute;
+  font-size:7px;
+}
+.paint_arrow span a{
+  font-weight:bold;
+}
+.paint_link {
+  font-weight:bold;
+  font-color:white;
+}
+.paint_host {
+  margin-top:2px;
+  position:absolute;
+  font-size:7px;
+}
+.paint_host a {
+  color:white;
+  font-weight:bold;
+}
+
+#pumpy_queue a {
+  color:white;
+  font-weight:bold;
+}
+
+#pumpy_out a {
+  color:black;
+  font-weight:bold;
+}
+
+#alois_in a {
+  color:black;
+  font-weight:bold;
+}
+
+/** prisma/overview page **/
+
+.paint_arrow {
+  margin-top:2px;
+  position:absolute;
+}
+.paint_arrow span a{
+  font-weight:bold;
+}
+.paint_link {
+  font-weight:bold;
+  font-color:white;
+}
+.paint_host {
+  margin-top:2px;
+  position:absolute;
+}
+.paint_host a {
+  color:white;
+  font-weight:bold;
+}
+
+#pumpy_queue a {
+  color:white;
+  font-weight:bold;
+}
+
+#pumpy_out a {
+  color:black;
+  font-weight:bold;
+}
+
+#alois_in a {
+  color:black;
+  font-weight:bold;
+}
+

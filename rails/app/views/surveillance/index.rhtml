@@ -1,0 +1,13 @@
+<table width="100%">
+<tr>
+  <td width="50%"><%= PrismaController.statistic_image("sink_flows","day") %></td>
+  <td style="vertical-align:top" width="50%" rowspan="2">
+    <%= render_remote({:controller=>"bookmarks",:action=>"list"},:frequency => 60) %>
+  </td>
+</tr>
+<tr>
+ <td>
+    <%= render_remote({:controller=>"alarms",:action=>"survey_component"},:frequency => 60) %>
+ </td>
+</tr>
+</table>

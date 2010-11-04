@@ -1,0 +1,15 @@
+	<tr>
+		<td><%=h @alarm.id %><%= @alarm.acknowledge %></td>
+<% if @alarm.acknowledge %>
+		<td style="background-color:DDFFDD;green;color:<%=h @alarm.color %>"><%=h @alarm.alarm_level_name %></td>
+<% else %>
+		<td style="background-color:<%=h @alarm.color %>"><%=h @alarm.alarm_level_name %></td>
+<% end %>
+		<td><%= fobj(@alarm.sentinel) %></td>
+		<td><%=h @alarm.created_at.strftime("%F %T") %></td>
+		<td><%=h @alarm.process_state %></td>
+		<td><%=h @alarm.comment %></td>
+		<td>
+			<%= link_to image_tag( 'show.png' ), :action => 'show', :id => @alarm %><%= link_to image_tag( 'edit.png' ), :action => 'edit', :id => @alarm %>
+  		</td>
+	</tr>

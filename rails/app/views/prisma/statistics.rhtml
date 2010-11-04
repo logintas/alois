@@ -1,0 +1,19 @@
+<%= title("Statistics") %>
+<div id="page" style="padding: 20px; min-width: 870px">
+	<table>
+	<% for item in @statistic_items %>
+	<tr>
+		<td>
+		<a href="<%= item[:link_prefix] %>.html">
+			<img src="<%= item[:link_prefix] %>-day.png" alt="<%= item[:desc] %> today" />
+		</a>
+		</td>
+		<td>
+		<a href="<%= item[:link_prefix] %>.html">
+			<img src="<%= item[:link_prefix] %>-week.png" alt="<%= item[:desc] %> last days" />
+		</a>
+		</td>
+	</tr>
+	<% end %>
+	</table>
+</div>

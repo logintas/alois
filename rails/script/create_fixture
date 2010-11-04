@@ -1,0 +1,25 @@
+#!/usr/bin/ruby
+# This is a helper script for outputting
+# sql table contents as fixtures.
+
+require File.dirname(__FILE__) + '/../config/boot'
+require File.dirname(__FILE__) + '/../config/environment'
+
+
+for arg in ARGV 
+  
+  file = RAILS_ROOT + "/test/fixtures"
+  p file
+  file = Pathname.new(file).realpath.to_s
+  p file
+  file = file + "/#{arg}.csv"
+  file = "/tmp/#{arg}.csv"
+
+  print "Generating #{file}?\n"
+  question_continue
+
+  ActiveRecord::Base.connection.execute("SELECT * INTO OUTFILE '#{file}'" +
+			     " FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '\"'" +
+			     " FROM #{arg};")
+    
+end

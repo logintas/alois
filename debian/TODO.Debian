@@ -1,0 +1,13 @@
+= TODO =
+ * Import the list in /debian/TODO.Debain.DEPR
+ * Use another graphic library that depends not on ossim.
+ * do alois-sink.postinst the right way
+ * check if link in reporter package (/var/www/munin -> /usr/share/alois/www/public_root/munin) is needed
+ * ensure that prisma logs to the right files. and fix logrotate in prisma package
+ * enable old log deletion
+ * check if in alois.conf exists two connnection with the same host and same username and database
+ * alois-mysqlpipe start stop script läuft nicht richtig
+ * grafiken werden bei single host (alois.conf localhost)
+ * adresse in logintas theme korrigiern
+ * log children in detail record anzeigen.
+ * feld_name in header (bzw popup) von tabellen

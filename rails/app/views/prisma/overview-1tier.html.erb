@@ -1,0 +1,70 @@
+<%= title("Alois Overview") %>
+<div id="page" style="padding: 20px; min-width: 870px;">
+<div style="position:relative;font-weight:bold;height:300px;width:870px;">
+  <%= image_tag "overview-1tier-flowchart.png", :border => 0, :size => "850", :style => "position:relative;" %>
+
+  <!-- sinkhost -->
+  <%= host_name_div("localhost", 100, 3) %>
+
+  <!-- left from sink -->
+  <%= arrow_div('pumpy_in', 22, 71) %>
+  
+  <!-- sink -->
+  <div style="position:absolute;top:35px;left:102px;" class="paint_host">
+   sink <%= help_button "sink" %><br/>
+  </div>
+
+  <!--  sink to pumpy -->
+  <%= arrow_div('pumpy_count', 214, 71) %>
+
+  <!-- pumpy -->
+  <div style="position:absolute;top:35px;left:274px;" class="paint_host">   
+    pumpy <%= help_button "pumpy" %><br/>
+    <%= Prisma::Database.get_classes(:raw).length %> Tables <br/>
+    <%= updating_value "pumpy_queue" %>% Full
+  </div>
+
+  <!-- pumpy to prisma -->
+  <%= arrow_div('pumpy_out', 335, 157) %>
+
+  <!-- dobby -->
+  <div style="position:absolute;top:35px;left:440px;" class="paint_host">
+    dobby <%= help_button "dobby" %><br/>
+    <%= Prisma::Database.get_classes(:meta).length %> Tables<br/>
+   </div>
+ 
+  <!-- dobby to prism -->
+  <%= arrow_div('alois_in', 500, 157) %>
+
+  <!-- lizard -->
+  <div style="position:absolute;top:35px;left:600px;" class="paint_host">
+    lizard <%= help_button "lizard" %><br/>
+    <%= Sentinel.find(:all).select {|s| s.enabled }.length %> Sentinels<br/>
+    <%= updating_value("alarms_today") %> Alarms Today<br/>
+    <%= updating_value("yellow_alarms") %> Yellow Alarms<br/>
+    <%= updating_value("red_alarms") %> Red Alarms<br/>
+  </div>
+
+  <!-- reporter -->
+  <div style="position:absolute;top:35px;left:730px;" class="paint_host">
+    reporter  <%= help_button "reporter" %><br/>
+    <%= View.find(:all, :order => 'name').length %> Views<br/>
+    <%= updating_value("reports_today") %> Reports Today
+  </div>
+
+  <!-- prisma -->
+  <div style="position:absolute;top:200px;left:100px;" class="paint_host">
+    prisma <%= help_button "prisma" %><br/>
+<!--    Archiv: <span id="prisma_archiv">< @controller.measure('prisma_archiv') ></span>% Full -->
+
+  </div>
+  
+  <div style="position:absolute;top:150px;left:670px;"><%= status_traffic_light(:height => 100) %></div>
+
+
+</div>
+</div>
+<% for stat in PrismaController::STAT_NAMES %>
+  <%= periodically_call_remote(:update => stat, :frequency => 300, 
+	:url => {:action => 'measure_inline', :params => {:type => stat} }) %>
+<% end %>

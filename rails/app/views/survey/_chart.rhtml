@@ -1,0 +1,86 @@
+<div id="survey_chart">
+
+  <%= javascript_tag("function update_table() {" + remote_function(:update => 'survey_chart', :url => { :controller=> 'survey', :action => 'chart_inline', :state_id => @state_id }) + "}") %>
+
+<%= javascript_tag("function table_invalid(){Element.setStyle('graphic', {'background-color' : '#FFBBBB'})}") %>
+<%= javascript_tag("function table_reload(){Element.setStyle('graphic', {'background-color' : '#FFFF66'})}") %>
+<%= javascript_tag("function table_valid(){Element.setStyle('graphic', {'background-color' : 'transparent'})}") %>
+
+<table class="form">
+  <tr>
+    <th colspan="2" class="form_header">Chart</th>
+  </tr>
+  <tr>
+   <td colspan="2" class="button-bar">
+	<%= button_to 'Data', {:action => 'list',:state_id => @state_id }%>
+	<%= button_to_function('Hide query', "Element.toggle('action_hide_query','action_show_query', 'query')", :id => 'action_hide_query', :style => 'display: none' ) %>
+	Download data as: <%= button_to 'CSV', {:action => 'csv',:type=>"chart",:state_id => @state_id }%>
+	<%= button_to 'Text', {:action => 'text',:type=>"chart",:state_id => @state_id }%>
+	<%= button_to 'PDF', {:action => 'pdf',:type=>"chart",:state_id => @state_id }%>
+   </td>
+  <tr>
+<% if @chart %> 
+  <% unless @chart.valid? %>
+    <%= error_messages_for 'chart', :header_message => nil %>
+  <% else %>
+  <tr>
+    <th style="width: 20%; text-align: left">Zoom</th>
+    <td style="white-space: nowrap;">
+      <%= render :partial => 'zoom_form' %>
+    </td>
+  </tr>
+
+  <tr id="query">
+    <th style="width: 20%; text-align: left">Query <%= short_help("Query","This query describes the current datasource containing all selected conditions  and filters.") %></th>
+    <td>
+	<%= create_links_in_query(@query_string) %>
+    </td>
+  </tr>
+  <tr>
+    <th style="width: 20%; text-align: left">Count <%= short_help("Count","For big datasources the first counting is done approximately and cannot be taken as a matter of fact") %></th>
+    <td>  <span id="count_text"><%= render :partial => 'count_text' %></span>
+    </td>
+  </tr>
+ 
+  <tr>
+    <td colspan="2">
+      <a name="chart"/>
+      <div id='graphic'>
+	<div style="width:<%= @chart.width %>px;height:<%= @chart.height %>px;">
+          <legend>Bild wird geladen... </legend>
+	</div>
+      </div>
+
+      <%= javascript_tag remote_function(:update => 'graphic', 
+	:url => url_for(:action => "chart_map", :state_id => @state_id)) %>
+    </td>
+  </tr>       
+<% end %>
+<% else %>
+<div id="graphic">No chart defined.</div>
+<% end %>
+  <tr>
+    <th>Chart</th>
+    <td>
+  <% form_tag :action => 'chart', :state_id => @state_id do %><%= render :partial => '/charts/column_fields' %>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="button-bar">
+        <%= submit_tag "Update" %>
+  <% end %></div>
+      <%= button_to "Reset Chart", :reset_chart => true, :state_id => @state_id %>
+      <%= button_to "Save Chart", :controller => "charts", :action => "new", 	
+	:state_id => @state_id, "chart[name]" => "New chart" %>
+
+<% form_tag :action => :chart, :state_id => @state_id do %>
+<%= submit_tag "Load chart:"%>       
+<%= select_tag('chart_id', options_for_select(Chart.charts_for_datasource(current_datasource).map {|c| [c.name,c.id]}.sort {|x,y| (x[0] or "") <=> (y[0] or "")})) %>
+<% end %>
+
+
+    </td>
+  </tr>
+</table>
+</div>
+

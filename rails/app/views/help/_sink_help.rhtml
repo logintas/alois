@@ -1,0 +1,10 @@
+<%= help_title("Sink") %>
+<p>Queue for log messages before they get processed by the ALOIS system. The queues are implemented as MySql tables in a database called <% help_link "Pumpy" %>.</p>
+<p>At the moment this appliance consists of
+the <%= help_link "syslog-ng","syslog_ng" %> daemon. It
+recieves the log messages (from UDP 514), filters them and
+writes them into the <%= help_link "Pumpy" %>
+database.</p>
+<p>It is planned that this appliance will be 
+able to recieve Mails and other messages that
+can transport logs.</p>

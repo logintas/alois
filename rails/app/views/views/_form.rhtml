@@ -1,0 +1,41 @@
+<%= error_messages_for 'view' %>
+
+<!--[form:view]-->
+	<tr>
+		<th class="form_header" colspan="2">View</th>
+	</tr>
+	<tr>
+		<th style="width: 20%"><label for="view_name">Name</label></th>
+		<td><%= text_field 'view', 'name', :size => 40 %></td>
+	</tr>
+	<tr>
+		<th style="width: 20%"><label for="view_description">Description</label></th>
+		<td><%= text_area 'view', 'description', :rows => 4 %></td>
+	</tr>
+	<tr>
+		<th style="width: 20%"><label for="view_sql_declaration">Sql declaration</label></th>
+		<td><%= text_area 'view', 'sql_declaration', :rows => 10 %></td>
+	</tr>
+	<tr>
+		<th style="width: 20%"><label for="id_source_table">Id comes from table with name</label></th>
+		<td><%= text_field 'view', 'id_source_table', :rows => 4 %></td>
+	</tr>
+	<tr>
+		<th style="width: 20%"><label for="exclusive_for_group">Display only for group</label></th>
+		<td><%= text_field 'view', 'exclusive_for_group', :rows => 4 %></td>
+	</tr>
+	<tr>
+		<th style="width: 20%"><label for="do_not_use_view_for_query">Don't use mysql view for query</label></th>
+		<td><%= check_box 'view', 'do_not_use_view_for_query' %><br>Try to parse and adapt query for conditions, limit and orderbys.</td>
+	</tr>
+
+<!--
+<p><label for="view_additional_fields">Additional fields</label><br/>
+<%= text_area 'view', 'additional_fields', :rows => 2, :cols => 100  %></p>
+
+<p><label for="view_date_column_name">Date column name</label><br/>
+<%= text_field 'view', 'date_column_name'  %></p>
+-->
+
+<!--[eoform:view]-->
+

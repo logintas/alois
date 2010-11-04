@@ -1,0 +1,30 @@
+# for date test
+date_test:
+ priority:
+ chart_id: 1
+ report_template_id: 1
+ view_id:
+
+date_test2:
+ priority:
+ chart_id: 7
+ report_template_id: 1 
+ view_id:
+
+#date_test2:
+# priority:
+# chart_id: 3
+# report_template_id: 1 
+# view_id:
+
+facility_pie:
+  chart_id: 4
+  report_template_id: 2
+
+level_bars:
+  chart_id: 5
+  report_template_id: 2
+
+chart_bar:
+  chart_id: 6
+  report_template_id: 2

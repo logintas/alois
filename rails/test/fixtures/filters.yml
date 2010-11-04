@@ -1,0 +1,33 @@
+filter1:
+ id: 1
+ name: "Filter 1"
+
+today:
+  id: 2
+  name: Today
+  description: Today
+  yaml_declaration: |
+    ---
+    - !ruby/object:DateCondition
+      column: date
+      operator: DATE
+      options: {}
+
+      value: today
+
+  order_by:
+
+date_2007-05-01:
+  id: 3
+  name: Date 2007-05-01
+  description: 2007-05-01
+  yaml_declaration: |
+    ---
+    - !ruby/object:DateCondition
+      column: date
+      operator: =
+      options: {}
+
+      value: "2007-05-01"
+
+  order_by:

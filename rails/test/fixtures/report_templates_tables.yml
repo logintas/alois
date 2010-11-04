@@ -1,0 +1,12 @@
+# for date test
+date_test:
+ priority:
+ table_id: 1
+ report_template_id: 1
+ view_id:
+
+date_test2:
+ priority:
+ table_id: 2
+ report_template_id: 1
+ view_id:

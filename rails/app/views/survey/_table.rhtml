@@ -1,0 +1,45 @@
+<div id="survey_table">
+
+<%= javascript_tag("function update_table() {" + remote_function(:update => 'survey_table', :url => { :controller=> 'survey', :action => 'list_inline', :state_id => @state_id }) + "}") %>
+
+<%= javascript_tag("function table_invalid(){Element.setStyle('log_table', {'background-color' : '#FFBBBB'})}") %>
+<%= javascript_tag("function table_reload(){Element.setStyle('log_table', {'background-color' : '#FFFF66'})}") %>
+<%= javascript_tag("function table_valid(){Element.setStyle('log_table', {'background-color' : 'transparent'})}") %>
+
+<%= show_hide_script %>
+<table class="form">
+  <tr>
+    <th colspan="2" class="form_header">Data</th>
+  </tr>
+  <tr>
+   <td colspan="2" class="button-bar">
+	<%= button_to 'Chart', {:action => 'chart',:state_id => @state_id }%>
+	<%= button_to "Create View", {:action => 'create_view', :state_id => @state_id} %>
+	<%= button_to_function('Hide query', "Element.toggle('action_hide_query','action_show_query', 'query')", :id => 'action_hide_query', :style => 'display: none' ) %>
+	Download data as: <%= button_to 'CSV', {:action => 'csv', :show_originals => params[:show_originals], :state_id => @state_id }%>
+	<%= button_to 'Text', {:action => 'text',:show_originals => params[:show_originals],:state_id => @state_id }%>
+	<%= button_to 'PDF', {:action => 'pdf',:show_originals => params[:show_originals],:state_id => @state_id }%>
+   </td>
+  <tr>
+  <tr id="query">
+    <th style="width: 20%; text-align: left">Query <%= short_help("Query","This query describes the current datasource containing all selected conditions  and filters.") %></th>
+    <td>
+	<%= create_links_in_query(@query_string) %>
+    </td>
+  </tr>
+  <tr>
+    <th style="width: 20%; text-align: left">Count <%= short_help("Count","The total count of the data source plus the percentage of the selected set. Because counting can be very slow, by default this field is not calculated. Pleas click on 'Calculate' to get the values.") %></th>
+    <td>  <span id="count_text"><%= render :partial => 'count_text' %></span>
+    </td>
+  </tr>
+  <tr>
+    <th style="width: 20%; text-align: left">Paging</th>
+    <td>
+      <%= render :partial => 'pagination_form' %>
+    </td>
+  </tr>
+    <td colspan="2"><%= render :partial => 'data_table' %></td>
+  </tr>
+   
+</table>
+</div>

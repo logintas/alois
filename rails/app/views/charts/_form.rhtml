@@ -1,0 +1,28 @@
+    <tr>
+      <th><label for="chart_name">Name</label></th>
+      <td><%= text_field 'chart', 'name'  %></td>
+    </tr>
+    <tr>
+      <th><label for="chart_description">Description</label></th>
+      <td><%= text_area 'chart', 'description', :style => "width: 99%", :rows => 4  %></td>
+    </tr>
+   <tr>
+     <th><label for="sentinel_time_range">Time range</label></th>
+    <td><%=  text_field_with_auto_complete :chart, :time_range, :autocomplete => "off", :style => 'width: 98%', :rows => 4 %></td>
+   </tr>
+    <tr>
+      <th><label for="chart_width">Width</label></th>
+      <td><%= text_field 'chart', 'width', :style => "width: 99%" %></td>
+    </tr>
+    <tr>
+      <th><label for="chart_height">Height</label></th>
+      <td><%= text_field 'chart', 'height', :style => "width: 99%"%></td>
+    </tr>
+    <tr>
+      <th><label for="chart_max_values">Max Values</label></th>
+      <td><%= text_field 'chart', 'max_values', :style => "width: 99%"%></td>
+    </tr>
+    
+    <tr>
+      <td colspan='2'><%= render :partial => "column_fields" %></td>
+    </tr>

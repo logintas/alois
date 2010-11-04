@@ -1,0 +1,29 @@
+#!/usr/bin/ruby
+require File.dirname(__FILE__) + '/../config/boot'
+require File.dirname(__FILE__) + '/../config/environment'
+require "alois/utils"
+require "alois/config"
+
+a = []
+for klass in Prisma.get_classes
+  klass_n = klass.table_name
+
+  for source in klass.sources
+    source = source.table_name
+    a.push([klass_n,source])
+  end
+end
+
+a.sort{|x,y| x[1] <=> y[1] }
+
+ln = nil
+for e in a
+  klass_n=e[0]
+  source = e[1]
+
+  print "\n\n#{klass_n}\n" if ln != klass_n
+  ln = klass_n
+  
+  print "  t.column \"#{source}_id\", :integer\n"
+  print "  add_index \"#{klass_n}\", [\"#{source}_id\"], :name => \"#{klass_n}_#{source}_id_index\"\n"
+end

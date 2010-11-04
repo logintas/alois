@@ -1,0 +1,23 @@
+development:
+  adapter: sqlite3
+  database: pumpy_dev_database.sqlite3
+
+test:
+  adapter: mysql
+  database: pumpy_test
+  username: root
+  password: test
+  host: localhost
+  reconnect: true
+
+#test:
+#  adapter: sqlite3
+#  database: pumpy_test_database.sqlite3
+
+production:
+  adapter: mysql
+  database: pumpy
+  username: root
+  password: test
+  host: localhost
+  reconnect: true

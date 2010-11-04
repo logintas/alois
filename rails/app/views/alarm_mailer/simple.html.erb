@@ -1,0 +1,32 @@
+Alarm ocurred on <%= @alarm.created_at %>.
+<table class="form">
+
+<!-- sentinel -->
+  <tr>
+    <th><label>ID</label></th>
+    <td><%=h @alarm.id %></td>
+  </tr>
+
+<% if @sentinel = @alarm.sentinel %>
+  <tr>
+    <th><label>Created by Sentinel</label></th>
+    <td><%= @sentinel.name %>
+	<br>
+	  <%=h @sentinel.description %>
+    </td>
+  </tr>
+<% end %>
+  <tr>
+    <th><label>Alarm Level</label></th>
+    <td style="background-color:<%=h @alarm.color %>;"><%=h @alarm.alarm_level %>: <%= @alarm.alarm_level_name %></td>
+  </tr>
+  <tr>
+    <th><label>Comment</label></th>
+    <td><%=h @alarm.comment %></td>
+  </tr>  
+  <tr>
+    <th><label>Link</label></th>
+    <td><%= link_to "Alarm \##{@alarm.id}", :only_path => false,:controller => :alarms, :action => :show, :id => @alarm %></td>
+  </tr>
+
+</table>

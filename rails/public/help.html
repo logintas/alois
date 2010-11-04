@@ -1,0 +1,404 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Alois Help</title>
+  </head>
+
+  <body>
+    <h1>Alois Help</h1>
+    <h2>Logverarbeitung Übersicht</h2>
+    <table>
+	<tr>
+	  <th>Logs</th>
+	  <th><a href="#database">Pumpy</a></th>
+	  <th>Prisma</th>
+	  <th><a href="#database">Dobby</a></th>
+	  <th><a href="#view">View</a></th>
+	  <th><a href="#filter">Filter</a></th>
+	</tr>
+	<tr>
+	  <td style="text-align:center"><img src="images/flat-theme/text_block.png"/></td>
+	  <td style="text-align:center"><img src="images/flat-theme/inserttable.png"/></td>
+	  <td style="text-align:center"><img src="images/flat-theme/tab_right.png"/></td>
+	  <td style="text-align:center"><img src="images/flat-theme/matrix.png"/></td>
+	  <td style="text-align:center"><img src="images/flat-theme/data.png"/></td>
+	  <td style="text-align:center"><img src="images/flat-theme/filter.png"/></td>
+	</tr>
+	<tr>
+	  <td>Logs werden per Syslog verschickt.</td>	  
+	  <td>"Raw" gespeicherte Logs in Tabellen auf Insink.</td>	  
+	  <td>Log informationen werden von Pumpy geholt und auseinandergenommen.</td>	  
+	  <td>Aufgesplittete Logmeldungen in Dobby-Datenbank.</td>	  
+	  <td style="border-left: solid 2px black;">Mit SQL generierte Ansichten der Log-Tabellen.</td>	  
+	  <td style="border-right: solid 2px black;">Hilfswerkzeug zum Filtern bestehender Ansichten.</td>
+	</tr>
+	<tr>
+	  <th colspan="4"></th>
+	  <th colspan="2" style="border-top: solid 2px black;">Daten Sets für Reporting</th>
+	</tr>
+	<tr>
+	  <td colspan="4"></td>
+	  <td colspan="2" style="text-align:center;"><img src="images/flat-theme/smallcal.png"/></td>
+	</tr>
+    </table>
+    <h2>Reporting Übersicht</h2>
+    <table>
+	<tr>
+	  <th rowspan="2">Daten Set</th>
+	  <th rowspan="2"><a href="#sentinel">Sentinel</a></th>
+	  <th><img src="images/flat-theme/tab_right.png" height="20"/></th>
+	  <th><a href="#alarm">Alarm</a></th>
+	</tr>
+	<tr>
+	  <td><img src="images/flat-theme/tab_right.png" height="20"/></td>
+	  <td style="text-align:center"><img src="images/flat-theme/bell.png"/></td>
+	</tr>
+	<tr>
+	  <td rowspan="2" style="text-align:center"><img src="images/flat-theme/smallcal.png"/></td>
+	  <td rowspan="2" style="text-align:center"><img src="images/police_man_ganson.png" width="60" /></td>
+	  <td><img src="images/flat-theme/tab_right.png" height="20"/></td>
+	  <td>Von Sentinel generierte Alarme.</td>
+	</tr>
+	<tr>
+	  <td><img src="images/flat-theme/tab_right.png" height="20"/></td>
+	  <th><a href="#report_generate">Report</a></th>
+	</tr>
+	<tr>
+	  <td rowspan="2">Zusammengesetzt aus Views + Filter.</td>
+	  <td rowspan="2">Periodisch ausgeführter Wächter.</td>
+	  <td><img src="images/flat-theme/tab_right.png" height="20"/></td>
+	  <td style="text-align:center"><img src="images/flat-theme/gkrellm.png"/></td>
+	</tr>
+	<tr>
+	  <td><img src="images/flat-theme/tab_right.png" height="20"/></td>
+	  <td>Periodisch von Sentinel generierte Reporte.</td>
+	</tr>
+    </table>
+
+    <h2><a name="view"><img src="images/flat-theme/data.png"/> View</a></h2>
+    <h3>Anzeigen</h3>
+    <p>Gewünschte View auswählen. Aus Menu:</p>
+    <p><img src="images/help/open_view1.jpg"/></p>
+    <p>oder aus <a href="views">View Liste</a>:</p>
+    <p><img src="images/help/open_view2.jpg"/></p>
+    <p>Es erscheint dann eine Tabellenansicht der gewählten View.</p>
+    <p><a href="images/help/survey_table.jpg"><img src="images/help/survey_table.jpg" width="610"/></a></p>
+    <p>Beschreibung der Elemente:</p>
+    <ol>
+      <li>Hier kann durch die Datensätze navigiert werden.</li>
+      <li>Dies ist der Aktuelle aktive Filter. Hier kann die Zeitspanne in Worten eingegeben werden.</li>
+      <li>Wenn mit der Maus über eine Tabellenzelle gefahren wird erscheint dieses Menu. Hier können neue Bedingungen eingefügt werden. Die neuen Bedingungen werden dann bei 2. aufgeführt.<br>
+	<img src="images/add.png"/> Es werden nur noch Zeilen angezeigt welche in dieser Spalte diesen Wert haben.<br>
+	<img src="images/remove.png"/> Es werden alle Zeilen ausgeschlossen welche diesen Wert haben.</li>
+      <li>Wenn mit der Maus über einen Tabellkopf gefahren wird erscheint dieses Menu. <br>
+	<img src="images/up.png"/>,<img src="images/down.png"/> Datensätze auf- oder absteigend sortieren.<br>
+	<img src="images/pie-chart.png"/> <img src="images/bar-chart.png"/> Pie- oder Barchart mit der Verteilung der Werten dieser Spalte.<br>
+	<img src="images/line-chart.png"/> Wenn der Typ der Spalte numerisch ist, oder ein Datum/Zeit enthält, können auch Liniengrafiken dargestellt werden.</li>
+    </ol>
+            
+    <h2><a name="filter"><img src="images/flat-theme/filter.png"/> Filter</a></h2>
+    <h3>Erstellen</h3>
+    <p>Entweder den aktuellen Filter aus der View-Azeige speicher:</p>
+    <p><img src="images/help/create_filter1.jpg"/></p>
+    <p>Oder den Menupunkt Reporting -> Filters -> <a href="filters/new">New...</a> wählen:</p>
+    <p><img src="images/help/create_filter2.jpg"/></p>
+    <p>Es erscheint dann folgende Maske:</p>
+    <p><img src="images/help/filter_edit.jpg"/></p>
+    <ol>
+      <li>Hier können Bedingungen entfernt werden.</li>
+      <li>Hier können die Bedingungen bearbeitet werden.</li>
+      <li>Die Beschreibung des Filters</li>
+      <li>Hier kann ein Filter aus in Zip-Form geladen werden. (Wird nur zum hin- und herkopieren zwischen verschiedenen Servern verwendet)</li>
+    </ol>
+    
+    
+    <h2><a name="chart">Chart</a></h2>
+    <h3>Erstellen</h3>
+    <p>Über den Tabellenkopf in der View-Ansicht.</p>
+    <p><img src="images/help/create_chart1.jpg"/></p>
+    <p>Oder über den Knopf "Chart" in der View-Ansicht.</p>
+    <p><img src="images/help/create_chart2.jpg"/></p>
+    <h3>Bearbeiten in View-Ansicht</h3>
+    <p><a href="images/help/modify_chart.jpg"><img width="592" src="images/help/modify_chart.jpg"/></a></p>
+    <ol>
+      <li>Indem auf die Grafik geklickt wird können die Werte weiter eingegrenzt werden. Es werden dann die Tabelleneinträge angezeigt welche das ausgewählte Element repräsentieren.</li>
+      <li>Hier kann angegeben werden aufgrund welcher Spalten die Grafik erstellt werden soll.</li>
+      <li>Hier kann die Sortierung bestimmt werden.</li>
+      <li>Hier kann der Grafiktyp gewählt werden. vlnr: Bar-Chart, Line-Chart, Pie-Chart. Einschränkungen: Line-Charts können nur für X-Achsen mit numerischen Typen oder Datum/Zeit gewählt werden. Die Multichart Spalte kann nicht für Pie Charts gewählt werden.</li>
+      <li>Nachdem änderungen in der Maske vorgenommen wurden, kann die Grafik mit dem Update-Knopf aktualisiert werden.</li>
+      <li>Unter der Grafik erscheint die Erstellungszeit der Grafik. Zum Teil werden die Daten zwischengespeichert. Um die Daten und die Grafik neu zu generieren, den Reload Knopf verwenden.</li>
+    </ol>
+    <h3>Chart Typen Übersicht</h3>
+
+    <table border=1>
+	<tr>
+	  <th>Typ</th>
+	  <th>2 Dim.</th>
+	  <th>3 Dim.</th>
+	  <th>4 Dim.</th>
+	</tr>
+	<tr>
+	  <th>Spalten</th>
+	  <td>date</td>
+	  <td>date,level</td>
+	  <td>date,level,facility</td>
+	</tr>
+	<tr>
+	  <td>Pie</td>	  
+	  <td><a href="images/help/pie-chart-1.png"><img width="300" src="images/help/pie-chart-1.png"/></a>
+	  <td><a href="images/help/pie-chart-2.png"><img width="300" src="images/help/pie-chart-2.png"/></a>
+	  <td>-</a>
+	</tr>
+	<tr>
+	  <td>Bar</td>	  
+	  <td><a href="images/help/bar-chart-1.png"><img width="300" src="images/help/bar-chart-1.png"/></a>
+	  <td><a href="images/help/bar-chart-2.png"><img width="300" src="images/help/bar-chart-2.png"/></a>
+	  <td><a href="images/help/bar-chart-3.png"><img width="300" src="images/help/bar-chart-3.png"/></a>
+	</tr>
+	<tr>
+	  <td>Line</td>	  
+	  <td><a href="images/help/line-chart-1.png"><img width="300" src="images/help/line-chart-1.png"/></a>
+	  <td><a href="images/help/line-chart-2.png"><img width="300" src="images/help/line-chart-2.png"/></a>
+	  <td><a href="images/help/line-chart-3.png"><img width="300" src="images/help/line-chart-3.png"/></a>
+	</tr>
+	<tr>
+	  <td>Bar Stacked</td>	  
+	  <td>-</a>
+	  <td><a href="images/help/bar-stacked-chart-2.png"><img width="300" src="images/help/bar-stacked-chart-2.png"/></a>
+	  <td><a href="images/help/bar-stacked-chart-3.png"><img width="300" src="images/help/bar-stacked-chart-3.png"/></a>
+	</tr>
+	<tr>
+	  <td>Line Stacked</td>	  
+	  <td>-</a>
+	  <td><a href="images/help/line-stacked-chart-2.png"><img width="300" src="images/help/line-stacked-chart-2.png"/></a>
+	  <td><a href="images/help/line-stacked-chart-3.png"><img width="300" src="images/help/line-stacked-chart-3.png"/></a>
+	</tr>
+    </table>
+
+    <p></p>
+    <h2><a name="report_template"><img src="images/flat-theme/edit.png"/> Report Template</a></h2>
+    <h3>Erstellen</h3>
+    <p>Im Menu Reporting -> Report Template -> <a href="report_templates/new">New...</a></p>
+    <p><img src="images/help/new_report_template.jpg"></p>
+    <p>Es erscheint folgende Maske:</p>
+    <p><img src="images/help/new_report_template_maske.jpg"></p>
+    <ol>
+      <li>Hier kann der Report beschrieben werden. Bei Title kann der Name angegeben werden welcher in den Emails als Subject erscheinen soll.</li>
+      <li>Hier wird das eigentliche Template in HTML eingegeben. Die Werte, welche unten am Textfeld angegeben sind, werden beim Report erstellen ersetzt.</li>
+      <li>View hat keinen Einfluss auf die Erstellung eines Reports. Sie wird nur für Plausibilitäts-Prüfungen verwendet und kann auch leer sein. Wenn ein Wert eingefügt ist, dann können nur Charts und Tables ausgewählt werden, welche auf die angegebene View anwendbar sind.</li>
+      <li>Charts und Tables können erst hinzugefügt werden wenn das ReportTemplate einmal gespeichert wurde.</li>      
+    </ol>
+    
+    <h3>Hinzufügen von Charts und Tables</h3>
+    <p>Bei der Ansicht eines Report-Templates können nun die Charts angegeben werden.</p>
+    <p><img src="images/help/show_report_template.jpg"/></p>
+    <ol>
+      <li>Hier kann ein Chart ausgewählt und hinzugefügt werden.</li>
+      <li>Hier kann eine Voransicht mit Zufällig generierten Daten angezeigt werden.</li>
+      <li>Hier kann eine Voransicht mit Daten aus der oberhalb angegebenen Datasource und Time Range erstellt werden.</li>
+      <li>Hier kann ein Report mit Daten aus der oberhalb angegebenen Datasource und Time Range erstellt werden. Der Report wird dann gespeichert und erscheint unter <a href="reports">Reports</a></li>
+    </ol>
+
+    <h2><a name="report"><img src="images/flat-theme/gkrellm.png"/> Report</a></h2>
+    <h3>Manuell erstellen</h3>
+    <table>
+	<tr>
+	  <th>Data Set</th>
+	  <th></th>
+	  <th>Report Template</th>
+	  <th></th>
+	  <th>Report</th>
+	</tr>
+	
+	<tr>
+	  <td style="text-align:center;"><img src="images/flat-theme/smallcal.png"/></td>
+	  <td><img src="images/flat-theme/edit_add.png" height="20"/></td>
+	  <td style="text-align:center;"><img src="images/flat-theme/edit.png"/></td>
+	  <td><img src="images/flat-theme/tab_right.png" height="20"/></td>
+	  <td style="text-align:center;"><img src="images/flat-theme/gkrellm.png"/></td>
+	</tr>
+    </table>
+    <p>Das gewünschte ReportTemplate aus Menu auswählen:</p>
+    <p><img src="images/help/select_report_template.jpg"/></p>
+    <p>Es erscheint die Detailansicht des Report-Templates mit folgender Maske:</p>
+    <p><img src="images/help/render_report_template.jpg"/></p>
+    <ol>
+      <li>Die View für das Data-Set auswählen.</li>
+      <li>Die Zeitspanne für das Data-Set eingeben.</li>
+      <li>Knopf "Save as Report" betätigen.</li>
+    </ol>
+    <p>Es sollte dann nach einiger Zeit der Report angezeigt werden. Wenn wieder die Detail-Anzeige des Report-Templates erscheint, Fehlermeldung beachten.</p>
+
+
+
+    <h2><a name="sentinel"><img src="images/police_man_ganson.png" width="60" /> Sentinel</a></h2>
+    <p>Sentinel Editieren</p>
+    <p><img src="images/help/edit_sentinel.jpg"></p>
+    <ol>
+      <li>Hier kann angegeben, was bei der Ausführung dieses Sentinels generiert werden soll. Der Sentinel ist ausgeschaltet wenn hier disabled gewählt wird.</li>
+      <li>Hier wird angegeben in welchen Intervallen dieser Sentinel ausgeführt wird. Bitte konsultieren Sie die Online-Hilfe für mehr Details: <img src="images/help/help_button.jpg"> dann <img src="images/help/cron_interval_help.jpg"></li>
+      <li>Hier kann die Email-Versendung ein oder ausgeschaltet werden. Das Email wird an die in Mail to definerte Adresse versendet.</li>
+      <li>Geben sie hier die "Schwelle" an, ab wann die in 1. ausgewählte Aktion ausgelöst werden soll. D.h. wenn die Anzahl Zeilen den angegebenen Wert übersteigt, wird ein Report und/oder Alarm generiert und ggf. eine Email verschickt.</li>
+      <li>Hier wird die View für das Daten Set definiert.</li>
+      <li>Hier wird die Zeitspanne für die zu selektierenden Daten angegeben.</li>
+      <li>Hier werden die anzuwendenden Filter für die View angegeben. (Kommaseparierte Liste)</li>
+      <li>Hier wird das Alarm-Level angegeben, wenn ein Alarm generiert werden soll.</li>
+      <li>Hier wird das Report-Template angegeben, wenn ein Report generiert werden soll.</li>
+    </ol>
+    
+
+    <h3><a name="report_generate">Periodische Reporte generieren</a></h3>
+    <table>
+	<tr>
+	  <th>Data Set</th>
+	  <th></th>
+	  <th>Report Template</th>
+	  <th></th>
+	  <th>Sentinel</th>
+	  <th></th>
+	  <th>Report</th>
+	</tr>
+	
+	<tr>
+	  <td style="text-align:center;"><img src="images/flat-theme/smallcal.png"/></td>
+	  <td><img src="images/flat-theme/edit_add.png" height="20"/></td>
+	  <td style="text-align:center;"><img src="images/flat-theme/edit.png"/></td>
+	  <td><img src="images/flat-theme/edit_add.png" height="20"/></td>
+	  <td style="text-align:center;"><img src="images/police_man_ganson.png" width="60" /></td>
+	  <td><img src="images/flat-theme/tab_right.png" height="20"/></td>
+	  <td style="text-align:center;"><img src="images/flat-theme/gkrellm.png"/></td>
+	</tr>
+    </table>
+    
+    <p>Damit periodisch ein Report generiert wird, muss ein Sentinel mit folgenden Angaben erstellt werden (vgl. Sentinel Erstellen):</p>
+    <ul>
+      <li>Bei 1: Action = report</li>
+      <li>Bei 2: Cron interval = GEWÜNSCHTES INTERVAL<br>
+	Zum Beispiel einmal täglich um 17:15 Uhr: 15 17 * * *</li>
+      <li>Bei 4: Threshold = GEWÜNSCHTEN WERT<br>
+	Normalerweise 0</li>
+      <li>Bei 5,6,7: Gewünschte View, Time Range und Filter auswählen</li>
+      <li>Bei 9: Das Report Template auswählen</li>
+    </ul>
+    
+    <h3><a name="alarm_generate">Alarme generieren</a></h3>
+    <table>
+	<tr>
+	  <th>Data Set</th>
+	  <th></th>
+	  <th>Sentinel</th>
+	  <th></th>
+	  <th>Alarm</th>
+	</tr>
+	
+	<tr>
+	  <td style="text-align:center;"><img src="images/flat-theme/smallcal.png"/></td>
+	  <td><img src="images/flat-theme/edit_add.png" height="20"/></td>
+	  <td style="text-align:center;"><img src="images/police_man_ganson.png" width="60" /></td>
+	  <td><img src="images/flat-theme/tab_right.png" height="20"/></td>
+	  <td style="text-align:center;"><img src="images/flat-theme/bell.png"/></td>
+	</tr>
+    </table>
+
+    <p>Damit periodisch Alarme generiert wird, muss ein Sentinel mit folgenden Angaben erstellt werden (vgl. Sentinel Erstellen):</p>
+    <ul>
+      <li>Bei 1: Action = alarm</li>
+      <li>Bei 2: Cron interval = GEWÜNSCHTES INTERVAL<br>
+	Zum Beispiel einmal täglich um 17:15 Uhr: 15 17 * * *</li>
+      <li>Bei 4: Threshold = GEWÜNSCHTEN WERT<br>
+	Normalerweise 0</li>
+      <li>Bei 5,6,7: Gewünschte View, Time Range und Filter auswählen</li>
+      <li>Bei 8: Alarm Level auswählen</li>
+    </ul>
+    
+    <h3>Alarm mit Report generieren</h3>
+    <table>
+	<tr>
+	  <th>Data Set</th>
+	  <th></th>
+	  <th>Report Template</th>
+	  <th></th>
+	  <th>Sentinel</th>
+	  <th></th>
+	  <th>Alarm mit Report</th>
+	</tr>
+	
+	<tr>
+	  <td style="text-align:center;"><img src="images/flat-theme/smallcal.png"/></td>
+	  <td><img src="images/flat-theme/edit_add.png" height="20"/></td>
+	  <td style="text-align:center;"><img src="images/flat-theme/edit.png"/></td>
+	  <td><img src="images/flat-theme/edit_add.png" height="20"/></td>
+	  <td style="text-align:center;"><img src="images/police_man_ganson.png" width="60" /></td>
+	  <td><img src="images/flat-theme/tab_right.png" height="20"/></td>
+	  <td style="text-align:center;"><img src="images/flat-theme/bell.png"/><img src="images/flat-theme/gkrellm.png"/></td>
+	</tr>
+    </table>
+    
+    <p>Damit periodisch Alarme generiert wird, muss ein Sentinel mit folgenden Angaben erstellt werden (vgl. Sentinel Erstellen):</p>
+    <ul>
+      <li>Bei 1: Action = alarm_and_report</li>
+      <li>Bei 2: Cron interval = GEWÜNSCHTES INTERVAL<br>
+	Zum Beispiel einmal täglich um 17:15 Uhr: 15 17 * * *</li>
+      <li>Bei 4: Threshold = GEWÜNSCHTEN WERT<br>
+	Normalerweise 0</li>
+      <li>Bei 5,6,7: Gewünschte View, Time Range und Filter auswählen</li>
+      <li>Bei 8: Alarm Level auswählen</li>
+      <li>Bei 9: Das Report Template auswählen</li>
+    </ul>
+
+    <h2><a name="alarm">Alarm</a></h2>
+    <h3>Ampel</h3>
+    <p><img src="images/help/ampel.jpg"/></p>    
+    <ul>
+      <li>Grün: Es gibt keine zu bearbeitenden Alarme.</li>
+      <li>Orange: Es gibt zu bearbeitende Alarme mit Level error oder warning.</li>
+      <li>Rot: Es gitb zu bearbeitende Alarme mit Level emergency, alert oder critical.</li>
+    </ul>
+    <h3>Alarm Liste</h3>
+    <p>Auf <a href="prisma/overview">Overview</a> Seite oder im Header auf die Ampel klicken.</p>
+    <p><img src="images/help/ampel.jpg"/></p>
+    <p>Es erscheint folgende Seite:</p>
+    <p><img src="images/help/alarm_list.jpg"></p>
+    <ol>
+      <li>Hier sind die aktuellen (zu bearbeitenden) Alarme sortiert nach Level Zeit.</li>
+      <li>Hier sind die zuletzt bestätigten alarme.</li>
+      <li>Hier sind die aktuellen Alarme welche nur zu Informationszwecken eingerichtet wurden. (Alarm Level &lt;= 5: notice)</li>
+    </ol>
+
+    <h3>Details</h3>
+    <p><img src="images/help/alarm_detail.jpg"/></p>
+    <ul>
+      <li>Created at: Wann der Alarm ausgelöst wurde.</li>
+      <li>Data: Die Datensätze welche den Alarm ausgelöst haben in Textform.</li>
+      <li>Report: Falls vorhanden, Link auf zugehörigen Report.</li>
+      <li>Sentinel: Falls vorhanden, Sentinel welcher den Alarm ausgelöst hat. Hier ist auch die Beschreibung des Alarmes und allfällig auszulösende Massnahmen enthalten.</li>
+    </ul>
+    <h3>Acknowlege</h3>
+    <p>In der Alarmliste auf edit klicken:</p>
+    <p><img src="images/help/alarm_edit_click.jpg"></p>
+    <p>Es erscheint folgende Maske:</p>
+    <p><img src="images/help/alarm_edit.jpg"></p>
+    <ul>
+      <li>Kommentar einfügen, warum der Alarm ausgelöst wurde und weshalb der Alarm acknowledged werden kann.</li>
+      <li>Acknowledge checkbox betätigen.</li>
+      <li>Update drücken.</li>
+    </ul>
+
+    <h2><a name="database">Database</a></h2>
+    <h3>Datenbank Details anzeigen</h3>
+    <p><img src="images/help/database_status.jpg"/></p>
+    <h3>Unnötige (zu lange laufende) Queries abbrechen.</h3>
+    <p><img src="images/help/database_detail.jpg"/></p>
+    <ol>
+      <li>Mit "Kill" kann die angezeigte Query abgebrochen werden.</li>
+    </ol>
+    
+
+    <hr>
+    <address><a href="mailto:flavio.pellanda@logintas.ch">Flavio Pellanda</a></address>
+<!-- Created: Mon Jul  7 13:56:19 CEST 2008 -->
+<!-- hhmts start -->
+Last modified: Tue Jul  8 01:02:53 CEST 2008
+<!-- hhmts end -->
+  </body>
+</html>

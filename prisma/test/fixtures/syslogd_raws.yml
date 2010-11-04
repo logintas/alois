@@ -1,0 +1,27 @@
+<% i = 0 %>
+<% 
+  DATES = { "today" => Date.today.to_s, "yesterday" => (Date.today - 1).to_s } unless defined?(DATES)
+%>
+
+<%
+SyslogdRaw::LEVELS.each { |level| 
+  SyslogdRaw::FACILITIES.each { |facility|
+    DATES.each { |date_name,date_value|
+
+%>
+
+log_<%= "#{date_name}_#{level}_#{facility}" %>:
+ id: <%= i += 1 %>
+ ip: "192.168.123.123"
+ host: "<%= level %>.example.com"
+ facility: "<%= facility %>"
+ priority: "<%= level %>"
+ level: "<%= level %>"
+ tag: "0" 
+ date: <%= date_value %> 
+ time: "10:30:20"
+ program: "0"
+ created_at: NULL
+ msg: "<%= "log_#{date_name}_#{level}_#{facility}" %>"
+ 
+<% } } } %>

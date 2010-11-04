@@ -1,0 +1,33 @@
+<%= title("#{h @controller.controller_name.singularize.humanize} - #{h @table.name}") %>
+
+<div class="page">
+<table class="form">
+  <tr>
+    <th class="form_header" colspan="2">Table</th>
+  </tr>
+  <% for col in @table.class.columns %>
+    <tr>
+      <th><label for="table_#{col.name}"><%= col.human_name %></label></th>
+      <td><%=h @table.send(col.name) %></td>
+    </tr>
+  <% end %>
+
+  <%= post_attributes_show %>
+  <tr>
+    <td class="button-bar" colspan="2"><%= button_to "Edit", :action => :edit, :id => @table %><%= button_to "Delete", { :action => :destroy, :id => @table }, :confirm => 'Are you sure?' %><%= button_to "List all", :action => :list %></td>
+  </tr>
+  <tr>
+    <th class="form_header" colspan="2">Render</th>
+  </tr>
+  <tr>
+    <th>Select datasource to render with:</th><td>
+<% form_tag :action => :render_table, :id => @table do %>
+<%= datasource_fields {|ds| @table.applyable?(ds) and ds.table.column_names.include?("date")}%>	
+Text: <%= radio_button_tag 'type','text',true %>
+CSV: <%= radio_button_tag 'type','csv' %>
+<%= submit_tag "Render"%>
+<% end %>
+    </td>
+  </tr>
+</table>
+</div>

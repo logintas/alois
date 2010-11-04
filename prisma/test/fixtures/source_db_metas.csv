@@ -1,0 +1,4 @@
+id, process_type, start, current, total, todo, count, raw_class_name, execute_once, waiting_time, finished, created_at, updated_at
+1,"--- :lasts",\N,\N,0,\N,100,"Prisma::SyslogdRaw",0,2,1,"2007-04-30 22:18:34","2007-04-30 22:18:34"
+2,\N,\N,\N,\N,\N,\N,\N,\N,\N,0,"2007-04-30 22:18:34","2007-04-30 22:18:34"
+3,"--- :lasts",721,721,80,0,100,"Prisma::SyslogdRaw",0,2,1,"2007-04-30 22:18:40","2007-04-30 22:19:52"

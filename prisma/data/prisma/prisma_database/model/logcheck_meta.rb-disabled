@@ -1,0 +1,202 @@
+  class LogcheckMeta < ActiveRecord::Base
+
+    description "Logcheck Results"
+    #sources ["PureMeta", "LogMeta"]
+    
+    def reproducable?
+      false
+    end
+
+    def initialize(meta,cracking,violations,paranoid,server,workstation)
+      super(meta)
+      self.cracking = cracking
+      self.violations = violations
+      self.paranoid= paranoid
+      self.server=server
+      self.workstation=workstation
+      self.save
+    end
+    
+    def self.create_meta(meta_message, message)
+      ensure_config()
+      matched_one = false
+      cracking,violations,paranoid,server,workstation = nil
+      $log.debug "match #{matched_one.to_s}" if $log.debug?
+      $levels.each{ |levelname|
+	res = match($level_definitions, levelname, message.msg)
+	res_ign = match($level_ignores, levelname, message.msg)
+	if  res_ign != ""
+	  $log.debug "logcheck ignore found #{levelname} '#{res_ign}'" if $log.debug?
+	  eval "#{levelname} = res + \" - \" + res_ign" if res_ign != ""
+	else
+	  eval "#{levelname} = res" if res_ign == ""
+	end
+	tmp = eval "#{levelname}"
+	#$log.debug "#{levelname} is now #{tmp}" if $log.debug?
+	matched_one = ((res!="") or matched_one)
+      }
+      
+      
+      $profiles.each { |profilename|
+	res = match($profile_ignores, profilename, message.msg)
+	eval "#{profilename} = res"
+	tmp = eval "#{profilename}"
+	$log.debug "#{profilename} is now #{tmp}" if $log.debug?
+	matched_one = ((res!="") or matched_one)
+      }		
+      if matched_one
+	$log.debug "Logcheck matched!"  if $log.debug?
+      end
+      #matched_one 
+
+      return self.new.prisma_initialize(meta_message,cracking,violations,paranoid,server,workstation) if matched_one
+      return nil
+    end
+            
+    def send_ossim_event?
+      true
+    end
+    
+    #--------------- logcheck part ----------
+    #    attr_accessor(:cracking,:violations,:paranoid,:server,:workstation)
+    
+    $basedir = "/etc/logcheck/"
+    
+    $profiles = ["paranoid", "server", "workstation"]
+    $levels = ["cracking", "violations"]
+    
+    $plugin_ids = {"cracking" => 5001, "violations" => 5002}
+    $profile_priority = {"paranoid" => 1, "server" => 3, "workstation" => 5}
+    
+    $sid_count = 0
+    $sids = {}
+    $rules = {}
+    
+    $level_definitions = {}
+    $level_ignores = {}
+    $profile_ignores = {}
+
+    $initialized = false
+    
+    
+    def self.ensure_config()
+      return unless $initialized
+      $initialized = true
+      $log.debug "Importing logcheck rules from #{$basedir}" if $log.debug?
+      i = 0
+      $levels.each { |levelname|
+	i += addRules($level_definitions,levelname,"#{$basedir}#{levelname}.d",true)
+	i += addRules($level_ignores,levelname,"#{$basedir}#{levelname}.ignore.d")
+      }
+      $profiles.each { |profilename| 
+	i += addRules($profile_ignores,profilename,"#{$basedir}ignore.d.#{profilename}")
+      }
+      $log.debug "logcheck imported #{i} rules" if $log.debug?
+    end
+    
+    def self.addRules(dict, name, searchpath, add_sids = false)
+      $log.debug("Add rules #{dict} #{name} in '#{searchpath}'.") if $log.debug?
+      i = 0
+      $sids[name] = {} if $sids[name] == nil and add_sids
+      dict[name] = {} if dict[name] == nil
+      dir = Pathname.new(searchpath)
+      if dir.exist? then
+	typefiles = Dir.glob(dir.join("*"))
+	typefiles.each { | typefile | 
+	  $log.debug("Opening logcheck file '#{typefile}'") if $log.debug?
+	  typename = File.split(typefile)[1]
+	  a = []
+	  for line in IO.readlines(typefile)	
+	    if line != "\n" then
+	      $log.debug("Importing rule '#{line}'.") if $log.debug?
+	      a.push(line)
+	    end
+	  end
+	  dict[name][typename] = a 
+	  if add_sids then
+	    $sid_count += 1
+	    $sids[name][typename] = $sid_count
+	  end
+	  i+= dict[name][typename].length
+	}
+      else
+	$log.warn("Directory '#{searchpath}' does not exist.") if $log.warn?
+      end
+      return i
+    end
+    
+    def self.match(dict, name, message)
+      #      $log.debug "logcheck matching #{name}" if $log.debug?
+      res = ""
+      event_rule = dict[name]
+      if event_rule.nil? then return "" end
+      for (event_name, rules) in event_rule
+	for rule in rules
+	  begin
+	    if !Regexp.new(rule.strip).match(message).nil? then
+	      $log.info "logcheck #{message} matched #{rule} in #{name}.#{event_name}" if $log.info?
+	      res += "," if res != ""
+	      res += event_name
+	    end
+	  rescue
+	    $log.warn "logcheck could not check '#{rule}' because '#{$!}'" if $log.warn?
+	    for line in $!.backtrace
+	      $log.debug "#{line}" if $log.debug?
+	    end	
+	    #rules[rules.index[rule]] = "DISABLED RULE DUE TO ERROR"
+	  end
+	end
+      end
+      #$log.debug "logcheck #{name} result is '#{res}'" if $log.debug?
+      return res
+    end
+    
+    def send_ossim_event(meta,message)
+      self.class.ensure_config()
+      $profiles.each { |profilename|
+      profile_ignore_result = eval "self.#{profilename}"
+	if profile_ignore_result != "" then
+	  # the profile says, ignore that event	      
+	  $log.debug "logcheck ignore #{profilename} because matched rules #{profile_ignore_result}" if $log.debug?
+	else
+	  # if there is a levelmatching send that level
+	  $levels.each { |level|
+	  result = eval "self.#{level}"
+	    $log.debug "logcheck ignore #{level} because #{result}" if $log.debug? and result =~ /\-/
+	    if !(result == "") && !(result =~/\-/) then
+	      for eventname in result.split(",")
+		plugin_id = $plugin_ids[level]
+		priority = $profile_priority[profilename]
+		sid = $sids[level][eventname]
+		self.class.send_ossim_event_base(meta,message, self, plugin_id,sid, nil, 1, priority,
+				      nil, nil, nil, nil,"#{level}.#{eventname}") 
+	      end
+	    end
+	  }
+	end
+    }
+    end
+    
+         
+    def self.update_plugin_ids() 
+      self.ensure_config()
+      
+      pluginidcount = 5000
+      for (name,id) in $plugin_ids
+	pluginidcount += 1
+	plugin = nil
+	plugin = OssimPlugin.new if !OssimPlugin.exists?(pluginidcount)
+	plugin = OssimPlugin.find(pluginidcount) if plugin == nil
+	plugin.id = pluginidcount
+	plugin.type = 1
+	plugin.name = "logcheck_#{name}"
+	plugin.description = "LogCheck events from syslog-ng client"
+	plugin.save
+	for (rulename, rule) in $level_definitions[name]
+	  pluginsid = OssimPluginSid.find_or_create_by_plugin_id_and_sid(plugin.id,$sids[name][rulename])
+	  p OssimPluginSid.update_all(["category_id = ?, class_id = ?, priority = ?, reliability = ?, name = ?", 101,103,1,2,rulename], ["plugin_id=? and sid = ?",plugin.id, $sids[name][rulename]])
+	end
+      end
+      
+    end
+  end

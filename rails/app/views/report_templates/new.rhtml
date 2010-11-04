@@ -1,0 +1,17 @@
+<div id="page">
+
+  <table class="form">
+
+<% form_tag :action => 'create' do %>
+    <tr>
+      <th class="form_header" colspan="2">New Report Template</th>
+    </tr>
+  <%= render :partial => 'form' %>
+    <tr>
+      <td class="button-bar" colspan="2">  <%= submit_tag "Create" %> <%= submit_tag "Cancel" %></td>
+    </tr>
+<% end %>
+
+    <%= post_attribute_new %>
+  </table>
+</div>

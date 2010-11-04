@@ -1,0 +1,46 @@
+<%= title "Ip Range - #{@ip_range.name}" %>
+  
+<div id="page">
+<table class="form">
+    <tr>
+      <th class="form_header" colspan="2">Ip Range</th>
+    </tr>
+  <tr>
+    <th><label for="ip_range_name">Name</label></th>
+    <td><%=h @ip_range.name %></td>
+  </tr>
+  <tr>
+    <th><label for="ip_range_description">Description</label></th>
+    <td><%=h @ip_range.description %></td>
+  </tr>
+  <tr>
+    <th><label for="ip_range_from_ip">From IP</label></th>
+    <td><%=h @ip_range.from_ip %></td>
+  </tr>
+  <tr>
+    <th><label for="ip_range_to_ip">To IP</label></th>
+    <td><%= @ip_range.to_ip %></td>
+  </tr>
+  <tr>
+    <th><label for="ip_range_netmask">Netmask</label></th>
+    <td><%=h @ip_range.netmask %></td>
+  </tr>
+  <tr>
+    <th><label for="ip_range_enabled">Enabled</label></th>
+    <td><%=h @ip_range.enabled ? "Yes" : "No" %></td>
+  </tr>
+
+  <%= post_attributes_show %>
+    
+    <tr>
+      <td class="button-bar" colspan="2">
+	<%= link_to 'Edit', edit_ip_range_path(@ip_range) %> |
+	<%= link_to 'List all', ip_ranges_path %>
+<!--        <%= button_to 'Edit',  :action => "edit", :id => @ip_range %>
+        <%= button_to 'List all', ip_range_path %> -->
+      </td>
+    </tr>
+  </table>
+</div>
+
+

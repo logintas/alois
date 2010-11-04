@@ -1,0 +1,27 @@
+<%= title("#{h @controller.controller_name.singularize.humanize} - #{h @current_filter.name}") %>
+
+<div id="page">
+<table summary="Filter content" class="form">
+    <tr>
+      <th class="form_header" colspan="2">Filter</th>
+    </tr>
+  <tr>
+    <th>Description</th><td><%=h @current_filter.description %></td>
+  </tr>
+  <tr>
+    <th>Rules</th>
+    <td><%= render :partial => "show_conditions" %></td>
+  </tr>
+  <tr>
+    <th>Serialized</th>
+    <td><pre><%=h @current_filter.to_zip %></pre></td>
+  </tr>
+    <tr>
+      <td class="button-bar" colspan="2">
+        <%= button_to 'Edit filter', :action => 'edit', :id => @filter %>
+        <%= button_to 'List all filters', :action => 'list' %>
+      </td>
+    </tr>
+
+</table>
+</div>	

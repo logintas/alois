@@ -1,0 +1,30 @@
+#!/usr/bin/ruby
+require "libisi"
+init_libisi
+optparse
+initialize_rails
+
+print "Connection check:"
+ret = subclasses_of(ActiveRecord::Base).map{ |klass| 
+  begin
+    print "\n  Checking class #{klass.name}..."
+    c = klass.connection
+    c.reconnect!
+    print "OK"
+    nil
+  rescue  
+    print "FAIL"
+    "  #{$!.message}\n"
+  end
+}.uniq.compact
+
+if ret.length == 0
+  print "\nAll connections active.\n"
+  exit 0
+else
+  print "\nConnection(s) failed with:\n"
+  for msg in ret 
+    print msg
+  end
+  exit 1
+end

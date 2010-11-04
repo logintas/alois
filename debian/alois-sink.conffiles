@@ -1,0 +1,3 @@
+/etc/cron.d/alois-sink
+/etc/alois/munin-sink.conf
+/etc/init.d/prisma-mysqlpiped

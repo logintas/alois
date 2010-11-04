@@ -1,0 +1,10 @@
+<% @report_template.charts.each{|@chart| %>
+<%= @chart.name %> <%= link_to "Remove", :action => "remove_chart", :id => @report_template, :chart => @chart %><br>
+<% } %>
+
+<% form_tag :action => :add_chart, :id => @report_template do %>
+<%= select_tag('chart', options_for_select(
+	Chart.charts_for_datasource(@report_template.view).map {|s| [s.name,s.id] 
+ 	}.sort{|x,y| x[0]<=>y[0]}), {:include_blank => true}) %>
+<%= submit_tag "Add"%>
+<% end %>

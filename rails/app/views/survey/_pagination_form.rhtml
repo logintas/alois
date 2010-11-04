@@ -1,0 +1,34 @@
+<% if @records %>
+<% will_paginate(@records, :param_name => "page_number") %>  <% page_entries_info(@records) %>
+
+
+<% form_remote_tag :update => 'survey_table',
+	:before => "table_reload()",
+	:url => {:action => 'list_inline', :state_id => @state_id} do %>
+
+
+
+Displaying <%= text_field_tag "paging_size", (@records.per_page), :size => 5,:style => "text-align:right;" %> items per page.
+Current page is <%= link_to_remote  image_tag("left.png", :alt => "Previous #{pluralize((@records.per_page),'record')}") , :update => 'survey_table', 
+	:before => "table_reload()",
+	:url => {:action => 'list_inline', 
+			:state_id => @state_id,
+			:page_number => (@records.previous_page)} if (@records.previous_page) %>
+<%= text_field_tag "page_number", (@records.current_page), :size => 4, :style => "text-align:right;" %> 
+<%= link_to_remote image_tag("right.png",:alt=>"Next #{pluralize((@records.per_page),'record')}"), :update => 'survey_table',
+	:before => "table_reload()",
+	 :url => {:action => 'list_inline', 
+			:state_id => @state_id,
+			:page_number => (@records.next_page)} if (@records.next_page) %>
+<% if count_fast %>
+of <%= @records.total_pages %>.
+<% end %>
+Top item has offset <%= text_field_tag "page_offset", @page_offset, :size => 5 %>. 
+
+  <%= submit_tag 'Go' %>
+<% end %>
+<% end %>
+
+
+
+

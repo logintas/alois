@@ -1,0 +1,58 @@
+= Installation =
+
+== Configuration ==
+Two config files:
+ * default_environment.rb
+
+== Local usage ==
+/!\ Probably not working yet /!\
+TODO: Create default sqlite DB
+TODO: Create script to fill sqlite db with local logs
+TODO: compile java
+TODO: List required packages (eg java or jfreechart)
+
+You can use alois without installing antything. Beacause
+ALOIS is a rails application you can simply use the common
+rails commands to start a local webserver on port 3000. All
+you need is a working rubygems version installed on your
+system.
+
+# change into rails directory
+cd <<svn root>>/rails
+
+# Install gems (if not executed as root, gems will be in ~/.gem)
+rake gems:install
+
+# to start server
+./script/server
+
+== Debian installation ==
+/!\ Probably not working yet /!\
+TODO: Create public debian repository for gems
+
+# ADD TO /etc/apt/preferences
+Package: libcsspool-ruby1.8
+Pin: version 0.2.6
+Pin-Priority: 1001
+
+apt-get install rubygems
+dpkg  --install --force-all /var/cache/apt/archives/rubygems*_1.3.5-1rel_all.deb
+gem install --no-rdoc -v=2.3.2 rails
+
+
+deb http://www.backports.org/debian lenny-backports main contrib non-free
+apt-get install libapache2-mod-passenger
+a2enmod passenger
+ln /usr/share/alois/www/public /var/www/alois -s
+
+# SELECT SUN JVM
+update-alternatives --config java
+
+alois-setup
+
+
+# /etc/sudoers
+# Alois
+# =====
+# Allow the web-frontend to set cronjobs
+www-data    ALL=(prisma)    NOPASSWD:/usr/bin/prisma-sentinel --generate-crontab

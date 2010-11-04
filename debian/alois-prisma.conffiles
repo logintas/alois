@@ -1,0 +1,4 @@
+/etc/prisma/environment.rb
+/etc/prisma/environment_production.rb
+/etc/prisma/prisma_database.yml
+/etc/prisma/pumpy_database.yml

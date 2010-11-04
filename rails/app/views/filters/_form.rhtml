@@ -1,0 +1,31 @@
+<div id="edit_filter">
+<%= error_messages_for 'current_filter', :header_message => "" %><br>
+<% form_remote_tag :update => 'edit_filter', 
+			:url => {:controller=> 'filters', 
+				:action => 'index', 
+				:state_id => @state_id} do %>
+  <table class="form" style="border: none">
+    <tr>
+      <th style="text-align: left; width: 30%;">Column</th>
+      <th style="text-align: left; width: 10;">Operator</th>
+      <th style="text-align: left; width: 50%;">Value</th>
+      <th>&nbsp</th>
+    </tr>
+    <% @current_filter.conditions.each_with_index { |@condition,@condition_index|  %>
+      <tr>  
+        <%= render :partial => "/filters/condition" %>
+        <td><%= submit_to_remote "Send", "Delete", 
+  		:update => 'edit_filter', 
+  		:before => 'table_reload()',
+  :loaded => 'update_table()', 
+		:url => { :controller=> 'filters', 
+    			   :action => 'remove_condition', 
+    		           :condition_id => @condition_index, 
+    			    :state_id => @state_id} -%></td>
+      </tr>
+    <% } %>
+
+    <%= render :partial => "/filters/condition_form" %>
+  </table>
+<% end %>
+</div>

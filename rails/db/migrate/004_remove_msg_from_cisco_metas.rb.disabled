@@ -1,0 +1,30 @@
+class RemoveMsgFromCiscoMetas < ActiveRecord::Migration
+  class CiscoMeta < ActiveRecord::Base
+  end
+  class CicsoSessionMeta < ActiveRecord::Base
+  end
+
+  def self.up
+
+    CiscoMeta.find(:all, :conditions => "msg LIKE 'WebVPN session terminated: %' AND reason IS NULL").each { |m|
+      if m.msg =~ "WebVPN session terminated\: (.*)"
+	m.reason = $1
+	m.msg = nil
+	m.save
+
+	sm = CiscoSessionMeta.new
+	sm.session_type = "WebVPN"
+	sm.msg = "terminated"
+	sm.cisco_metas_id = m.id
+	sm.save
+      else
+	throw "Error while transforming WebVPN session terminated"
+      end
+    }
+    
+  end
+
+  def self.down
+    drop_table :test
+  end
+end

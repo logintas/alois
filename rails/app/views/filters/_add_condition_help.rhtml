@@ -1,0 +1,40 @@
+<%= help_title("Adding Conditions") %>
+<p>A condition consists of a column, operator and a 
+value.</p>
+
+<%= help_subtitle("Column") %>
+<p>Dropdown: You can select a column or ANY. ANY means that 
+the value compared with the selected operator must match for
+any column of the view. E.g. you can look for a existence of
+a word in any column.<br>
+The column is always ment to be the one from
+the current view, so you do not have to declare the
+table name.</p>
+
+<%= help_subtitle("Operator") %>
+<p>The operator generally have the same meaning as in SQL.
+There are two special operators:
+</p>
+
+<%= help_subsubtitle("SQL") %>
+<p>Use this operator if you want to type a sql statement by
+yourself. In this case the column will be ignored totally and
+you can enter the sql statement in the value textbox.<br>
+<%= help_notice("Be aware there will not be any semantic check in that case.") %></p>
+
+<%= help_subsubtitle("DATE") %>
+<p>If you select this operator you can enter the meaningful name
+for a date period into the value field. At the moment the following
+values are supported:
+<ul>
+  <% for name in DateCondition.get_date_descriptions %>
+    <li><%= name %></li>
+  <% end %>  
+</ul>
+</p>
+
+<%= help_subtitle("Value") %>
+<p>The value you want to compare with. Do not use any quotes
+for string or any value. The system can check the type of 
+the column and do the proper escapement.<br>
+<%= help_notice("You must take care of the escapements when using the SQL operator.") %></p>

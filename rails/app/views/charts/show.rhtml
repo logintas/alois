@@ -1,0 +1,38 @@
+<%= title("#{h @controller.controller_name.singularize.humanize} - #{h @chart.name}") %>
+
+<div class="page">
+<table class="form">
+  <tr>
+    <th class="form_header" colspan="2">Chart</th>
+  </tr>
+  <% for col in @chart.class.columns %>
+    <tr>
+      <th><label for="chart_#{col.name}"><%= col.human_name %></label></th>
+      <td><%=h @chart.send(col.name) %></td>
+    </tr>
+  <% end %>
+
+  <%= post_attributes_show %>
+
+  <tr>
+    <td class="button-bar" colspan="2"><%= button_to "Edit", :action => :edit, :id => @chart %><%= button_to "Delete", { :action => :destroy, :id => @chart }, :confirm => 'Are you sure?' %><%= button_to "List all", :action => :list %></td>
+  </tr>
+  <tr>
+    <th class="form_header" colspan="2">Render</th>
+  </tr>
+  <tr>
+    <th>Select datasource to render with:</th><td>
+<% form_tag :action => :render_chart, :id => @chart do %>
+       
+<%= select_tag('table', options_for_select(Prisma::Database.data_sources.select {|s|
+	  @chart.applyable?(s)
+	}.map {|s| 
+       [s.name,s.table_name]
+    }.sort{|x,y| (x[0] or "") <=> (y[0] or "")}), {:include_blank => true}) %>
+<%= submit_tag "Render"%>
+<% end %>
+    </td>
+  </tr>
+
+</table>
+</div>

@@ -1,0 +1,17 @@
+<div id="help">
+<%= help_title("Help about the help") %>
+<p>Probably you got here because a help page could not be found. Sorry for that. Maybe you can find the desired information somewhere under the following helps.</p>
+<p>
+<ul>
+<% lc = nil %>
+<% get_all_help_pages.each {|category,name,context,page| %>
+<% unless lc == category %>
+<% lc = category %>
+</ul><h2><%= context.humanize %></h2><ul>
+<% end %>
+<li><%= name %>: <%= link_to image_tag("goto.png"),:controller => 'help',:action => 'index',:context => context,:page => page %></li>
+<% } %>
+</ul>
+</p>
+
+</div>

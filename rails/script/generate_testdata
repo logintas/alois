@@ -1,0 +1,8 @@
+#!/usr/bin/ruby
+
+require 'pathname'
+require File.dirname(Pathname.new(__FILE__).realpath) + '/../config/boot'
+require File.dirname(Pathname.new(__FILE__).realpath) + '/../config/environment'
+
+p "Generated " + Prisma.generate_random_data.to_s + " records with archive"
+

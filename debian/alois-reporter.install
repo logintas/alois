@@ -1,0 +1,6 @@
+debian/tmp/etc/alois/apache2/apache.conf
+debian/tmp/etc/alois/apache2/alois.passwd
+debian/tmp/etc/alois/munin.conf
+
+debian/tmp/etc/logrotate.d/alois-prisma
+debian/tmp/etc/cron.d/alois-prisma

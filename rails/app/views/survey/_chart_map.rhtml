@@ -1,0 +1,24 @@
+<%= @chart_image_tag %>
+<%= @chart_image_map %>
+<% if @chart.data_date %>
+  Data generated: <%= @chart.data_date.strftime("%c") %>
+(<%= link_to_remote "Text", 
+	:before => "document.getElementById('chart_data').innerHTML = 'Loading Text. Please wait...<br>';",
+        :update => 'chart_data', 
+	:url => { :controller=> 'survey', :action => 'chart_data', :state_id => @state_id} %>,
+<%= link_to_remote "CSV", 
+	:before => "document.getElementById('chart_data').innerHTML = 'Loading CSV. Please wait...<br>';",
+        :update => 'chart_data', 
+	:url => { :controller=> 'survey', :action => 'chart_data', :state_id => @state_id, :type => "csv"} %>
+)
+<% end %>
+<% if @chart.image_date %>
+  Image generated: <%= @chart.image_date.strftime("%c") %>
+<% end %>
+
+<%= link_to_remote "Reload", 
+	:before => "table_reload()",
+        :update => 'survey_chart', 
+	:url => { :controller=> 'survey', :action => 'chart_inline', :state_id => @state_id, :recreate_data => true} %>
+
+<div id="chart_data">&nbsp;</div>

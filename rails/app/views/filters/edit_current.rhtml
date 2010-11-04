@@ -1,0 +1,6 @@
+<div id="edit_filter">
+<% form_remote_tag :update => 'edit_filter', :url => {:controller=> 'filters', :action => 'index', :id => @filter,:state_id => @state_id} do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Update' %>
+<% end %>
+</div>

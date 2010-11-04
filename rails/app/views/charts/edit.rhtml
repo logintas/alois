@@ -1,0 +1,22 @@
+<%= title "#{@controller.action_name.humanize} #{@controller.controller_name.singularize.humanize} - #{@chart.name}" %>
+
+<!-- leave that for function calls to this div -->
+<div id="log_table"></div>
+
+<% form_tag :action => 'update', :id => @chart, :state_id => @state_id do %>
+<div id="page">
+  <%= error_messages_for 'chart' %>
+  
+  <table class="form">
+    <tr>
+      <th class="form_header" colspan="2">Chart</th>
+    </tr>
+
+    <%= render :partial => "form" %>
+
+    <tr>
+      <td class="button-bar" colspan="2"><%= submit_tag "Save" %><%= submit_tag "Cancel" %></td>
+    </tr>
+  </table>
+</div>
+<% end %>

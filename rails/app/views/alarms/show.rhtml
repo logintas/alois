@@ -1,0 +1,83 @@
+<%= title("Alarm - #{@alarm.id}") %>
+
+<div class="page">
+<table class="form">
+  <tr>
+    <th class="form_header" colspan="2">Alarm</th>
+  </tr>
+
+  <tr>
+    <th><label for="alarm_id">ID</label></th>
+    <td><%=h @alarm.id %></td>
+  </tr>  
+  <tr>
+    <th><label for="alarm_created_at">Created At</label></th>
+    <td><%=h @alarm.created_at %></td>
+  </tr>  
+  <tr>
+    <th><label for="alarm_alarm_level">Alarm Level</label></th>
+    <td style="background-color:<%= @alarm.color %>;"><%=h @alarm.alarm_level %>: <%= @alarm.alarm_level_name %></td>
+  </tr>
+  <tr>
+    <th><label for="alarm_sentinel">Created by Sentinel</label></th>
+    <td><%= fobj(@alarm.sentinel) %>
+	<% if @sentinel = @alarm.sentinel %><br>
+	  <%=h @sentinel.description %>
+	<% end %>
+    </td>
+  </tr>
+  <tr>
+    <th><label for="sentinel_alarms">Active Aalrms of this Sentinel</label></th>
+    <td><% @sentinel.alarms.reject {|a| a.acknowledge}.each {|a| %>
+	<%=h a.created_at %>: <%= fobj(a) %><br>
+	<% } %>
+    </td>
+  </tr>
+
+  <tr><th style="text-align:center" colspan="2">Comment</th></tr>
+  <tr>
+    <th><label for="alarm_comment">Comment</label></th>
+    <td><%=h @alarm.comment %></td>
+  </tr>  
+  <tr>
+    <th><label for="alarm_process_state">Process State</label></th>
+    <td><%=h @alarm.process_state %></td>
+  </tr>  
+
+
+  <tr><th style="text-align:center" colspan="2">Data</th></tr>
+  <tr>
+    <th><label for="alarm_text">Text</label></th>
+    <td><pre><%=h @alarm.text rescue $! %></pre></td>
+  </tr>  
+  <tr>
+    <th><label for="alarm_link">Link</label></th>
+    <td><%= link_to "#{@alarm.sentinel.view.table_name} WHERE #{@alarm.conditions}",
+			:controller => "survey", :action => :list, 
+			:table => @alarm.sentinel.view.table_name,
+			:default_filter => @alarm.conditions %> </td>
+  </tr>  
+  <tr>
+    <th><label for="alarm_log">Log</label></th>
+    <td><pre><%=h @alarm.log %></pre></td>
+  </tr>  
+  <tr>
+    <th><label for="alarm_path">Path</label></th>
+    <td><%=h @alarm.path %></td>
+  </tr>  
+    
+  <tr>
+    <th><label for="alarm_report">Report</label></th>
+    <td><%= fobj(@alarm.report) %></td>
+  </tr>  
+  <tr>
+    <td class="button-bar" colspan="2"><%= button_to "Edit", :action => :edit, :id => @alarm %><%= button_to "List all", :action => :list %>
+
+<% form_tag :action => :send_to_email, :id => @alarm do %>
+ Send to alarm notification to email: <%= text_field_tag 'addresses' %>
+ <%= submit_tag "Send" %>
+<% end %>
+
+  </tr>
+</table>
+</div>

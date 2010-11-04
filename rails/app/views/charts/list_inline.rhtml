@@ -1,0 +1,33 @@
+<table>
+
+<th>Name</th>
+<th></th>
+<th><%= link_to_remote(image_tag("update.png", :alt => "Reload filter list"), :update => "filters", :url => {:controller => "filters", :action => "list_inline", :params=>@current_filter.get_params}) %>
+</th>
+ 
+
+<% for filter in @filters %>
+  <tr>
+   <td><%=h filter.send("name") %> </td>
+   <td><a href="<%= url_for :controller => "table/#{filter.table}", :action => 'list', :params => filter.get_params %>">Use</a>
+   <td><%= link_to_remote 'Destroy', :update => "filters", :url => {:controller => "filters", :action => 'destroy_inline', :id => filter }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+
+<%= link_to_remote("Previous page", :update => "filters", :url => {:controller => "filters", :action => "list_inline", :page => @filter_pages.current.previous }) if @filter_pages.current.previous %>
+
+<%= link_to_remote("next page", :update => "filters", :url => {:controller => "filters", :action => "list_inline", :page => @filter_pages.current.next }) if @filter_pages.current.next %>
+
+
+<% form_remote_tag :update => 'filters', :url => {:controller => "filters", :action => 'add_inline', :id => nil} do %>
+
+ <%= text_field_tag :name %>
+ <% ps = @current_filter.get_params %>
+ <% for (name,value) in ps %>
+   <%= hidden_field_tag name,value %>
+ <% end %>
+<input type="submit" value="Create"/>
+
+<% end %>

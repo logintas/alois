@@ -1,0 +1,26 @@
+#! /usr/bin/ruby1.8
+
+if ARGV[0] == "config"
+
+  print "graph_title Sink input rates\n"
+  print "graph_category Alois\n"
+#  print "host_name insink\n"
+  print "graph_vlabel logs\n"
+
+  print "log_input_count.label log_input\n"
+  print "log_input_count.type COUNTER\n"
+  print "log_input_count.min 0\n"
+ 
+#  print "log_input_bytes.label log_input\n"
+#  print "log_input_bytes.type COUNTER\n"
+#  print "log_input_bytes.min 0\n"
+else
+  
+  for line in open("|/sbin/iptables -v --exact --list AllowSyslog")
+    if line =~ /^ *(\d\d*)  *(\d\d*).*/
+      print "log_input_count.value #{$1}\n"
+#      print "log_input_bytes.value #{$2}\n"
+    end
+  end
+
+end

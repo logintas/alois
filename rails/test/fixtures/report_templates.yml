@@ -1,0 +1,35 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  name: DateTest
+  description: This is only for testing purpose
+  title: Date Test
+  text: "Some text with a chart here:<br><<CHART>><br>
+And a Table here:<br><<CHART>><br>
+The total count of records is: <<COUNT>><br>
+a Table:<br><<TABLE>><br>2nd table:<br><<TABLE>>"
+  view_id: 1
+  version: 1
+  created_on: 2008-03-25
+  created_at: 2008-03-25 13:52:45
+  modified_on: 2008-03-25
+  modified_at: 2008-03-25 13:52:45
+
+two:
+  id: 2
+  name: "Testing log metas statistics"
+  title: "Log meta statistic"
+  text: "There were a total of <<COUNT>> logs yesterday.<br><br>
+Overview of yesterdays syslog logs:<br>
+<<CHART>><br>
+Amount of understood and not understood messages:<br>
+<<CHART>><br>
+Distribution of source hosts:<br>
+<<CHART>><br>
+"
+  view_id: 
+  version: 1
+  created_on: 2008-03-25
+  created_at: 2008-03-25 13:52:45
+  modified_on: 2008-03-25
+  modified_at: 2008-03-25 13:52:45

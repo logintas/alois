@@ -1,0 +1,58 @@
+#! /usr/bin/ruby1.8
+require 'libisi'
+init_libisi(:ui => "console")
+
+action = nil
+before_date = nil
+dryrun = false
+
+cf = Pathname.new(__FILE__).dirname + "../conf/prisma/environment.rb"
+if cf.exist?
+  require cf 
+else
+  require "/etc/prisma/environment.rb"
+end
+
+before_date = $delete_logs_before.strftime("%F")
+
+opts = optparse {|o|  
+  o.on( "-d", "--database", "Delete logs in the database that have been imported before the specified date.") do |w|
+    action = :database
+  end
+  
+  o.on( "-a", "--archive", "Delete log in the archive that have been archived before the specific date." ) do |a|
+    action = :archive
+  end
+
+  o.on( "--all", "Delete log in the archive and database." ) do |a|
+    action = :all
+  end
+
+  o.on( "-b", "--before-date YYYY-MM-DD", "Delete logs before this date (default: #{before_date}).") do |d|    
+    before_date = d
+  end
+    
+  o.on("-c", "--commit-bundle-count COUNT","Commit changes after this amount of destroyed metas") {|count|
+    $transaction_bundle_amount = count.to_i
+  }
+
+  o.on("--dryrun", "Do not delete anything, dryrun only") {|dryrun|}
+}
+
+throw "Please give either --database or --archive." if action.nil?
+throw "No date given." unless before_date
+
+begin
+  before_date = DateTime.parse(before_date).strftime("%F")
+rescue 
+  throw "Invalid date supplied '#{before_date}'."
+end
+
+ensure_script_not_running_already
+
+Prisma::Database.load_classes("prisma")
+
+throw "Unknown action '#{action}'." unless [:database,:all,:archive].include?(action)
+Prisma::Database.delete_logs_before(action,before_date,dryrun)
+
+exit 0

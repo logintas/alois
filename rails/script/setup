@@ -1,0 +1,254 @@
+#!/usr/bin/ruby
+require "libisi"
+init_libisi
+
+PASSWORD_REGEX = /## SET PASSWORD HERE ##/
+BIN_DIR = Pathname.new(__FILE__).realpath.dirname
+$dryrun = false
+
+auto = false
+password = nil
+alois_password = nil
+http_password = nil
+skip_db_check = false
+optparse {|o|
+  o.on( "-a", "--auto", "Do not ask any questions and try to perform task without user interaction." ) {|auto| }
+  o.on( "-p", "--password PASSWORD", "Use this password to connect as root to the mysql database on localhost." ){|password|}   
+  o.on( "--alois-password PASSWORD", "Configure this password as credential to access the alois database from web and prisma." ) {|alois_password| @password = alois_password}
+  o.on( "--http-password PASSWORD", "Configure this password as credential to access the web frontend with user alois." ){|http_password|}
+  o.on( "--skip-db-check","Do not check if databases exist or needs migration") {|skip_db_check|}
+}
+
+DATABASE_COMMAND = "database -f #{if $log.debug? then "-vv" else "-q" end}"
+
+require "alois/utils"
+ENV["DB_ROOT_PASSWORD"] = (password or get_password("database root"))
+
+if check_mysql_password.class.name == "String"
+  $log.info("You have defined a new root password. Please restart this script.")
+  exit 1
+end
+
+def matching_lines(file, regex)
+  Pathname.new(file).readlines.grep(regex).length
+end
+
+def call_command(msg,cmd)
+  $log.info(msg)
+  cmd = (BIN_DIR.to_s + "/#{cmd}") unless cmd =~ /\//
+
+  if $dryrun
+    $log.debug("Would execute #{cmd.inspect}")
+    return true
+  else
+    $log.debug("Executing #{cmd.inspect}")
+    return system(cmd)
+  end
+end
+
+def get_database_status(name)
+  return :ok if $dryrun
+
+  system(BIN_DIR.to_s + "/" + DATABASE_COMMAND + " --schema")
+  $log.info("Exit stauts for db #{name} is: #{$?.exitstatus}")
+  case $?.exitstatus
+  when 0
+    # everythings fine
+    return :ok
+  when 1
+    # error ocurred
+    $log.error("#{name} database error.")
+    return :error
+  when 2
+    # migration needed
+    :migrate
+  when 3
+    # there is no database create it
+    :not_existing
+  when 4
+    # database is not initialized yet
+    :not_loaded
+  else
+    $log.error("Unexpected exit status from schema print '#{$?.exitstatus}'.")
+    exit 1
+  end
+end
+
+def create_database(name)
+  call_command("Using #{name} database.",DATABASE_COMMAND + " -s #{name}")
+
+  case get_database_status(name)
+  when :ok
+    $log.info("Database #{name} is OK.")
+    return
+  when :error
+    exit 1
+  when :migrate
+    $log.warn()
+    exit 1 unless $ui.question("Database needs migration, do this now?")
+    call_command("Setting up #{name} database.",DATABASE_COMMAND + " -m")
+  when :not_existing
+    $log.info("database does not exist, create it and load schem")
+    call_command("Setting up #{name} database.",DATABASE_COMMAND + " -c")
+  when :not_loaded
+    $log.info("database does exist but no schema loaded, load it")
+    call_command("Setting up #{name} database.",DATABASE_COMMAND + " -l")
+  end
+  
+  unless get_database_status(name) == :ok
+    $log.fatal("Database status for #{name} still not ok. Giving up.")
+    exit 2
+  end
+
+  $log.info("Setting mysql password for #{name} database.")
+end
+
+$log.info("You are about to configure your system to run alois.")
+
+def replace_in_file(file,regex,value)
+  return if $dryrun
+  new_text = Pathname.new(file).readlines.join.gsub(regex,value)  
+  open(file,"w") {|f|
+    f.write(new_text)
+  }
+
+end
+
+while matching_lines("/etc/alois/alois.conf",PASSWORD_REGEX) > 0
+  changed = true
+  if auto
+    if alois_password
+      replace_in_file("/etc/alois/alois.conf",PASSWORD_REGEX,"'#{alois_password.gsub("'","\\'")}'")
+    else
+      STDERR.write "Cannot automatically set alois password. No password given.\n"
+      STDERR.write "Specify it by option --alois-password or do it manually.\n" 
+      exit 1
+    end
+  else
+    $ui.info("Please replace ## SET PASSWORD HERE ## in '/etc/alois/alois.conf'\n" +
+	     "to a password you desire and press ENTER to continue.\n")
+  end
+end
+
+$log.info("Restarting apache2")
+system("/etc/init.d/apache2 restart") unless $dryrun
+
+unless skip_db_check
+  create_database("pumpy")
+  create_database("alois")
+end
+
+succ = call_command("Testing connections.","check_connections")
+if auto
+  if !succ
+    call_command("Setting up passwords.","updatepasswords --db --host localhost")    
+  end
+  if !call_command("Testing connections.","check_connections")
+    raise "Could not successfuly update passwords. Please run script manually."
+  end
+else
+  while !succ
+    print "Not all connections could be established.\n" +
+      "See message above. Alois can set the passwords\n" +
+      "for you. Want to do this?\n" +
+      "  yes:   do it.\n" +
+      "  list:  list only grants, and invoke them manually by you\n" +
+      "  check: check again.\n"
+    
+    ret = $ui.select(["yes","list","check"])[0]
+    $log.debug("Answer was #{ret.inspect}")
+    case ret
+    when "yes"
+      call_command("Setting up passwords.","updatepasswords --db --host localhost")      
+    when "list"
+      call_command("Setting up passwords.","updatepasswords --db -s --host localhost")
+    else
+      raise "Unexpected answer #{ret.inspect}"
+    end
+    
+    succ = call_command("Testing connections.","check_connections")
+  end
+end
+
+$log.info("Setting up syslog-ng.")
+changed = false
+while !$dryrun and matching_lines("/etc/syslog-ng/syslog-ng.conf",/Alois SQL Logging/) == 0
+  changed = true
+  if auto
+    raise "Could not append  /usr/share/doc/alois-sink/syslog-ng.conf.example to /etc/syslog-ng/syslog-ng.conf.\nPlease do it manually." if 
+      $dryrun or !system("cat /usr/share/doc/alois-sink/syslog-ng.conf.example >> /etc/syslog-ng/syslog-ng.conf")
+  else
+    print "Please append content of file /usr/share/doc/alois-sink/syslog-ng.conf.example\n"
+    print "# cat /usr/share/doc/alois-sink/syslog-ng.conf.example >> /etc/syslog-ng/syslog-ng.conf\n"
+    print "To syslog-ng and restart it. ENTER to continue.\n"  
+    STDIN.readline
+  end
+end
+call_command("Restart syslog-ng.","/etc/init.d/syslog-ng restart")
+call_command("Starting pipe.","/etc/init.d/prisma-mysqlpiped restart")
+
+def get_raws_index
+  return 0 if $dryrun
+  open("|#{BIN_DIR.to_s}/munin-sinkflows") {|f|
+    f.readlines.map {|l| l =~ /syslogd_raws_incoming.value (\d+)/; $1 }.compact[0].to_i
+  }
+end
+
+i = get_raws_index
+system("logger 'Alois setup test'") unless $dryrun
+sleep 1
+raise "No log recieved." unless get_raws_index > i
+
+$log.info("Setting up prisma.\n")
+changed = false
+while matching_lines("/etc/alois/environment.rb",/^\$do_not_run_prisma = true/) > 0
+  changed = true
+  if auto
+    replace_in_file("/etc/alois/environment.rb",/^\$do_not_run_prisma = true/,"$do_not_run_prisma = false")
+  else
+    print "Please change option $do_not_run_prisma in /etc/alois/environment.rb to false.\n"
+    print "If this option is set, prisma will not start (default behaviour\n"
+    print "to prevent unwanted processing from hosts).\n"
+    print "ENTER to continue.\n"
+    STDIN.readline
+  end
+ end
+
+raise "Error restarting prisma. Giving up." if !changed and
+  !call_command("Restarting prisma.", "/etc/init.d/prisma restart")
+
+def get_metas_index
+  return if $dryrun
+  i = open("|#{BIN_DIR.to_s}/munin-aloisdb") {|f|
+    f.readlines.map {|l| l =~ /syslogd_metas.value (\d+)/; $1 }.compact[0].to_i
+  }
+  $log.info("Meta index is #{i}")
+  i
+end
+
+i = get_metas_index
+
+system("logger 'Alois setup test'") unless $dryrun
+sleep 1
+raise "No log processed. Check /var/log/alois/prisma.* and restart prisma /etc/init.d/prisma restart." unless
+  get_metas_index > i
+
+$log.info("OK log processing works!")
+
+while matching_lines("/etc/alois/apache2/alois.passwd", /^alois\:x8C69afB0QydU$/) > 0
+  if !$dryrun and auto
+      $log.error("No http password provided but default http password defined in /etc/alois/apache2/alois.passwd.\nPlease change this manually.\n") unless http_password
+    unless system("htpasswd -b /etc/alois/apache2/alois.passwd alois '#{http_password.gsub("'","\'")}'")
+      STDERR.write "Could not change alois password in /etc/alois/apache2/alois.passwd. Please do it manually.\n"
+      exit 1
+    end    
+  else
+    print "Please change default alois password in /etc/alois/apache2/alois.passwd with:\n"
+    print " htpasswd /etc/alois/apache2/alois.passwd alois\n"
+    STDIN.readline 
+  end
+end
+
+call_command("Load default working items","load-default-working-items")
+
+exit 0

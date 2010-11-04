@@ -1,0 +1,89 @@
+#! /usr/bin/ruby1.8
+require "libisi"
+init_libisi
+
+daemon = false
+type = :fifo
+waiting_time = nil
+force = false
+force_user = nil
+count = nil
+
+action, params = optparse({
+			    :text => "TODO: add text here",
+			    :actions => {
+			      "migrate DB" => "Migrate databse (use evironment variable VERSION to specify version)",
+			      "dump DB" => "Dump database schema",
+			      "load DB" => "Load database schema",
+			      "check DB" => "Check database version",
+                              "start SOURCECLASS" => "start"
+                            }}) {|o|
+  o.on( "-d", "--daemon", "Run as daemon." ) do |daemon| end
+  o.on( "-f", "--force", "Force prisma to run even if do_not_run_prisma is defined." ) do |force| end
+
+  o.on( "-u", "--user USERNAME", "Force user root to access database (useful for migrations)." ) do |force_user| end
+
+  o.on( "-c", "--count COUNT", "Amount of recrods to process per step.") do |c|
+    count = c
+  end
+  
+  o.on( "-w", "--waiting WAITINGTIME", "The time in seconds to wait if the queue table is empty.") do |w|
+    waiting_time = w.to_i
+  end
+
+  o.on( "--all", "Transform all messages in the queue and exit afterwards." ) do |a|
+    type = :all
+  end
+
+}
+
+cf = Pathname.new(__FILE__).dirname + "../conf/prisma/environment.rb"
+if cf.exist?
+  require cf 
+else
+  require "/etc/prisma/environment.rb"
+end
+
+options = {
+  :force_user => force_user
+}
+
+case action
+when "migrate"
+  # migration
+  Prisma::Database.migrate(params[:db], ENV["VERSION"] ? ENV["VERSION"].to_i : nil, options)
+when "dump"
+  Prisma::Database.schema_dump(params[:db], options)
+when "load"
+  Prisma::Database.schema_load(params[:db], options)
+when "check"
+  Prisma::Database.load_all(options)
+  Prisma::Database.check(params[:db], options)
+when "start"
+  if force; $do_not_run_prisma = false; end
+  if $do_not_run_prisma
+    $log.warn("$do_not_run_prisma=true, not starting prisma")
+    exit 0
+  end
+  
+  Prisma::Database.load_all(options)
+  Prisma::Database.check("prisma" , options)
+  Prisma::Database.check("pumpy" , options)
+
+  if daemon
+    Prisma::Util.define_new_logger("prisma")
+    daemonize(:pid_file => "/var/run/prisma")
+    Prisma::Database.reconnect
+  end
+
+  Signal.trap("TERM") do; $terminate = true; end
+  Signal.trap("USR1") do; $terminate = true; $restart = true; end
+
+  source = SourceDbMeta.new.prisma_initialize(type, eval(params[:sourceclass]), count,nil, false, waiting_time)
+  $enable_dublette_recognition = source.may_contain_dublettes
+  Prisma::Util.define_new_logger(params[:sourceclass])
+  source.transform
+  exit 0  
+else
+  raise "Unexpected action #{action}"
+end

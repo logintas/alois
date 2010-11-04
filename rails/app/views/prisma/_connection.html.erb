@@ -1,0 +1,52 @@
+<%= title "Database - #{@connection.name}" %>
+  
+<div id="page">
+<table class="form">
+    <tr>
+      <th class="form_header" colspan="2">Connection</th>
+    </tr>
+  <tr>
+    <th><label for="connection_name">Id</label></th>
+    <td><%=h @connection.name %></td>
+  </tr>
+  <tr>
+    <th><label for="adapter_name">Adapter</label></th>
+    <td><%=h @connection.adapter %></td>
+  </tr>
+  <tr>
+    <th><label for="connection_database">Current Database</label></th>
+    <td><%=h @connection.database  %></td>
+  </tr>
+  <tr>
+    <th><label for="connection_host">Host</label></th>
+    <td><%=h @connection.host %></td>
+  </tr>
+  <tr>
+    <th><label for="connection_username">Username</label></th>
+    <td><%=h @connection.username %></td>
+  </tr>
+  <tr>
+    <th><label for="connection_view">Current Queries</label></th>
+    <td><%= render :partial => "queries" %> </td>
+  </tr>
+  <tr>
+    <th><label for="connection_view">Innodb Status</label></th>
+    <td><pre><%= h @connection.status rescue $!.to_s  %></pre></td>
+  </tr>
+  <tr>
+    <th><label for="connection_view">Variables</label></th>
+    <td><pre><%=h @connection.variables_text rescue $!.to_s  %></pre></td>
+  </tr>
+  <tr>
+    <th><label for="connection_description">Tables</label></th>
+    <td><%= @connection.activerecord_connection.tables.map{|t| h(t)}.join("<br>") %></td>
+  </tr>
+    <tr>
+      <td class="button-bar" colspan="2">
+        <%= button_to 'Edit connection', :action => 'edit', :id => @connection %>
+        <%= button_to 'List all connections', :action => 'list' %>
+        <%= button_to 'Manually execute', :action => 'manually_execute', :id => @connection %>
+      </td>
+    </tr>
+  </table>
+</div>

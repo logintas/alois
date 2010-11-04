@@ -1,0 +1,16 @@
+<h1>A unhandled exception occurred: <%= @exception_name %></h1>
+<p>This application is still under development. Something unexpected happened:</p>
+<h3><%=h @exception.to_s %></h3>
+<p>If you think this is a bug of the application and should work, please report the error to the developer: <a href="mailto:flavio.pellanda@logintas.ch">Flavio Pellanda</a> The more information you can give the more we can help.</p>
+<h2>Message:</h2>
+<pre>
+<%=h $!.message %>
+</pre>
+<h2>Params:</h2>
+<pre>
+<%=h params.inspect %>
+</pre>
+<h2>Trace:</h2>
+<pre>
+<%=h $!.backtrace.join("\n") %>
+</pre>

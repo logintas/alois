@@ -1,0 +1,35 @@
+<%= error_messages_for 'report_template' %>
+
+   <tr>
+     <th><label for="report_template_title">Name</label></th>
+     <td><%= text_field 'report_template', 'name'  %></td>
+   </tr>
+   <tr>
+     <th><label for="report_template_title">Description</label></th>
+     <td><%= text_field 'report_template', 'description'  %></td>
+   </tr>
+   <tr>
+     <th><label for="report_template_title">Title</label></th>
+     <td><%= text_field 'report_template', 'title'  %></td>
+   </tr>
+   <tr>
+     <th><label for="report_template_text">Text</label></th>
+     <td><%= text_area 'report_template', 'text'  %><br>
+       <%=h "<<TABLE>> will be replaced with the selected tables." %><br>
+       <%=h "<<CHART>> will be replaced with the selected charts." %><br>
+       <%=h "<<COUNT>> will be replaced with the total count of records of the view/datasource." %>
+     </td>
+   </tr>
+   <tr>
+     <th><label for="report_template_view_id">View</label></th>
+     <td><%= select("report_template", "view_id", 
+	View.find(:all).select{|v| @report_template.charts.reject{|c| c.applyable?(v)}.length == 0}.collect {|v| [v.name , v.id]}, {:include_blank => true}) %></td>
+   </tr>
+<% if params[:action] == "new" %>
+   <tr>
+     <th><label for="report_template_chart_tables">Charts and Tables:</label></th>
+     <td>Please create the template before adding charts and tables.</td>
+   </tr>
+<% else %>
+<%= render :partial => "edit_objects" %>
+<% end %>

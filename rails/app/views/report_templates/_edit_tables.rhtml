@@ -1,0 +1,12 @@
+<% @report_template.tables.each{|@table| %>
+<%= @table.name %> <%= link_to "Remove", :action => "remove_table", :id => @report_template, :table => @table %><br>
+<% } %>
+
+<% form_tag :action => :add_table, :id => @report_template do %>
+<%= select_tag('table', options_for_select(
+	Table.find(:all, :order => "name").select{|table| 
+		table.applyable?(@report_template.view)
+	}.map {|s| [s.name,s.id] 
+ 	}.sort{|x,y| x[0]<=>y[0]}), {:include_blank => true}) %>
+<%= submit_tag "Add"%>
+<% end %>

@@ -1,0 +1,14 @@
+<h1>Datastructure Overview</h1>
+<%= show_hide_script %>
+<% @done = [] %>
+<table>
+<tr>
+  <% @source_class = @global_source_class %> 
+  <td><%= render :partial => "parent_classes" %></td>
+  <% @source_class = @global_source_class %> 
+  <th class="table-classes-center <% if @child_path[0].class.name == @global_source_class.name %>table-classes-selected<% end %>"><%= render :partial => "class_content" %></th>
+  <td><%= render :partial => "child_classes" %></td>
+</table>
+<% if @record %>
+<p class="table-classes-selected">You selected <%= link_to "#{@record.class.name}.#{@record["id"]}", :controller => "survey", :action => 'show', :table => @record.class.table_name, :id => @record["id"] %></p>
+<% end %>

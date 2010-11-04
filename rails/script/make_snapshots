@@ -1,0 +1,90 @@
+#!/usr/bin/env ruby
+
+## Tip disable session restore for firefox.
+# Type about:config in your Firefox Address bar.
+# Select browser.sessionstore.enable
+# Double click to change the setting to false
+
+ENV["RAILS_ENV"] = "test"
+
+require 'pathname'
+require File.dirname(Pathname.new(__FILE__).realpath) + '/../config/boot'
+require File.dirname(Pathname.new(__FILE__).realpath) + '/../config/environment'
+
+$dir = "#{RAILS_ROOT}/tmp/snapshots/"
+FileUtils.mkdir($dir) unless File.exists?($dir)
+$resolution = "1280x1024x16"
+$host = "localhost:3999"
+$timeout = 10
+
+def take_screenshot(options = {})
+  name = (options[:name] or DateTime.now.strftime("%F &T"))
+  url = options[:url]   
+  return if File.exist?("#{$dir}/#{name}.png")
+  
+  pidf = fork do
+    p "firefox -height #{$resolution.split('x')[1]} -widht #{$resolution.split('x')[0]} -new-window '#{url}'"
+    exec("firefox -height #{$resolution.split('x')[1]} -widht #{$resolution.split('x')[0]} -new-window '#{url}'")
+  end
+  sleep (options[:timeout] or $timeout)
+ 
+  system("xwd -display :99 -root -out #{$dir}/#{name}.xwd")
+  system("convert #{$dir}/#{name}.xwd #{$dir}/#{name}.png")
+  File.delete("#{$dir}/#{name}.xwd")
+  Process.kill("TERM",pidf) 
+  Process.wait
+end
+
+# start xvfb
+pidx = fork do
+  exec("Xvfb :99 -screen 0 #{$resolution} -fbdir #{$dir}")
+end
+begin
+  while !File.exists?("#{$dir}/Xvfb_screen0")
+    sleep 1
+  end
+  ENV["DISPLAY"] = ":99"
+  
+  # initialize  data
+  system("rake db:fixtures:load")
+  Prisma.generate_random_data
+  # start mongrel
+  pidm = fork do
+    exec("./script/server -p 3999")
+  end
+  begin
+    
+    controllers = Dir.new("#{RAILS_ROOT}/app/controllers").entries
+    controllers.each do |controller|
+      if controller =~ /_controller/ 
+	cont = controller.camelize.gsub(".rb","")
+	#    klass = eval(cont)
+	
+	#    if klass.responds_to?(:screenshots)      
+	#    end
+      end
+    end
+    
+    sleep $timeout
+    
+    take_screenshot(:name => "Home",:url => "#{$host}")
+    take_screenshot(:name => "Database",:url => "#{$host}/prisma/databases")
+    take_screenshot(:name => "Views",:url => "#{$host}/views")
+    take_screenshot(:name => "Statistics",:url => "#{$host}/prisma/statistics")
+    take_screenshot(:name => "Alarms",:url => "#{$host}/alarms")
+    take_screenshot(:name => "Help",:url => "#{$host}/help")
+    take_screenshot(:name => "Table", :url => "#{$host}/table/view_11/list?state_id=test", :timeout => 2 * $timeout)
+    take_screenshot(:name => "Chart1", :url => "#{$host}/table/view_11/chart?chart%5Baggregation_column%5D=%2A&chart%5Baggregation_function%5D=COUNT&chart%5Bcolumn1%5D=facility&chart%5Bcolumn2%5D=&chart_type=bar&state_id=test#chart", :timeout => 3 * $timeout)
+    take_screenshot(:name => "Chart2", :url => "#{$host}/table/view_11/chart?chart%5Baggregation_column%5D=%2A&chart%5Baggregation_function%5D=COUNT&chart%5Bcolumn1%5D=level&chart%5Bcolumn2%5D=&chart_type=pie&state_id=test#chart", :timeout => 3 * $timeout)
+    take_screenshot(:name => "Schema", :url => "#{$host}/tablelist/schema/#{Message.find(:first,:order=>"id desc").id}?table=messages", :timeout => 3 * $timeout)
+    
+  ensure
+    # close mongrel
+    Process.kill("INT",pidm)
+    Process.wait
+  end
+    # close Xvfb
+ensure
+  Process.kill("TERM",pidx)
+  Process.wait
+end    

@@ -1,0 +1,63 @@
+<%= title @controller.controller_name.humanize %>
+
+<div id="page">
+<%= error_messages %>
+
+<table class="form">
+	<tr>
+		<th class="form_header" style="width:5%">ID</th>
+		<th class="form_header" style="width:10%">Level</th>
+		<th class="form_header" style="width:15%">Sentinel</th>
+                <th class="form_header" style="width:15%">Date</th>
+                <th class="form_header" style="width:10%">Process State</th>
+                <th class="form_header" style="width:40%">Comment</th>
+		<th class="form_header" style="width:5%"/>
+	</tr>  
+<% if @alarms.length == 0 and not params[:page]%>
+	<tr>
+		<th class="form_header" style="background-color:<%= Alarm.status_color %>;" colspan="7">No Current Alarms</th>
+	</tr>
+	<tr>
+		<td class="button-bar" colspan="7">
+		  <%= link_to "Reload", :action => "list" %>
+		</td>
+	</tr>
+<% else %>
+	<tr>
+		<th class="form_header" style="background-color:<%= Alarm.status_color %>;" colspan="7">Current Alarms</th>
+	</tr>
+<% for @alarm in @alarms %>
+ <%= render :partial => "status_item" %>
+<% end %>
+	<tr>
+		<td class="button-bar" colspan="7" style="background-color:<%= Alarm.status_color %>;"><%= will_paginate @alarms %>
+		  <%= link_to "Reload", :action => "list" %>
+		</td>
+	</tr>
+
+<% end %>
+
+	<tr>
+		<th class="form_header" colspan="7">Latest Acknowledgements</th>
+	</tr>
+<% for @alarm in @ack_alarms %>
+ <%= render :partial => "status_item" %>
+<% end %>
+	<tr>
+		<td class="button-bar" colspan="7"><%= will_paginate @ack_alarms,:param_name => "page_ack" %>
+		</td>
+	</tr>
+
+	<tr>
+		<th class="form_header" colspan="7">Informational or Debug Alarms</th>
+	</tr>
+<% for @alarm in @infos %>
+ <%= render :partial => "status_item" %>
+<% end %>
+	<tr>
+		<td class="button-bar" colspan="7"><%= will_paginate @infos, :param_name => "page_info" %>
+		</td>
+	</tr>
+
+</table>
+</div>

@@ -1,0 +1,20 @@
+/var/log/alois				/usr/share/alois/www/log
+
+/etc/alois/boot.rb			/usr/share/alois/www/config/boot.rb
+/etc/alois/environment.rb		/usr/share/alois/www/config/environment.rb
+/etc/default/alois-environment.rb	/usr/share/alois/www/config/default_environment.rb
+/etc/default/alois-environment-config.rb	/usr/share/alois/www/config/default_config.rb
+/etc/alois/database.yml			/usr/share/alois/www/config/database.yml
+/etc/alois/routes.rb			/usr/share/alois/www/config/routes.rb
+/etc/alois/environments/production.rb	/usr/share/alois/www/config/environments/production.rb
+
+/usr/share/alois/www/script/check_tables	usr/sbin/alois-check-tables
+/usr/share/alois/www/script/check_connections	usr/sbin/alois-check-connections
+/usr/share/alois/www/script/console		usr/sbin/alois-console
+/usr/share/alois/www/script/server		usr/sbin/alois-server
+#/usr/share/alois/www/script/updatepasswords	usr/sbin/alois-updatepasswords
+#/usr/share/alois/www/script/import-file		usr/bin/alois-import-file
+/usr/share/alois/www/script/load_default_working_items	usr/sbin/alois-load-default-working-items
+/usr/share/alois/www/script/sentinel		usr/bin/alois-sentinel
+
+/tmp				/usr/share/alois/www/tmp

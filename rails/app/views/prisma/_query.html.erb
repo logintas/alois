@@ -1,0 +1,15 @@
+<tr>
+  <% @query.keys.sort.each {|key| %>
+    <% if key == "Info" %>
+      <td><%= create_links_in_query(@query[key]) %></td>
+    <% else %>
+      <td  style="background-color:<%= query_background_color(@query) %>;"><%= @query[key] %></td>
+    <% end %>
+  <% } %>
+  <td>
+    <% if @query["Time"].to_i > 5 and @query["Command"] == "Query" %>
+      <%= button_to "Kill", :action => "kill_query", :id => @query["Id"], :connection_id => @connection.object_id %>
+    <% end %>
+  </td>
+</tr>
+  

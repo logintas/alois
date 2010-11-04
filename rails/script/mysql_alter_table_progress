@@ -1,0 +1,121 @@
+#!/usr/bin/ruby
+require 'libisi'
+init_libisi
+optparse
+
+$pw = $ui.password("root pw?")
+$pw = "-p'#{$pw}'" unless $pw == ""
+print "Db:"
+$db = STDIN.readline.strip
+
+def mysql_status
+  ret = {}
+  cmd = "|mysql #{$pw} -e 'show innodb status\\G'"
+  $log.info(cmd)
+  open(cmd) {|f|
+    f.readlines.each {|l|
+      $log.debug{l.strip}
+      case l
+      when /(\d+) lock struct\(s\), heap size (\d+), undo log entries (\d+)/ 
+	# "12 lock struct(s), heap size 1024, undo log entries 1760\n"
+	$log.info(l.strip)
+	ret[:lock_structs] = $1.to_i
+	ret[:heap_size] = $2.to_i
+	ret[:undo_log_entries] = $3.to_i
+      when /MySQL thread id (\d+), query id (\d+) localhost (.*) copy to tmp table/
+	$log.info(l.strip)
+	ret[:modifying_thread_id] = $1
+	ret[:modifying_query_id] = $2
+	ret[:modifying_user] = $3
+      when /ALTER TABLE \`([^\`]+)\` (.*)$/
+	$log.info(l.strip)
+	ret[:modifying_query] = l
+	ret[:alter_table] = $1
+	ret[:alter_column] = $2
+      when /CREATE  INDEX \`([^\`]+)\` ON \`([^\`]+)\` \((.*)\)/
+	$log.info(l.strip)
+	ret[:modifying_query] = l
+	ret[:create_index_name] = $1
+	ret[:create_index_table] = $2
+	ret[:create_index_columns] = $3	
+      else
+      end
+    }
+  }
+  ret[:modifying_table] = (ret[:alter_table] or ret[:create_index_table])
+  ret
+end
+
+def table_status(table)
+  ret = {}
+  cmd = "|mysql #{$pw} #{$db} -e 'SHOW TABLE STATUS LIKE \"#{table}\"\\G'"
+  $log.info(cmd)
+  open(cmd) {|f|
+    f.each {|l|
+#*************************** 1. row ***************************
+#           Name: syslogd_metas
+#         Engine: InnoDB
+#        Version: 10
+#     Row_format: Compact
+#           Rows: 711329
+# Avg_row_length: 71
+#    Data_length: 50937856
+#Max_data_length: 0
+#   Index_length: 53067776
+#      Data_free: 0
+# Auto_increment: 714889
+#    Create_time: 2009-08-13 16:51:50
+#    Update_time: NULL
+#     Check_time: NULL
+#      Collation: utf8_general_ci
+#       Checksum: NULL
+# Create_options:
+#        Comment: InnoDB free: 98304 kB
+
+      $log.debug{l.strip}
+      if l =~ /^(.*)\: (.*)$/
+	ret[$1.strip.downcase.to_sym] = $2
+      end
+    }
+  }
+  ret  
+end
+
+while (true)
+  db_status = mysql_status
+  if ((table = db_status[:modifying_table]) and 
+      (query = db_status[:modifying_query]))
+
+    tbl_status = table_status(table)
+
+    $ui.progress_bar(query, tbl_status[:rows].to_i) {
+      while (query == db_status[:modifying_query])
+	$log.info(db_status[:undo_log_entries])
+  	$ui.progress(db_status[:undo_log_entries]) if db_status[:undo_log_entries]
+	sleep 1
+	db_status = mysql_status
+      end
+    }
+  else
+    $log.info("Waiting for altering table")
+  end
+  sleep 1
+end
+
+
+#p table
+#p query
+#p db_status
+
+exit 0
+=begin
+#!/bin/bash
+(while(true); do  \
+( ; sleep 1 ;  \
+mysql -e 'show innodb status \G' | grep undo\ log\ entries ) |    \
+egrep '[0-9][0-9][0-9][0-9]' |awk '{print $10;}' ; done ) | \
+perl -e '$t = ROWS_IN_TABLE; while(1) { \
+$n ++; $nn; $a = <>; $b = <>; $nn += ($b-$a); \
+printf "Rate: %d, avg: %d, %0.3f%% complete, done in %d sec\n", \
+$b-$a, $nn/$n, ($b/$t)*100, ($t-$b)/($nn/$n); }';
+=end

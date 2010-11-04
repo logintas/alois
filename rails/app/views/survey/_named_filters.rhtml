@@ -1,0 +1,8 @@
+<% for filter in @filters %>
+  <fieldset>
+    <legend>
+	<%= filter.name %> 
+    </legend>
+    <%= render_component :controller => "filters", :action => "show_inline", :id => filter.id %>
+  </fieldset>
+<% end %>

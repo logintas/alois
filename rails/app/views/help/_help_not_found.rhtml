@@ -1,0 +1,6 @@
+<%= help_title("Help Not Found") %>
+<p>The requested help page could not be found.</p>
+<p>Context: <%=h params[:context]%></p>
+<p>Page: <%=h params[:page]%></p>
+<p>Help home: <%= help_goto "help" %></p>
+<!-- '<<%=h "#{params[:context]}/#{params[:page]}"%>'-->
