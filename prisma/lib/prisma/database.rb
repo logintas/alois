@@ -132,8 +132,8 @@ module Prisma
     def self.schema(db_name)
       self.data_path + "#{db_name}_database/schema.rb"
     end
-    def self.schema_load(db_name)
-      with_db(db_name) {
+    def self.schema_load(db_name, options = {})
+      with_db(db_name, options) {
         load(schema(db_name).to_s)
       }
     end

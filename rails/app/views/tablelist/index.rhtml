@@ -6,25 +6,31 @@
     <th class="form_header">Name</th>
     <th class="form_header">Beschreibung</th>
   </tr>
-<% for name, type in {"Log Tables" => :meta, "Raw Logs" => :raw, "Log Queue" => :message} %>
+<% Connection.connections.each {|connection_name, @connection| %>
   <tr>
-    <th colspan="2" style="text-align: left"><%=h name %></th>
+    <th colspan="2" style="text-align: left"><%=h @connection.name %></th>
   </tr>
-    <% for klass in Prisma::Database.get_classes(type).sort{ |x,y| ((x.name <=> y.name) == 0) ? x.description <=> y.description : x.name <=> y.name } %>
+    <% for table in @connection.activerecord_connection.tables %>
       <tr>
         <td>
-          <%= link_to( h( klass.name ), :controller => 'survey', :table=> klass.table_name) %>
-          <span style='font-weight: bold'>(<span id='count_<%=h klass.table_name %>' align='right'><%= klass.approx_count %></span>)</span>
+          <%= link_to( h( table ), :controller => 'survey', :table=> table) %>
+          <span style='font-weight: bold'>(<span id='count_<%=h table %>' align='right'><%= @connection.approx_count(table) %></span>)</span>
         </td>
-        <td><%=h klass.description %></td>
+        <td><%=
+begin
+  h(Prisma::Database.get_class_from_tablename(table).description)
+rescue
+""
+end
+%></td>
       </tr>
 
       <script type="text/javascript">
-      <%= remote_function(:update => 'count_' + klass.table_name, :url => {:action => 'count', :params => {:table_name => klass.table_name} }) %>
+      <%#= remote_function(:update => 'count_' + table, :url => {:action => 'count', :params => {:table_name => table} }) %>
       </script>
       
-      <%= periodically_call_remote(:update => 'count_' + klass.table_name, :frequency => 300, :url => {:action => 'count', :params => {:table_name => klass.table_name} }) %>
+      <%#= periodically_call_remote(:update => 'count_' + table, :frequency => 300, :url => {:action => 'count', :params => {:table_name => table} }) %>
     <% end %>
-<% end %>
+<% } %>
   </table>
 </div>

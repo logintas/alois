@@ -51,7 +51,7 @@
 				:action => 'add_condition', 
 				:column => column.name, 
 				:operator => '!=',
-				:value => record.send("#{column.name}_before_type_cast"), 
+				:value => record[column.name], 
 				:state_id => @state_id},
 			:before => "table_reload()",
 			:loaded => 'update_table()'  %>
@@ -62,7 +62,7 @@
 				:action => 'add_condition', 
 				:column => column.name, 
 				:operator => '=', 
-				:value => record.send("#{column.name}_before_type_cast"), 
+				:value => record[column.name], 
 				:state_id => @state_id},
 			:before => "table_reload()",
 			:loaded => 'update_table()'  %>

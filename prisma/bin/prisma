@@ -1,4 +1,5 @@
 #! /usr/bin/ruby1.8
+require "rubygems"
 require "libisi"
 init_libisi
 

@@ -1,27 +1,30 @@
 = Installation =
 
-== Configuration ==
-Two config files:
- * default_environment.rb
-
 == Local usage ==
-/!\ Probably not working yet /!\
-TODO: Create default sqlite DB
-TODO: Create script to fill sqlite db with local logs
-TODO: compile java
-TODO: List required packages (eg java or jfreechart)
-
 You can use alois without installing antything. Beacause
 ALOIS is a rails application you can simply use the common
 rails commands to start a local webserver on port 3000. All
-you need is a working rubygems version installed on your
-system.
+you need is a working rubygems version and some system
+libraries installed on your system.
+
+# required packages
+sudo apt-get install rubygems rake ruby1.8-dev libmysqlclient-dev libsqlite3-ruby1.8 libjfreechart-java
+# install a java runtime and java compiler eg openjdk-6-jdk
+suod gem install libisi
+
+# download necessary gems
+make freeze-gems
+
+# initialize directory structure
+make init
+
+# creates new sqlite databases
+make init-db
+
+TODO: Create script to fill sqlite db with local logs
 
 # change into rails directory
 cd <<svn root>>/rails
-
-# Install gems (if not executed as root, gems will be in ~/.gem)
-rake gems:install
 
 # to start server
 ./script/server

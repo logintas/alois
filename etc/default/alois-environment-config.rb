@@ -38,6 +38,7 @@ def load_config(config)
     config.gem "csspool", :version => "0.2.6"
     config.gem "inline_attachment" #:version => "0.3.0"
     config.gem "rubyforge" # :version => "0.4.4",
+    config.gem "libisi", :lib => false
   
     # for pdf writing
     config.gem "pdf-writer", :lib => false  # => "1.1.3",

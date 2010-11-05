@@ -103,7 +103,9 @@ class Connection < ActiveRecord::Base
   #   execute("flush tables")
   # end
   def approx_count(table_name)
-    connection_approx_count(activerecord_connection, table_name)
+    c = activerecord_connection
+    ActiveRecord::Base.connection_approx_count(activerecord_connection, table_name) or
+      c.select_value("SELECT count(*) from #{c.quote_table_name(table_name)}")    	
   end
   
   def current_queries

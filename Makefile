@@ -39,7 +39,8 @@ TARGET_RAILS_ENV=$(TARGET_RAILS_CONFIG)/environments
 WORKING_CONFIG=$(srcdir)/development_configs
 RAKE_COMMAND=cd $(SOURCE_RAILS); rake 
 
-all: build
+all:
+	@echo "TODO add help here"
 
 # build target and freeze gems
 rails/java/CreateChart.class: rails/java/CreateChart.java
@@ -54,20 +55,21 @@ init-dirs:
 init-plugins:
 # git://github.com/imedo/awesome_email.git
 	mkdir -p $(SOURCE_RAILS)/vendor/plugins
-	cp rails_plugins/awesome_email $(SOURCE_RAILS)/vendor/plugins/ -R
-	cp rails_plugins/auto_complete $(SOURCE_RAILS)/vendor/plugins/auto_complete -R
+	rsync --exclude .svn -rv rails_plugins/awesome_email $(SOURCE_RAILS)/vendor/plugins/
+	rsync --exclude .svn -rv rails_plugins/auto_complete $(SOURCE_RAILS)/vendor/plugins/
 
 init: init-dirs init-plugins rails/java/CreateChart.class
 
 
 export GEM_HOME := $(srcdir)/gems
 export GEM_PATH := $(srcdir)/gems
-freeze-gems:
+freeze-gems: init-dirs
 	@echo "Gem home: ${GEM_HOME} Gem path: ${GEM_PATH}"
 	@echo "Downloading rails"
 	gem install -V -v=2.3.2 rails
+	gem install libisi
 	@echo "Installing required gems"
-	$(RAKE_COMMAND) "gems:install"
+	$(RAKE_COMMAND) --trace "gems:install"
 	@echo "Freezing gems"
 	$(RAKE_COMMAND) "rails:freeze:gems"
 	@echo "Build required gems"
@@ -185,3 +187,5 @@ clean:
 #	rm $(SOURCE_RAILS)/java/*.class
 	rm -rf $(WORKING_CONFIG)
 
+mrproper: clean
+	rm -rf gems

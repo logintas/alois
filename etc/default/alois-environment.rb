@@ -11,9 +11,18 @@ require 'pathname'
 require 'alois/date_time_enhance'
 require 'mysql_adapter_extensions'
 require 'dummy_class_extension'
-require 'will_paginate'
-require 'inline_attachment'
-require 'awesome_email_fix'
+begin
+  require 'will_paginate'
+rescue LoadError
+  $log.warn("Error loading will_paginate #{$!}")
+end
+begin
+  require 'inline_attachment'
+rescue LoadError
+  $log.warn("Error loading inline_attachment #{$!}")
+end
+
+require 'awesome_email_fix' 
 
 ActionView::Helpers::AssetTagHelper.register_javascript_include_default(
   "prototype","effects","dragdrop","controls","application")
@@ -32,6 +41,8 @@ begin
   alois_conn = Connection.new(attr)
   alois_conn.pool = ActiveRecord::Base.connection_pool
   Connection.register(alois_conn)
+rescue LoadError
+  $log.warn("Could not load alois connection: #{alois_conn}")
 rescue
   $log.warn("Could not load alois connection: #{alois_conn}")
 end
