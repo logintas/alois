@@ -19,7 +19,7 @@
     def self.get_percentage
       percents = []
       count = 0
-      for klass in Prisma.get_classes(:raw)
+      for klass in Prisma::Database.get_classes(:raw)
 	recs = find(:all,:order => "id DESC", :limit => 1, :conditions => "table_name = '#{klass.table_name}'")
 	if recs.length == 1 
 	  percents.push(recs[0].percentage)

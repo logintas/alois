@@ -25,8 +25,9 @@ class PrismaController < ApplicationController
     dobby = (prisma_connection and prisma_connection.spec[:host]) or "localhost"
     dobby = "localhost.localdomain" if dobby == "localhost"
 
-    reporter = (alois_connection and alois_connection.spec[:host]) or "localhost"
-    reporter = "localhost.localdomain" if reporter == "localhost"
+    reporter = open("|hostname -f") {|f| f.readlines.join.strip}
+    # reporter = (alois_connection and alois_connection.spec[:host]) or "localhost"
+    # reporter = "localhost.localdomain" if reporter == "localhost"
 
     sink = (pumpy_connection and pumpy_connection.spec[:host]) or "localhost"
     sink = "localhost.localdomain" if sink == "localhost"

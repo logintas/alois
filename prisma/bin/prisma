@@ -68,22 +68,63 @@ when "start"
   end
   
   Prisma::Database.load_all(options)
-  Prisma::Database.check("prisma" , options)
-  Prisma::Database.check("pumpy" , options)
 
   if daemon
     Prisma::Util.define_new_logger("prisma")
     daemonize(:pid_file => "/var/run/prisma")
-    Prisma::Database.reconnect
   end
 
   Signal.trap("TERM") do; $terminate = true; end
   Signal.trap("USR1") do; $terminate = true; $restart = true; end
 
-  source = SourceDbMeta.new.prisma_initialize(type, eval(params[:sourceclass]), count,nil, false, waiting_time)
-  $enable_dublette_recognition = source.may_contain_dublettes
+  klass = eval(params[:sourceclass])
   Prisma::Util.define_new_logger(params[:sourceclass])
-  source.transform
+
+  source = nil
+  $restart = true
+  while $restart
+    Prisma::Database.reconnect if daemon
+    $terminate = false
+    $restart = type != :all
+    begin
+      Prisma::Database.check("prisma" , options)
+      Prisma::Database.check("pumpy" , options)
+      $log.info{"Process #{type} records of class #{klass.name}, #{count} per step"}
+      if source 
+        source.finished = true
+        source.save	      
+      end
+      source = SourceDbMeta.new.prisma_initialize(type, klass, count,nil, false, waiting_time)
+      $enable_dublette_recognition = source.may_contain_dublettes
+      source.transform
+    rescue ActiveRecord::Transactions::TransactionError
+      raise $!
+    rescue	    
+      $log.error{ "Processing class #{klass.name} threw error #{$!}!" }
+      for line in $!.backtrace
+        $log.error{"#{line}"}
+      end
+      if Prisma::Database.check_connections
+        $log.fatal{"Connections are good, so something bad happened. Will not risk to restart queue #{klass.name}."}
+        $terminate = true
+        $restart = false
+      else
+        $log.info{"At least one prisma connection is down."}
+        connection_wait_count = 1
+        while not (Prisma::Database.check_connections or $terminate)
+          wait_time = connection_wait_count
+          wait_time = 30 if wait_time > 30 
+          $log.warn{"#{connection_wait_count} Waiting #{wait_time} seconds."}
+          Prisma::Util.save_sleep(wait_time)
+          connection_wait_count += 1
+        end
+        if !$terminate
+          $log.info{"Connection are good again. Restarting queue #{klass.name}."}		
+        end
+      end
+    end
+  end
+  
   exit 0  
 else
   raise "Unexpected action #{action}"

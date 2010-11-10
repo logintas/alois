@@ -105,7 +105,7 @@
 	  last = iter.last
 	  
 	  begin
-	    Prisma::Database.transaction(self) do
+	    Prisma::Database.transaction(self.class) do
 	      iter.each { |raw_message|
 		loop_count += 1
 #		cost = Benchmark.measure {		

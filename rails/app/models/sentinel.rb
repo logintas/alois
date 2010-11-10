@@ -82,7 +82,7 @@
     end
     
     ## To use this add the following line into the sudoers file
-    # www-data        ALL=(prisma)    NOPASSWD:/usr/bin/prisma-sentinel --generate-crontab
+    # www-data        ALL=(prisma)    NOPASSWD:/usr/bin/alois-sentinel --generate-crontab
     if RAILS_ENV == 'production'
       UPDATE_COMMAND = "/usr/bin/sudo -S -p '' -u prisma /usr/bin/alois-sentinel --generate-crontab < /dev/null"
     else
