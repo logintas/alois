@@ -39,8 +39,7 @@ TARGET_RAILS_ENV=$(TARGET_RAILS_CONFIG)/environments
 WORKING_CONFIG=$(srcdir)/development_configs
 RAKE_COMMAND=cd $(SOURCE_RAILS); rake 
 
-all:
-	@echo "TODO add help here"
+all: build
 
 # build target and freeze gems
 rails/java/CreateChart.class: rails/java/CreateChart.java
