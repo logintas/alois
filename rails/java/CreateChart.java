@@ -458,7 +458,7 @@ public class CreateChart {
 		valueAxis = new NumberAxis(this.yAxis);
 	    }
 
-	    CategoryPlot subplot = new CategoryPlot(this.category_datasets[range], categoryAxis, valueAxis,
+	    CategoryPlot subplot = new CategoryPlot(this.category_datasets[range], null, valueAxis,
 						    my_renderer);
 
 	    plot.add(subplot, 1);

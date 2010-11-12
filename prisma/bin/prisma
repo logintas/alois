@@ -1,4 +1,8 @@
 #! /usr/bin/ruby1.8
+require "pathname"
+ENV["GEM_HOME"] = nil if ENV["GEM_HOME"] and !Pathname.new(ENV["GEM_HOME"]).exist?
+ENV["GEM_PATH"] = nil if ENV["GEM_PATH"] and !Pathname.new(ENV["GEM_PATH"]).exist?
+
 require "rubygems"
 require "libisi"
 init_libisi
