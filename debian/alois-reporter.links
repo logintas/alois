@@ -8,3 +8,7 @@
 /usr/bin/prisma-munin-prismadb		/etc/munin/plugins/alois_aloisdb
 /usr/bin/prisma-munin-pumpydb		/etc/munin/plugins/alois_sinkdb
 /usr/bin/prisma-munin-pumpyflows	/etc/munin/plugins/alois_sinkflows
+
+# link for default webpage
+/usr/share/alois/www/public /var/www/alois
+

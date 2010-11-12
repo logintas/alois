@@ -23,17 +23,7 @@ case "$1" in
      adduser --system alois
      adduser alois alois
 
-     for i in /etc/alois/alois.conf
-     do
-       # only do something when no setting exists
-       if ! dpkg-statoverride --list $i >/dev/null 2>&1
-       then
-         dpkg-statoverride --update --add root alois 0640 $i
-       fi
-     done
-
      chown www-data:www-data /var/log/alois
-     chown root:alois /etc/alois/alois.conf
 
      ;;
 

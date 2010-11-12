@@ -53,7 +53,7 @@ Description: Advanced Logging and Intrusion Detection System - Test package
 
 Package: alois-prisma
 Architecture: any
-Depends: alois-common (=${Source-Version}), ruby1.8
+Depends: alois-common (=${Source-Version}), ruby1.8, libtmail-ruby1.8
 Description: Advanced Logging and Intrusion Detection System - Prisma package
  Prisma takes different log sources and saves them into the prisma database
  after parsing.

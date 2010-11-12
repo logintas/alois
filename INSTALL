@@ -1,6 +1,6 @@
-= Installation =
+= Installation
 
-== Local usage ==
+== Local usage
 You can use alois without installing antything. Beacause
 ALOIS is a rails application you can simply use the common
 rails commands to start a local webserver on port 3000. All
@@ -8,51 +8,78 @@ you need is a working rubygems version and some system
 libraries installed on your system.
 
 # required packages
-sudo apt-get install rubygems rake ruby1.8-dev libmysqlclient-dev libsqlite3-ruby1.8 libjfreechart-java
+ sudo apt-get install rubygems rake ruby1.8-dev libmysqlclient-dev libsqlite3-ruby1.8 libjfreechart-java
 # install a java runtime and java compiler eg openjdk-6-jdk
-suod gem install libisi
+ suod gem install libisi
 
 # download necessary gems
-make freeze-gems
+ make freeze-gems
 
 # initialize directory structure
-make init
+ make init
 
 # creates new sqlite databases
-make init-db
+ make init-db
 
 TODO: Create script to fill sqlite db with local logs
 
 # change into rails directory
-cd <<svn root>>/rails
+ cd <<svn root>>/rails
 
 # to start server
-./script/server
+ ./script/server
 
-== Debian installation ==
-/!\ Probably not working yet /!\
-TODO: Create public debian repository for gems
+== Debian installation
+Add the following sources:
+ deb http://www.backports.org/debian lenny-backports main
+ deb http://debian.logintas.ch/ lenny/
+ deb http://debian.logintas.ch/ all/
 
+Update
+ apt-get update
+
+If there are newer libcsspool packages:
 # ADD TO /etc/apt/preferences
-Package: libcsspool-ruby1.8
-Pin: version 0.2.6
-Pin-Priority: 1001
+ Package: libcsspool-ruby1.8
+ Pin: version 0.2.6
+ Pin-Priority: 1001
 
-apt-get install rubygems
-dpkg  --install --force-all /var/cache/apt/archives/rubygems*_1.3.5-1rel_all.deb
-gem install --no-rdoc -v=2.3.2 rails
+# install rubygems
+ apt-get install rubygems
+ # rubygems is wrong packaged
+ dpkg  --install --force-all /var/cache/apt/archives/rubygems*_1.3.5-1rel_all.deb
+ gem install --no-rdoc --no-ri -v=2.3.2 rails
 
-
-deb http://www.backports.org/debian lenny-backports main contrib non-free
-apt-get install libapache2-mod-passenger
-a2enmod passenger
-ln /usr/share/alois/www/public /var/www/alois -s
+# install alois
+ apt-get install alois-single-system mysql-server
 
 # SELECT SUN JVM
-update-alternatives --config java
+ update-alternatives --config java
+
+# create necessary databases
+ mysqladmin -u root -p create prisma
+ mysqladmin -u root -p create pumpy
+ mysqladmin -u root -p create alois
+
+# Load database schemas
+ prisma load pumpy
+# prisma load prisma
+# TODO: load prisma does not work use migrate insead
+ prisma migrate prisma
+ rake -f /usr/share/alois/www/Rakefile "db:schema:load"
+
+# enable log collect
+ cat /usr/share/doc/alois-sink/syslog-ng.conf.example/syslog-ng.conf.example  >> /etc/syslog-ng/syslog-ng.conf
+ /etc/init.d/prisma-mysqlpiped restart
+ /etc/init.d/syslog-ng restart
 
 alois-setup
 
+# enable apache site
+ ln /etc/apache2/sites-available/alois /etc/apache2/sites-enabled/ -s
+# restart dependant services
+ restart munin-node
+ restart apache2
 
 # /etc/sudoers
 # Alois
