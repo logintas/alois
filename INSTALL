@@ -12,7 +12,7 @@ libraries installed on your system.
 # install a java runtime and java compiler eg openjdk-6-jdk
  suod gem install libisi
 # install ibisi dependencies
- apt-get install liblog4r-ruby, libruby1.8, libprogressbar-ruby1.8, libcmdparse-ruby
+ apt-get install liblog4r-ruby libruby1.8 libprogressbar-ruby1.8 libcmdparse-ruby
 
 # download necessary gems
  make freeze-gems
