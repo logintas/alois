@@ -11,6 +11,8 @@ libraries installed on your system.
  sudo apt-get install rubygems rake ruby1.8-dev libmysqlclient-dev libsqlite3-ruby1.8 libjfreechart-java
 # install a java runtime and java compiler eg openjdk-6-jdk
  suod gem install libisi
+# install ibisi dependencies
+ apt-get install liblog4r-ruby, libruby1.8, libprogressbar-ruby1.8, libcmdparse-ruby
 
 # download necessary gems
  make freeze-gems
