@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 require "pathname"
 ENV["GEM_HOME"] = nil if ENV["GEM_HOME"] and !Pathname.new(ENV["GEM_HOME"]).exist?
 ENV["GEM_PATH"] = nil if ENV["GEM_PATH"] and !Pathname.new(ENV["GEM_PATH"]).exist?
@@ -29,9 +28,9 @@ require 'yaml'
 
 unless defined?(PRISMA_ENV)
   if __FILE__.to_s == "/etc/prisma/environment.rb"
-    PRISMA_ENV = (ENV["PRISMA_ENV"] or "production")
+    PRISMA_ENV = (ENV["PRISMA_ENV"] or ENV["RAILS_ENV"] or (defined?(RAILS_ENV) and RAILS_ENV) or "production")
   else
-    PRISMA_ENV = (ENV["PRISMA_ENV"] or "development")
+    PRISMA_ENV = (ENV["PRISMA_ENV"] or ENV["RAILS_ENV"] or (defined?(RAILS_ENV) and RAILS_ENV) or "development")
   end
 end
 ENV["PRISMA_ENV"] = PRISMA_ENV
@@ -60,11 +59,11 @@ $archive_pattern =  PRISMA_ROOT + "archive/%t/%i/%d.arch" unless $archive_patter
 
 unless defined?(RAILS_ENV)
   alois_lib = (Pathname.new(__FILE__).dirname + "../../../rails/lib/")
-  $:.push(alois_lib.to_s) if alois_lib.exist?
+  $:.insert(0,alois_lib.to_s) if alois_lib.exist?
   require "alois/utils.rb"
   require "alois/date_time_enhance.rb"
 end
-$:.push(PRISMA_LIB_PATH.to_s) if PRISMA_LIB_PATH.exist?
+$:.insert(0,PRISMA_LIB_PATH.to_s) if PRISMA_LIB_PATH.exist?
 require "prisma.rb"
 
 MAX_QUEUE_SIZES = {"syslogd_raws" => 1000000}
