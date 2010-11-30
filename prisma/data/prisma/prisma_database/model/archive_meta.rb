@@ -25,20 +25,20 @@
 	  throw "Suspicious line found at line #{self.current} (unquoted \" found)!" if line =~ /\".*[^\\]\".*\"/
 	  msg = YAML.parse(eval(line)).transform
 	rescue 
-	 $log.error "Error getting archive record \##{self.current}. (#{$!.message})" if $log.error?
+          $log.error{"Error getting archive record \##{self.current}. (#{$!.message})"}
 	end
 	yield msg if msg
 	exit(0) if $terminate
       end
     end
     
-    def initialize( filename ) 
-      super(nil)
+    def prisma_initialize( filename ) 
       self.filename = filename
       self.current = 0
       self.total = open(filename).readlines.length
       self.todo = self.total
       self.save
+      self
     end
     
     def messages

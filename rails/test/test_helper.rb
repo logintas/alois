@@ -101,7 +101,7 @@ class ActiveSupport::TestCase
       end
       return msgs
     when "archive"
-      a = ArchiveMeta.new(fi[:filename])
+      a = ArchiveMeta.new.prisma_initialize(fi[:filename])
       a.save            
       return a
     else

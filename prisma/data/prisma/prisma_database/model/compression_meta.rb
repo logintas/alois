@@ -1,3 +1,4 @@
+# -*- coding: undecided -*-
 # Copyright 2010 The Apache Software Foundation.
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -48,11 +49,14 @@ class CompressionMeta < ActiveRecord::Base
       extname = meta_message.read_option("extname")
       cmd = DECOMPRESSION_COMMANDS[extname]
 
-      tmpf = "#{Dir.tmpdir}/CompressMeta-{Process.pid}"
-      File.open(tmpf + extname ,"w") {|f| f.write(message.msg)}
-      throw "'#{cmd} #{tmpf}#{extname}' not successful!" unless system("#{cmd} #{tmpf}#{extname}")
-      msg = File.open(tmpf ,"r") {|f| f.read}
-      FileUtils.rm(tmpf)
+      msg = nil
+      temp_file("CompressionMeta") {|tmpf|
+        compressed = Pathname.new("#{tmpf}#{extname}")
+        File.open(compressed ,"w") {|f| f.write(message.msg)}
+        throw "'#{cmd} #{tmpf}#{extname}' not successful!" unless system("#{cmd} #{compressed}")
+        msg = File.open(tmpf ,"r") {|f| f.read}
+        compressed.unlink if compressed.exist?
+      }
       
       return self.new.prisma_initialize(meta_message,{:extname => extname,
 			:inflate_command => cmd,

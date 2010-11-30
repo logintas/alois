@@ -75,6 +75,10 @@
 	  msg = nil
 	  begin	 
 	    # leave this for security (evaluating string)
+            if line =~ /^(\S+)\:(\".*\")$/
+              $log.debug{"Removing leading filename #{$1}"}
+              line = $2
+            end
 	    throw "Leading and/or tailing \" not found in file '#{archivfile}:#{i}'!" unless line =~ /^".*\"$/
  	    throw "Suspicious line found in file '#{archivfile}:#{i}' (unquoted \" found)!" if line =~ /\".*[^\\]\".*\"/
 	    msg = Object.from_yaml(eval(line))

@@ -218,7 +218,7 @@ module BaseMixin
 	  $log.debug{"Results: #{results.inspect}"}
 	  $log.debug("Fields:  #{expr[:fields].inspect}") if $log.debug?
 	  if results.size != expr[:fields].length
-	    throw "Regexp matched (#{results.size}) more than fields (#{expr[:fields].length}) defined. (Tansform against: #{self.name})"
+	    throw "Regexp matched (#{results.size}) more than fields (#{expr[:fields].length}) defined. (Res: #{results.inspect} Tansform against: #{self.name})"
 	  end
 	  
 	  values = {}

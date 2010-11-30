@@ -23,7 +23,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../conf/prisma/environment.r
 Prisma::Database.load_all
 
 require "active_record/fixtures"
-class PrismaTest < Test::Unit::TestCase
+class Test::Unit::TestCase
 
   def insert_fixture(klass)
     fixture_file = Pathname.new(__FILE__).dirname + "fixtures/" + klass.table_name
@@ -32,6 +32,66 @@ class PrismaTest < Test::Unit::TestCase
                        klass.name,
                        fixture_file) #, file_filter = DEFAULT_FILTER_RE)
     fix.insert_fixtures
+  end
+
+  def file_info(filename)
+    basename = Pathname.new(filename).basename.to_s
+    unless basename =~ /([^\.]*)\.(.*)/
+      g = Dir.glob(filename + ".*").reject {|f| f =~ /\~$/ or f=~/\..*\./}
+      throw "More than one file found. (#{g.inspect})" if g.length > 1
+      throw "File not found '#{filename + ".*"}'" if g.length == 0
+      filename = g[0]
+    end
+    basename = Pathname.new(filename).basename.to_s
+    throw "Malformed filename '#{filename}'" unless basename =~ /([^\.]*)\.(.*)/
+    table_name, type = $1,$2
+    table_class = Prisma::Database.get_class_from_tablename(table_name)
+    throw "Table '#{table_name}' not found." unless table_class
+    
+    ret = {:type => type, :table_class => table_class, :filename => filename}
+  end
+
+  def load_and_transform_file(filename, expected_message_count = 0)
+    fi = file_info(filename)
+    Message.delete_all
+    fi[:table_class].delete_all
+    
+    ret = load_file(filename)
+    Prisma::Transform.transform_messages
+    if Message.count > 0
+      Message.find(:all).each {|m|
+	p m.msg
+      }
+      print "Found still #{Message.count} messages.\n"
+    end
+    assert_equal expected_message_count, Message.count
+  end
+
+  def load_file(filename)
+    fi = file_info(filename)
+    table_class = fi[:table_class]
+
+    case fi[:type]
+    when "messages"
+      Message.delete_all
+      msgs = []
+      for line in open(fi[:filename])
+	# correct windows linefeeds
+	line = line[0..-3] + "\n" if line.ends_with?("\r\n")
+
+	parent = table_class.new
+	message = Message.new.prisma_initialize(parent,line)
+	message.save
+	msgs.push message
+      end
+      return msgs
+    when "archive"
+      a = ArchiveMeta.new.prisma_initialize(fi[:filename])
+      a.save            
+      return a
+    else
+      throw "unknown type '#{type}'."
+    end
   end
 
 end
@@ -86,65 +146,6 @@ class ActiveSupport::TestCase
     source.transform
   end
 
-  def file_info(filename)
-    basename = Pathname.new(filename).basename.to_s
-    unless basename =~ /([^\.]*)\.(.*)/
-      g = Dir.glob(filename + ".*").reject {|f| f =~ /\~$/ or f=~/\..*\./}
-      throw "More than one file found. (#{g.inspect})" if g.length > 1
-      throw "File not found '#{filename + ".*"}'" if g.length == 0
-      filename = g[0]
-    end
-    basename = Pathname.new(filename).basename.to_s
-    throw "Malformed filename '#{filename}'" unless basename =~ /([^\.]*)\.(.*)/
-    table_name, type = $1,$2
-    table_class = Prisma.get_class_from_tablename(table_name)
-    throw "Table '#{table_name}' not found." unless table_class
-    
-    ret = {:type => type, :table_class => table_class, :filename => filename}
-  end
-
-  def load_file(filename)
-    fi = file_info(filename)
-    table_class = fi[:table_class]
-
-    case fi[:type]
-    when "messages"
-      Message.delete_all
-      msgs = []
-      for line in open(fi[:filename])
-	# correct windows linefeeds
-	line = line[0..-3] + "\n" if line.ends_with?("\r\n")
-
-	parent = table_class.new
-	message = Message.new.prisma_initialize(parent,line)
-	message.save
-	msgs.push message
-      end
-      return msgs
-    when "archive"
-      a = ArchiveMeta.new.prisma_initialize(fi[:filename])
-      a.save            
-      return a
-    else
-      throw "unknown type '#{type}'."
-    end
-  end
-
-  def load_and_transform_file(filename, expected_message_count = 0)
-    fi = file_info(filename)
-    Message.delete_all
-    fi[:table_class].delete_all
-
-    ret = load_file(filename)
-    Prisma.transform_messages
-    if Message.count > 0
-      Message.find(:all).each {|m|
-	p m.msg
-      }
-      print "Found still #{Message.count} messages.\n"
-    end
-    assert_equal expected_message_count, Message.count
-  end
 
   # from http://wiki.rubyonrails.org/rails/pages/HowtoUseMultipleDatabasesWithFixtures
   
