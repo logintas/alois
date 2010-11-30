@@ -36,9 +36,19 @@
       from_date(options) == to_date(options)
     end
 
+    # return quoted date
+    def quoted_date(date, options = {})
+      if table = options[:table_class]
+        date = Time.parse(date.strftime("%F"))
+        table.connection.quoted_date(date)
+      else
+        date.strftime("%F")
+      end
+    end
+
     # The starting date of the range
     def from_date(options = {})
-      range(options).first.strftime("%F")
+      quoted_date(range(options).first, options)
     end
 
     # The starting time of the range
@@ -50,7 +60,7 @@
 
     # The ending date of the range
     def to_date(options = {})
-      range(options).last.strftime("%F")
+      quoted_date(range(options).last, options)
     end
     
     # The ending time of the range
