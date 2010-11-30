@@ -139,12 +139,30 @@ class Object
   end
 
   # Helper function for loading ipranges from a file. Executes Class.create for each entry.
-  def Object.load_from_yaml(filename)
+  def Object.load_from_yaml(filename, options = {})
+    $log.info("Loading #{self} from yaml file: #{filename}")
     yaml_string = ""
     yaml_string << IO.read(filename)
     yaml = YAML::load(yaml_string)    
-    yaml.each {|vals|
-      self.create(vals[1])
+    yaml.each {|name,vals|
+      $log.debug("Loading #{self} #{name}: #{vals.inspect}")
+      old_element = nil
+      if key = options[:primary_key]
+        $log.debug("Looking for existing object with #{key.inspect} => #{vals[key].inspect}")
+        old_element = self.send("find_all_by_#{key}", vals[key])[0]
+      end
+      
+      begin
+        if old_element
+          $log.info{"Updating #{name} #{self}.#{old_element.id}"}
+          old_element.update_attributes(vals)
+        else
+          $log.info{"Creating #{name} #{self}"}
+          self.create(vals)
+        end
+      rescue
+        $log.error($!.to_s)
+      end
     }
   end
   

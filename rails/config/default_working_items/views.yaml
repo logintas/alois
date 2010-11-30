@@ -1,16 +1,17 @@
 # This File specifies the
 # default views generated in Alois
+# old message first function for mysql minute(time) minute ,cast(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(substring(msg,1, instr(msg, ' ')-1),'1',''),'2',''),'3',''),'4',''),'5',''),'6',''),'7',''),'8',''),'9',''),'0','') as char(255)) as msg_first
 firewall:
   name: Firewall - iptables
   description: Firewall logs from iptable firewalls
-  sql_declaration: "SELECT iptables_firewall_metas.`id`, iptables_firewall_metas.`rule`, iptables_firewall_metas.`src`, iptables_firewall_metas.`spt`, iptables_firewall_metas.`dst`, iptables_firewall_metas.`dpt`, iptables_firewall_metas.`custom`, iptables_firewall_metas.`in`, iptables_firewall_metas.`out`, iptables_firewall_metas.`physin`, iptables_firewall_metas.`physout`, iptables_firewall_metas.`len`, iptables_firewall_metas.`tos`, iptables_firewall_metas.`prec`, iptables_firewall_metas.`ttl`, iptables_firewall_metas.`proto`, iptables_firewall_metas.`additional`, log_metas.`date`, log_metas.`time`, log_metas.`host`, syslogd_metas.`facility`, syslogd_metas.`priority`, syslogd_metas.`level` ,HOUR(log_metas.time) as hour FROM iptables_firewall_metas, log_metas, syslogd_metas, source_db_metas WHERE iptables_firewall_metas.log_metas_id = log_metas.id AND syslogd_metas.source_db_metas_id = source_db_metas.id AND log_metas.syslogd_metas_id = syslogd_metas.id "
+  sql_declaration: "SELECT iptables_firewall_metas.`id`, iptables_firewall_metas.`rule`, iptables_firewall_metas.`src`, iptables_firewall_metas.`spt`, iptables_firewall_metas.`dst`, iptables_firewall_metas.`dpt`, iptables_firewall_metas.`custom`, iptables_firewall_metas.`in`, iptables_firewall_metas.`out`, iptables_firewall_metas.`physin`, iptables_firewall_metas.`physout`, iptables_firewall_metas.`len`, iptables_firewall_metas.`tos`, iptables_firewall_metas.`prec`, iptables_firewall_metas.`ttl`, iptables_firewall_metas.`proto`, iptables_firewall_metas.`additional`, log_metas.`date`, log_metas.`time`, log_metas.`host`, syslogd_metas.`facility`, syslogd_metas.`priority`, syslogd_metas.`level` FROM iptables_firewall_metas, log_metas, syslogd_metas, source_db_metas WHERE iptables_firewall_metas.log_metas_id = log_metas.id AND syslogd_metas.source_db_metas_id = source_db_metas.id AND log_metas.syslogd_metas_id = syslogd_metas.id "
   do_not_use_view_for_query: "0"
   id_source_table: iptables_firewall_metas
 
 cisco_connections:
   name: Firewall - Cisco
   description: UDP, TCP und ICMP Verbindungen gemeldet vom Connectivity-Gateway.
-  sql_declaration: "SELECT cisco_firewall_connection_metas.`id`, cisco_firewall_connection_metas.`msg`, cisco_firewall_connection_metas.`reason`, cisco_firewall_connection_metas.`connection_id`, cisco_firewall_connection_metas.`connection_type`, cisco_firewall_connection_metas.`foreign_name`, cisco_firewall_connection_metas.`foreign_ip`, cisco_firewall_connection_metas.`foreign_port`, cisco_firewall_connection_metas.`local_name`, cisco_firewall_connection_metas.`local_ip`, cisco_firewall_connection_metas.`local_port`, cisco_firewall_connection_metas.`global_to_ip`, cisco_firewall_connection_metas.`global_to_port`, cisco_firewall_connection_metas.`global_from_ip`, cisco_firewall_connection_metas.`global_from_port`, cisco_firewall_connection_metas.`duration`, cisco_firewall_connection_metas.`bytes`,(cisco_firewall_connection_metas.`bytes`/1024/1024) as mega_bytes, log_metas.`date`, log_metas.`time`,HOUR(log_metas.`time`) as hour, log_metas.`host`, syslogd_metas.`priority`, syslogd_metas.`level`\r\n\
+  sql_declaration: "SELECT cisco_firewall_connection_metas.`id`, cisco_firewall_connection_metas.`msg`, cisco_firewall_connection_metas.`reason`, cisco_firewall_connection_metas.`connection_id`, cisco_firewall_connection_metas.`connection_type`, cisco_firewall_connection_metas.`foreign_name`, cisco_firewall_connection_metas.`foreign_ip`, cisco_firewall_connection_metas.`foreign_port`, cisco_firewall_connection_metas.`local_name`, cisco_firewall_connection_metas.`local_ip`, cisco_firewall_connection_metas.`local_port`, cisco_firewall_connection_metas.`global_to_ip`, cisco_firewall_connection_metas.`global_to_port`, cisco_firewall_connection_metas.`global_from_ip`, cisco_firewall_connection_metas.`global_from_port`, cisco_firewall_connection_metas.`duration`, cisco_firewall_connection_metas.`bytes`,(cisco_firewall_connection_metas.`bytes`/1024/1024) as mega_bytes, log_metas.`date`, log_metas.`time`, log_metas.`host`, syslogd_metas.`priority`, syslogd_metas.`level`\r\n\
     \r\n FROM  cisco_firewall_connection_metas , cisco_base_metas,log_metas FORCE INDEX (log_metas_date_index) , syslogd_metas , source_db_metas  WHERE\r\n cisco_firewall_connection_metas.cisco_base_metas_id = cisco_base_metas.id AND cisco_base_metas.log_metas_id = log_metas.id AND log_metas.syslogd_metas_id = syslogd_metas.id AND syslogd_metas.source_db_metas_id = source_db_metas.id "
   id_source_table: cisco_firewall_connection_metas
   do_not_use_view_for_query: "0"
@@ -18,42 +19,42 @@ cisco_connections:
 ace_passcodes:
   name: ACE-Server passcodes
   description: Ace passcode logs. Including Permits, Denies and Errors.
-  sql_declaration: SELECT ace_passcode_metas.`id`, ace_passcode_metas.`action`, ace_passcode_metas.`login`, ace_passcode_metas.`user_name`, ace_passcode_metas.`token`, ace_passcode_metas.`agent_host`, ace_passcode_metas.`server`, windows_event_metas.`date`, windows_event_metas.`time`, HOUR(windows_event_metas.time) as hour, log_metas.time as syslog_time,windows_event_metas.level FROM windows_event_metas LEFT JOIN ace_passcode_metas ON ace_passcode_metas.windows_event_metas_id = windows_event_metas.id LEFT JOIN log_metas ON windows_event_metas.log_metas_id = log_metas.id WHERE ace_passcode_metas.id IS NOT NULL
+  sql_declaration: SELECT ace_passcode_metas.`id`, ace_passcode_metas.`action`, ace_passcode_metas.`login`, ace_passcode_metas.`user_name`, ace_passcode_metas.`token`, ace_passcode_metas.`agent_host`, ace_passcode_metas.`server`, windows_event_metas.`date`, windows_event_metas.`time`, log_metas.time as syslog_time,windows_event_metas.level FROM windows_event_metas LEFT JOIN ace_passcode_metas ON ace_passcode_metas.windows_event_metas_id = windows_event_metas.id LEFT JOIN log_metas ON windows_event_metas.log_metas_id = log_metas.id WHERE ace_passcode_metas.id IS NOT NULL
   do_not_use_view_for_query: "0"
   id_source_table: ace_passcode_metas
 
 syslog1:
   name: Syslog
   description: Logs that came over Syslog.
-  sql_declaration: SELECT log_metas.`id`, log_metas.`date`, log_metas.`time`, log_metas.`host`, log_metas.`syslogd_metas_id`, syslogd_metas.`ip`, syslogd_metas.`facility`, syslogd_metas.`priority`, syslogd_metas.`level`, hour(log_metas.time) as hour, minute(log_metas.time) minute , hour(log_metas.time) + minute(log_metas.time) / 100 as hourminute FROM log_metas LEFT JOIN syslogd_metas ON log_metas.syslogd_metas_id = syslogd_metas.id
+  sql_declaration: SELECT log_metas.`id`, log_metas.`date`, log_metas.`time`, log_metas.`host`, log_metas.`syslogd_metas_id`, syslogd_metas.`ip`, syslogd_metas.`facility`, syslogd_metas.`priority`, syslogd_metas.`level` FROM log_metas LEFT JOIN syslogd_metas ON log_metas.syslogd_metas_id = syslogd_metas.id
   do_not_use_view_for_query: "0"
   id_source_table: log_metas
 
 syslog1_with_message:
   name: Syslog with Message
   description: Logs that came over Syslog. If the message has not been parsed further, the log message is displayed too.
-  sql_declaration: SELECT log_metas.`id`, log_metas.`date`, log_metas.`time`, log_metas.`host`, log_metas.`syslogd_metas_id`, syslogd_metas.`ip`, syslogd_metas.`facility`, syslogd_metas.`priority`, syslogd_metas.`level`, hour(log_metas.time) as hour, minute(log_metas.time) minute , hour(log_metas.time) + minute(log_metas.time) / 100 as hourminute, msg,  replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(substring(msg,1, instr(msg, ' ')-1),'1',''),'2',''),'3',''),'4',''),'5',''),'6',''),'7',''),'8',''),'9',''),'0','') as msg_first, left(msg,5) as left_5_msg, left(msg,10) as left_10_msg, left(msg,15) as left_15_msg, IF(msg is NULL,'known message','unknown message') as message_type FROM log_metas LEFT JOIN syslogd_metas ON log_metas.syslogd_metas_id = syslogd_metas.id LEFT JOIN source_db_metas ON syslogd_metas.source_db_metas_id = source_db_metas.id LEFT JOIN messages ON messages.`meta_type_name` = 'Prisma::LogMeta' AND messages.meta_id = log_metas.id
+  sql_declaration: SELECT log_metas.`id`, log_metas.`date`, log_metas.`time`, log_metas.`host`, log_metas.`syslogd_metas_id`, syslogd_metas.`ip`, syslogd_metas.`facility`, syslogd_metas.`priority`, syslogd_metas.`level`, msg, left(msg,5) as left_5_msg, left(msg,10) as left_10_msg, left(msg,15) as left_15_msg, IF(msg is NULL,'known message','unknown message') as message_type FROM log_metas LEFT JOIN syslogd_metas ON log_metas.syslogd_metas_id = syslogd_metas.id LEFT JOIN source_db_metas ON syslogd_metas.source_db_metas_id = source_db_metas.id LEFT JOIN messages ON messages.`meta_type_name` = 'Prisma::LogMeta' AND messages.meta_id = log_metas.id
   do_not_use_view_for_query: "0"
   id_source_table: log_metas
 
 syslog1_windows:
   name: Syslog with Message from WindowsEventMetas
   description: Logs that came over Syslog and have not fully parsed WindowsEventMetas messages.
-  sql_declaration: SELECT STRAIGHT_JOIN log_metas.`id`, log_metas.`date`, log_metas.`time`, log_metas.`host`, syslogd_metas.`ip`, syslogd_metas.`facility`, syslogd_metas.`priority`, syslogd_metas.`level`, syslogd_metas.`tag`, syslogd_metas.`program`, messages.msg ,messages.meta_type_name,hour(log_metas.time) as hour, minute(log_metas.time) minute , hour(log_metas.time) + minute(log_metas.time) / 100 as hourminute, cast(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(substring(msg,1, instr(msg, ' ')-1),'1',''),'2',''),'3',''),'4',''),'5',''),'6',''),'7',''),'8',''),'9',''),'0','') as char(255)) as msg_first, left(msg,5) as left_5_msg, left(msg,10) as left_10_msg, left(msg,15) as left_15_msg, IF(msg is NULL,'known message','unknown message') as message_type FROM log_metas,windows_event_metas,syslogd_metas,messages WHERE windows_event_metas.log_metas_id = log_metas.id AND log_metas.syslogd_metas_id = syslogd_metas.id  AND messages.meta_id = windows_event_metas.id AND messages.meta_type_name = 'Prisma::WindowsEventMeta'
+  sql_declaration: SELECT STRAIGHT_JOIN log_metas.`id`, log_metas.`date`, log_metas.`time`, log_metas.`host`, syslogd_metas.`ip`, syslogd_metas.`facility`, syslogd_metas.`priority`, syslogd_metas.`level`, syslogd_metas.`tag`, syslogd_metas.`program`, messages.msg ,messages.meta_type_name, left(msg,5) as left_5_msg, left(msg,10) as left_10_msg, left(msg,15) as left_15_msg, IF(msg is NULL,'known message','unknown message') as message_type FROM log_metas,windows_event_metas,syslogd_metas,messages WHERE windows_event_metas.log_metas_id = log_metas.id AND log_metas.syslogd_metas_id = syslogd_metas.id  AND messages.meta_id = windows_event_metas.id AND messages.meta_type_name = 'Prisma::WindowsEventMeta'
   do_not_use_view_for_query: "0"
   id_source_table: log_metas
 
 syslog1_cisco:
   name: Syslog with Message from CiscoBaseMeta
   description: Logs that came over Syslog and have not fully parsed CiscoBaseMetas messages.
-  sql_declaration: SELECT STRAIGHT_JOIN log_metas.`id`, log_metas.`date`, log_metas.`time`, log_metas.`host`, syslogd_metas.`ip`, syslogd_metas.`facility`, syslogd_metas.`priority`, syslogd_metas.`level`, syslogd_metas.`tag`, syslogd_metas.`program`, messages.msg,messages.meta_type_name,hour(time) as hour, minute(time) minute , hour(time) + minute(time) / 100 as hourminute, cast(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(substring(msg,1, instr(msg, ' ')-1),'1',''),'2',''),'3',''),'4',''),'5',''),'6',''),'7',''),'8',''),'9',''),'0','') as char(255)) as msg_first, left(msg,5) as left_5_msg, left(msg,10) as left_10_msg, left(msg,15) as left_15_msg, IF(msg is NULL,'known message','unknown message') as message_type FROM log_metas,cisco_base_metas,syslogd_metas,messages WHERE cisco_base_metas.log_metas_id = log_metas.id AND log_metas.syslogd_metas_id = syslogd_metas.id AND messages.meta_id = cisco_base_metas.id AND messages.meta_type_name = 'Prisma::CiscoBaseMeta'
+  sql_declaration: SELECT STRAIGHT_JOIN log_metas.`id`, log_metas.`date`, log_metas.`time`, log_metas.`host`, syslogd_metas.`ip`, syslogd_metas.`facility`, syslogd_metas.`priority`, syslogd_metas.`level`, syslogd_metas.`tag`, syslogd_metas.`program`, messages.msg,messages.meta_type_name, left(msg,5) as left_5_msg, left(msg,10) as left_10_msg, left(msg,15) as left_15_msg, IF(msg is NULL,'known message','unknown message') as message_type FROM log_metas,cisco_base_metas,syslogd_metas,messages WHERE cisco_base_metas.log_metas_id = log_metas.id AND log_metas.syslogd_metas_id = syslogd_metas.id AND messages.meta_id = cisco_base_metas.id AND messages.meta_type_name = 'Prisma::CiscoBaseMeta'
   id_source_table: log_metas
 
 syslog1_log_meta:
   name: Syslog with Message from LogMeta
   description: Logs that came over Syslog and have not fully parsed LogMeta messages.
   sql_declaration: |
-    SELECT STRAIGHT_JOIN log_metas.`id`, log_metas.`date`, log_metas.`time`, log_metas.`host`, syslogd_metas.`ip`, syslogd_metas.`facility`, syslogd_metas.`priority`, syslogd_metas.`level`, syslogd_metas.`tag`, syslogd_metas.`program`, messages.msg, messages.meta_type_name ,hour(time) as hour, minute(time) minute , hour(time) + minute(time) / 100 as hourminute, cast(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(substring(msg,1, instr(msg, ' ')-1),'1',''),'2',''),'3',''),'4',''),'5',''),'6',''),'7',''),'8',''),'9',''),'0','') as char(255)) as msg_first, left(msg,5) as left_5_msg, left(msg,10) as left_10_msg, left(msg,15) as left_15_msg, IF(msg is NULL,'known message','unknown message') as message_type FROM log_metas,syslogd_metas,messages WHERE log_metas.syslogd_metas_id = syslogd_metas.id
+    SELECT STRAIGHT_JOIN log_metas.`id`, log_metas.`date`, log_metas.`time`, log_metas.`host`, syslogd_metas.`ip`, syslogd_metas.`facility`, syslogd_metas.`priority`, syslogd_metas.`level`, syslogd_metas.`tag`, syslogd_metas.`program`, messages.msg, messages.meta_type_name, left(msg,5) as left_5_msg, left(msg,10) as left_10_msg, left(msg,15) as left_15_msg, IF(msg is NULL,'known message','unknown message') as message_type FROM log_metas,syslogd_metas,messages WHERE log_metas.syslogd_metas_id = syslogd_metas.id
     AND messages.meta_id = log_metas.id AND messages.meta_type_name = 'Prisma::LogMeta'
   description: Syslog Fields of messages that are in LogMetas
   id_source_table: log_metas
@@ -75,8 +76,7 @@ cisco1_prepare:
   name: CiscoFirewall Prepare
   exclusive_for_group: ""
   sql_declaration: |-
-    SELECT STRAIGHT_JOIN cisco_firewall_metas.`id`, cisco_firewall_metas.`msg`, cisco_firewall_metas.`source`, cisco_firewall_metas.`source_port`, cisco_firewall_metas.`destination`, cisco_firewall_metas.`destination_port`, cisco_firewall_metas.`interface`, log_metas.`date`, log_metas.`time`, log_metas.`host`
-    , hour(log_metas.time) as hour FROM log_metas,cisco_base_metas,cisco_firewall_metas WHERE cisco_firewall_metas.cisco_base_metas_id = cisco_base_metas.id AND cisco_base_metas.log_metas_id = log_metas.id
+    SELECT STRAIGHT_JOIN cisco_firewall_metas.`id`, cisco_firewall_metas.`msg`, cisco_firewall_metas.`source`, cisco_firewall_metas.`source_port`, cisco_firewall_metas.`destination`, cisco_firewall_metas.`destination_port`, cisco_firewall_metas.`interface`, log_metas.`date`, log_metas.`time`, log_metas.`host`, FROM log_metas,cisco_base_metas,cisco_firewall_metas WHERE cisco_firewall_metas.cisco_base_metas_id = cisco_base_metas.id AND cisco_base_metas.log_metas_id = log_metas.id
   do_not_use_view_for_query: "1"
   id_source_table: cisco_firewall_metas
 
@@ -86,3 +86,14 @@ cisco2:
   sql_declaration: SELECT STRAIGHT_JOIN * FROM <<VIEW(CiscoFirewall Prepare)>>
   do_not_use_view_for_query: "1"
   id_source_table: cisco_firewall_metas
+
+file_messages: 
+  name: "File Messages"
+  sql_declaration: SELECT messages.`id`, messages.`msg`, log_metas.`date`, log_metas.`time`, log_metas.`host` FROM messages LEFT JOIN log_metas ON messages.meta_id = log_metas.id AND messages.meta_type_name = 'Prisma::LogMeta' LEFT JOIN pure_metas ON log_metas.pure_metas_id = pure_metas.id LEFT JOIN file_metas ON pure_metas.file_metas_id = file_metas.id
+  id: "2"
+  date_column_name: 
+  id_source_table: messages
+  additional_fields: 
+  do_not_use_view_for_query: f
+  description: "Logs that are imported by prisma stdin"
+  exclusive_for_group: ""
