@@ -23,6 +23,19 @@
 
     def self.expressions
       ret = []
+        # Nov 29 10:36:58 testhost kernel: [251102.020761] ...
+      ret.push({ :condition => lambda {|mesage, meta_class, meta_instance| meta_class == PureMeta },
+		 :regex => /^([^ ]*) *(\d+) (..:\d\d:\d\d) ([^ ]*) ([^ ]*)\: \[(\d+\.\d+)\] (.*)$/,
+		 :result_filter => lambda {|results, meta_instance|
+                   # TODO: time offset and facility should not be ommited
+                   results.delete_at(4);results.delete_at(4)
+
+		   results[0] = DateTime.strptime("#{results[0]} #{results[1]} #{Time.now.year}", "%b %d %Y")
+		   results.delete_at(1)
+		   results
+		 },
+		 :fields => [:date, :time, :host, :message]})      
+
       ret.push({ :condition => lambda {|mesage, meta_class, meta_instance| meta_class == PureMeta },
 		 :regex => /^([^ ]*) *(\d+) (..:\d\d:\d\d) ([^ ]*) (.*)$/,
 		 :result_filter => lambda {|results, meta_instance| 		   
@@ -31,6 +44,7 @@
 		   results
 		 },
 		 :fields => [:date, :time, :host, :message]})      
+
       return ret
     end
         
