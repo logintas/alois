@@ -223,15 +223,21 @@ module SurveyHelper
   ## #end
 
   def format_column(record,column, index)
-    ret = ""
     val = record.send(column.name)
     hash = "#{val}_#{column.name}_#{index}".hash.abs
     if !val.nil? and val.class == String
       sub_num = 0
       val.gsub(/\d+\.\d+\.\d+\.\d+/) {|v|
+        ret = ""
 	sub_num += 1
 	table_id = "ip_#{hash}_#{sub_num}"
-	ranges = IpRange.find_including_range(v)	
+        
+        ranges = []
+	begin
+          ranges = IpRange.find_including_range(v)	
+        rescue
+          $log.warn("Error finding ranges #{$!}")
+        end
 	ip = v.to_ip
 	
 	if ranges.length > 0
