@@ -2,7 +2,6 @@
 require "pathname"
 ENV["GEM_HOME"] = nil if ENV["GEM_HOME"] and !Pathname.new(ENV["GEM_HOME"]).exist?
 ENV["GEM_PATH"] = nil if ENV["GEM_PATH"] and !Pathname.new(ENV["GEM_PATH"]).exist?
-
 require "rubygems"
 require "libisi"
 init_libisi
@@ -71,7 +70,6 @@ when "check"
 when "stdin"
   Prisma::Database.load_all(options)
   Prisma::Database.check("prisma" , options)
-  Prisma::Database.check("pumpy" , options)
 
   raise "Stdin processing can not be run as daemon" if daemon
   
