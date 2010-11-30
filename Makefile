@@ -78,6 +78,7 @@ init-db:
 	cd prisma/ ; ruby bin/prisma load prisma
 	cd prisma/ ; ruby bin/prisma load pumpy
 	$(RAKE_COMMAND) "db:schema:load"
+	ruby rails/script/load_default_working_items 1>/dev/null 2>/dev/null
 
 build: init-dirs rails/java/CreateChart.class init-plugins
 	touch alois-build

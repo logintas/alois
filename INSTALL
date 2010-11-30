@@ -23,13 +23,22 @@ libraries installed on your system.
 # creates new sqlite databases
  make init-db
 
-TODO: Create script to fill sqlite db with local logs
+# to pipe some logs (e.g. new syslog messages) into ALOIS use:
+ tail -n0 -f /var/log/messages | GEM_HOME=<<svn-root>>/gems/ ruby <<svn-root>/prisma/bin/prisma stdin
 
 # change into rails directory
  cd <<svn root>>/rails
 
 # to start server
  ./script/server
+
+ALOIS home can now be accessed at http://localhost:3000/
+To get an overview of available tables and data goto: http://localhost:3000/table
+To get a list of all configured views goto: http://localhost:3000/views/list
+
+NOTE: If you use ALOIS locally, no munin statistics are available and there
+are other issues that are not yet working with the sqlite database yet (like
+some filtering methods).
 
 == Debian installation
 Add the following sources:
