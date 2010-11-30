@@ -707,8 +707,8 @@ module ApplicationHelper
     ret = ""
     if options[:frequency]
       ret += periodically_call_remote(:frequency => options[:frequency],
-				      :before => "Element.setStyle('#{div_id}', {'background-color' : '#{options[:update_color]}'});",
-				      :loaded => "Element.setStyle('#{div_id}', {'background-color' : 'transparent'});",
+				      :before => "Element.setStyle('#{div_id}', {backgroundColor : '#{options[:update_color]}'});",
+				      :loaded => "Element.setStyle('#{div_id}', {backgroundColor : 'transparent'});",
 				      :update => div_id, 
 				      :url => url)      
       ret += "<div>Auto reload after #{pluralize(options[:frequency],"second")}</div>"

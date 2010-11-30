@@ -2,9 +2,9 @@
 
   <%= javascript_tag("function update_table() {" + remote_function(:update => 'survey_chart', :url => { :controller=> 'survey', :action => 'chart_inline', :state_id => @state_id }) + "}") %>
 
-<%= javascript_tag("function table_invalid(){Element.setStyle('graphic', {'background-color' : '#FFBBBB'})}") %>
-<%= javascript_tag("function table_reload(){Element.setStyle('graphic', {'background-color' : '#FFFF66'})}") %>
-<%= javascript_tag("function table_valid(){Element.setStyle('graphic', {'background-color' : 'transparent'})}") %>
+<%= javascript_tag("function table_invalid(){Element.setStyle('graphic', {backgroundColor : '#FFBBBB'})}") %>
+<%= javascript_tag("function table_reload(){Element.setStyle('graphic', {backgroundColor : '#FFFF66'})}") %>
+<%= javascript_tag("function table_valid(){Element.setStyle('graphic', {backgroundColor : 'transparent'})}") %>
 
 <table class="form">
   <tr>

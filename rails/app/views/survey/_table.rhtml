@@ -2,9 +2,9 @@
 
 <%= javascript_tag("function update_table() {" + remote_function(:update => 'survey_table', :url => { :controller=> 'survey', :action => 'list_inline', :state_id => @state_id }) + "}") %>
 
-<%= javascript_tag("function table_invalid(){Element.setStyle('log_table', {'background-color' : '#FFBBBB'})}") %>
-<%= javascript_tag("function table_reload(){Element.setStyle('log_table', {'background-color' : '#FFFF66'})}") %>
-<%= javascript_tag("function table_valid(){Element.setStyle('log_table', {'background-color' : 'transparent'})}") %>
+<%= javascript_tag("function table_invalid(){Element.setStyle('log_table', {backgroundColor : '#FFBBBB'})}") %>
+<%= javascript_tag("function table_reload(){Element.setStyle('log_table', {backgroundColor : '#FFFF66'})}") %>
+<%= javascript_tag("function table_valid(){Element.setStyle('log_table', {backgroundColor : 'transparent'})}") %>
 
 <%= show_hide_script %>
 <table class="form">
