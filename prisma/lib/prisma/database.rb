@@ -11,13 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 module Prisma
     # based on .gem/ruby/1.8/gems/rails-2.3.2/lib/tasks/databases.rake 
 
   class Database
     PRISMA_DBS = ["prisma","pumpy"]
-    def self.load_all(options = {})
+    def Database.load_all(options = {})
       PRISMA_DBS.each {|db_name| 
         Prisma::Database.load_classes(db_name, options)
       }
@@ -125,6 +124,10 @@ module Prisma
     def self.migrate(db_name, version = nil, options = {})
       with_db(db_name, options) {
         #system("ls data/prisma/#{db_name}_database/migrate")
+
+        if options[:redo]
+          ActiveRecord::Migrator.rollback(migrate_path(db_name), options[:redo])
+        end
         ActiveRecord::Migrator.migrate(migrate_path(db_name), version )
       }
     end
@@ -137,7 +140,7 @@ module Prisma
         load(schema(db_name).to_s)
       }
     end
-    def self.schema_dump(db_name)
+    def self.schema_dump(db_name, options = {})
       with_db(db_name) {
         require 'active_record/schema_dumper'
         File.open(schema(db_name).to_s, "w") do |file|
@@ -192,7 +195,6 @@ module Prisma
         require file.to_s        
         
         class_name = file.basename.to_s[0..-4].camelize
-        
         
         $log.debug("Loading #{class_name}")
         klass = eval(class_name)
@@ -468,7 +470,6 @@ module Prisma
       $transaction_bundle = nil
     end
   end
-
     
   end
 end
