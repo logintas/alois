@@ -76,7 +76,10 @@ freeze-gems: init-dirs
 
 init-db:
 	cd prisma/ ; ruby bin/prisma load prisma
-	cd prisma/ ; ruby bin/prisma load pumpy
+	cd prisma/ ; ruby bin/prisma migrate prisma
+# there is still something wrong with the schema.rb file (still thinks that migrations are not applied yet after load)
+#	cd prisma/ ; ruby bin/prisma load pumpy
+	cd prisma/ ; ruby bin/prisma migrate pumpy
 	$(RAKE_COMMAND) "db:schema:load"
 	ruby rails/script/load_default_working_items 1>/dev/null 2>/dev/null
 

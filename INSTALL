@@ -8,14 +8,18 @@ you need is a working rubygems version and some system
 libraries installed on your system.
 
 # required packages
- sudo apt-get install rubygems rake ruby1.8-dev libmysqlclient-dev libsqlite3-ruby1.8 libjfreechart-java
+ sudo apt-get install rubygems rake ruby1.8-dev libmysqlclient-dev libsqlite3-ruby1.8 libjfreechart-java libopenssl-ruby1.8 rsync
+lenny: libmysqlclient15-dev braucht es das?
 # install a java runtime and java compiler eg openjdk-6-jdk
  suod gem install libisi
 # install ibisi dependencies
- apt-get install liblog4r-ruby libruby1.8 libprogressbar-ruby1.8 libcmdparse-ruby
+ apt-get install liblog4r-ruby libruby1.8 libprogressbar-ruby1.8 libcmdparse-ruby libtmail-ruby1.8
 
 # download necessary gems
  make freeze-gems
+
+# initialize plugins
+ make init-plugins
 
 # initialize directory structure
  make init
