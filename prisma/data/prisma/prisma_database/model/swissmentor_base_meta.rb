@@ -20,7 +20,18 @@ class SwissmentorBaseMeta < ActiveRecord::Base
   
   def self.expressions
     ret = []
+
     # SMS: [broesel@127.0.0.1] Login successful for user broesel
+    ret.push({ :regex => /^(\S+): \[(\S*)\@(\S+)\] (Login denied for user|Login request user|Login successful for user):? (.*)$/,
+               :fields => [:process, :client_user, :client_ip, :message],
+               :result_filter => lambda {|results, instance|                 
+                 results[1] = results[4] if results[1].blank?
+                 if results[1] != results[4]
+                   result[3] += ": #{results[4]}"
+                 end
+                 results.pop
+                 results
+               }})
 
     ret.push({ :regex => /^(\S+): \[(\S*)\@(\S+)\] (.*)$/,
                :fields => [:process, :client_user, :client_ip, :message]})
