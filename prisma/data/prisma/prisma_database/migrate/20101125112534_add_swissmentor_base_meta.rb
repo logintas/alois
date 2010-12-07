@@ -30,7 +30,7 @@ class AddSwissmentorBaseMeta < ActiveRecord::Migration
     add_index "swissmentor_base_metas","pure_metas_id"
 
     create_table  "swissmentor_data_metas" do |t|
-      t.string  "action",             :limit => 10
+      t.string  "action",             :limit => 40
       t.integer "object_id"
       t.integer "parent_object_id"
       t.string  "object_type",       :limit => 20
