@@ -12,10 +12,10 @@
   <table id="header" summary="Table for formatting header">
     <tr>
       <td  id="header-logo" width="60">
-        <a href="http://www.logintas.ch"><%= image_tag "logo_logintas.png", :size => "50x50", :alt => "Logintas AG - Information Services" %></a>
+        <a href="http://incubator.apache.org/projects/alois.html"><%= image_tag "logo_alois.png", :id => "logo-img", :alt => "Apache ALOIS" %></a>
       </td>
       <td id="header-text">
-        Alois <%= main_menu(common_menu) %> <%= status_traffic_light(:width => 15) rescue $! %> <%= bookmark_add_link %> <%= main_help_link nil,{} %>
+        <%= main_menu(common_menu) %> <%= status_traffic_light(:width => 15) rescue $! %> <%= bookmark_add_link %> <%= main_help_link nil,{} %>
       </td>
     </tr>
   </table>
@@ -33,7 +33,7 @@
 
 
 <!-- footer -->
-<span class="footer"><a href="http://public.logintas.ch/public/ProDucts/AloIs" style="font-family: Arial,Helvetica,Verdana; font-size: 10px">Alois</a> <%= ALOIS_VERSION %> &copy; <a href="http://www.logintas.ch" style="font-family: Arial,Helvetica,Verdana; font-size: 10px">Logintas AG</a>
+<span class="footer"><a href="http://incubator.apache.org/projects/alois.html" style="font-family: Arial,Helvetica,Verdana; font-size: 10px">ALOIS</a> <%= ALOIS_VERSION %> &copy; <a href="http://www.apache.org/" style="font-family: Arial,Helvetica,Verdana; font-size: 10px">The Apache Software Foundation</a>
 </span>
 </div>
 

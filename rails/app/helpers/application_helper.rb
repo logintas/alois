@@ -549,7 +549,7 @@ module ApplicationHelper
     }
   end
 
-  def common_menu(main_name = "Alois", unfolded = true)
+  def common_menu(main_name = "ALOIS", unfolded = true)
     views=[]
     views.push({ :title => "New ...", :link => url_for( :controller => 'views', :action => 'new') })
     
