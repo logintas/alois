@@ -76,6 +76,7 @@
 
     def conditions(options = {})
       options[:table_class] ||= view
+      options[:table_class] = nil if options[:table_class] and options[:table_class].do_not_use_view_for_query
       c = ([date_condition] + filters).compact.map {|f| f.sql(options)}.join(" AND ")
       return nil if c.strip == ""
       c
