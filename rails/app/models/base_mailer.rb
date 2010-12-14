@@ -220,7 +220,7 @@ class BaseMailer < ActionMailer::Base
   def initialize(method_name=nil, *parameters)
     ActionMailer::Base.smtp_settings[:address] = BaseMailer.smtp_server
 
-    if $root_url =~ /^(.*):\/\/(.*[^\/])\/?$/
+    if  $root_url =~ /^(.*):\/\/([^\/]+)/
       ActionMailer::Base.default_url_options[:protocol] = $1
       ActionMailer::Base.default_url_options[:host] = $2
     else
