@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+  <header>
+    <title>Installation Apache ALOIS</title>
+  </header>
+  <body>
+    <section id="introduction">
+      <title>Introduction</title>
+      <p>
+        A system like Apache ALOIS can never be installed in a few minutes. Therefore, you might want to try out our on-line <a href="demo.html">demo</a> first. At the moment, there are some Linux skills asked to install Apache ALOIS. In the future we plan to offer a live cd, so you can easily test Apache ALOIS and create an instance in a virtual environment.
+      </p>
+    </section>
+    <section id="linux">
+      <title>Linux</title>
+      <p>
+         Find the installation guide in our <a href="ext:svn-install">code repository</a>.
+      </p>
+    </section>
+    <section id="other">
+      <title>Other OS</title>
+      <p>
+         Since Apache ALOIS is written in Ruby, it should run on many platforms and operation systems. But there might be some severe problems with dependencies. At the moment we have no experiences but with Debian and Ubuntu based installations. Therefore, we would love to get to know if you have - sucessfully or not - installed Apache ALOIS on another platform. And maybe you would like to become part of the active community and contribute your installation how-to.   
+      </p>
+    </section>
+  </body>
+</document>

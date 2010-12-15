@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!--
+Forrest site.xml
+
+This file contains an outline of the site's information content.  It is used to:
+- Generate the website menus (though these can be overridden - see docs)
+- Provide semantic, location-independent aliases for internal 'site:' URIs, eg
+<link href="site:changes"> links to changes.html (or ../changes.html if in
+  subdir).
+- Provide aliases for external URLs in the external-refs section.  Eg, <link
+  href="ext:cocoon"> links to http://cocoon.apache.org/ 
+
+See http://forrest.apache.org/docs/linking.html for more info
+-->
+<!-- The label attribute of the outer "site" element will only show
+  in the linkmap (linkmap.html).
+  Use elements project-name and group-name in skinconfig to change name of 
+  your site or project that is usually shown at the top of page.
+  No matter what you configure for the href attribute, Forrest will
+  always use index.html when you request http://yourHost/
+  See FAQ: "How can I use a start-up-page other than index.html?"
+-->
+<site label="ALOIS" href="" xmlns="http://apache.org/forrest/linkmap/1.0"
+  tab="">
+  <about label="Overview">
+    <index label="A brief introduction" href="index.html" description="Welcome to Apache ALOIS"/>
+    <team label="Project team" href="team.html" description="Project team"/>
+    <boards label="Board reports" href="board.html" description="Board reports"/>
+    <linkmap label="Sitemap" href="linkmap.html" description="Table of Contents for this site"/>
+  </about>
+  <guide label="Getting started">
+    <demo label="On-line demo" href="demo.html" description="On-line demo of Apache ALOIS"/>
+    <installation label="Installation" href="installation.html" description="Installation"/>
+    <howtos label="How-to's" href="howtos.html" description="How-to's"/>
+  </guide>
+  <community label="Becoming involved">
+    <ways label="Ways to contribute" href="contribute.html" description="Ways to contribute"/>
+    <devguide label="Development guide" href="devguide.html" description="Development guide"/>
+  </community>
+  <resources label="Resources">
+    <publications label="Publications" href="publications.html" description="Presentation and articles"/>
+    <subversion label="Sourcecode" href="ext:svn" description="Subversion repository"/>
+    <jira label="Issue Tracker" href="ext:jira"/>
+    <lists label="Mailing Lists" href="lists.html" description="Mailing lists"/>
+    <roadmap label="Roadmap" href="roadmap.html" description="Roadmap"/>
+  </resources>
+<!--
+  The href must be wholesite.html/pdf  You can change the labels and node names
+  <all label="All">
+    <whole_site_html label="Whole Site HTML" href="wholesite.html"/>
+    <whole_site_pdf label="Whole Site PDF" href="wholesite.pdf"/>
+  </all>
+  -->
+  <external-refs>
+    <svn href="https://svn.apache.org/repos/asf/incubator/alois" />
+    <svn-install href="https://svn.apache.org/repos/asf/incubator/alois/trunk/INSTALL" />
+    <jira href="https://issues.apache.org/jira/browse/ALOIS" />
+  </external-refs>
+</site>

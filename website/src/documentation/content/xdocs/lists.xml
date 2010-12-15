@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0//EN" "http://forrest.apache.org/dtd/document-v20.dtd">
+<document>
+  <header>
+    <title>Apache ALOIS Mailing Lists</title>
+  </header>
+  <body>
+    <section id="dev">
+      <title>alois-dev@incubator.apache.org</title>
+      <p>
+        This list is both for people using Apache ALOIS and for people interested in developing it further. We decided to not have a separate users list at least as long as we're still in the building process.
+      </p>
+      <ul>
+        <li><a href="mailto:alois-dev-subscribe@apache.org">subscribe</a></li>
+        <li><a href="mailto:alois-dev-unsubscribe@apache.org">unsubscribe</a></li>
+        <li><a href="http://mail-archives.apache.org/mod_mbox/incubator-alois-dev/">archive</a></li>
+      </ul>
+    </section>
+    <section id="commits">
+      <title>lois-commits@incubator.apache.org</title>
+      <p>
+        This list contains all changes within the project (svn commits).
+      </p>
+      <ul>
+        <li><a href="mailto:alois-commits-subscribe@apache.org">subscribe</a></li>
+        <li><a href="mailto:alois-commits-unsubscribe@apache.org">unsubscribe</a></li>
+        <li><a href="http://mail-archives.apache.org/mod_mbox/incubator-alois-commits/">archive</a></li>
+      </ul>
+    </section>
+  </body>
+</document>
