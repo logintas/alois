@@ -33,7 +33,7 @@
     <section id="about">
       <title>About Apache ALOIS</title>
       <p>
-        Apache ALOIS is a log collection and correlation software with reporting and alarming functionalities. ALOIS stands for "Advanced Logging and Intrusion Detection System" and is meant to be a fully implemented open source SIEM security information and event management system.
+        Apache ALOIS is a log collection and correlation software with reporting and alarming functionalities. ALOIS stands for "Advanced Log Data Insight System" and is meant to be a fully implemented open source SIEM security information and event management system.
       </p>
       <p>
         While almost all other SIEM software, be it closed or open source, concentrate on the technological part of security monitoring, Apache ALOIS is aimed to monitor the security of the content. It intends to be pro-active in the detection of potential loss, theft, mistaken modification or unauthorized access. Apache ALOIS works on log messages and thus contains all the basic functionality of a conventional SIEM, as centralized collecting, normalizing, aggregation, analyzing and correlating of all log messages, as well as reporting all security related events. Therefore it can be used as any other SIEM.  
