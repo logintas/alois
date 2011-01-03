@@ -22,16 +22,17 @@
   </header>
   <body>
     <section id="articles">
-      <title>Articles</title>
-      <p>
-        We are currently working on an article for the Linux Days in Chemnitz (Germany).
-      </p>
+      <title>Papers</title>
+      <ul>
+        <li>We are currently working on an article for the Linux Days in Chemnitz in March 2011 (Germany).</li>
+      </ul>
     </section>
     <section id="presentations">
       <title>Presentations</title>
-      <p>
-         We are currently working on a presentation for the Linux Days in Chemnitz (Germany).
-      </p>
+      <ul>
+         <li>Lightning Talk @ the 27th Chaos Communication Congress December 2010 (stream/<a href="documents/AloisLightningTalk27c3.odp">slides (1MB)</a>)</li>
+         <li>We are currently working on a presentation for the Linux Days in Chemnitz in March 2011 (Germany).</li>
+      </ul>
     </section>
   </body>
 </document>
