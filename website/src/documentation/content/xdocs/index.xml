@@ -92,6 +92,16 @@
         Its modular design guarantees Apache ALOIS to scale from little to large organizations. Since there exists a Debian package, it's easy to build a test system or even a productive system for small environments.
       </p>
     </section>
+    <section>
+      <title>Apache ALOIS and data retention</title>
+      <p>
+        Apache ALOIS is a great tool to collect and analyze logs. As a scalable open source tool it may be used in a personal environment to create a log of personal activities in much the same way as a state data retention would collect logs. It could therefore be used for personal awareness regarding what could and would be retained. However, not all of what state data retention would collect, is currently available to Apache ALOIS. Most prominently, the mobile phone roaming data is only available on the mobile phones themselves, and although these devices are in the user's hand, getting that data to be transferred to Apache ALOIS is as of yet not possible. There is some work to be done on the mobile phone
+side to allow that.
+      </p>
+      <p>
+        On the other hand, Apache ALOIS is a dual-use tool and could be used in state data retention environments. As it was not intended to be used this way, as it contains functionality way beyond the collection for retention purposes and as it probably does not (yet) scale well enough for dumping massive data amounts, its use as a state data retention tool is unprobable and no such cases are known. However, it is open source software and may be put to any use.
+      </p>
+    </section>
     <section id="outlook">
       <title>Outlook</title>
       <p>
