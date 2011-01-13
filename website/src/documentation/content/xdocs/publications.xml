@@ -24,14 +24,18 @@
     <section id="articles">
       <title>Papers</title>
       <ul>
-        <li>We are currently working on an article for the Linux Days in Chemnitz in March 2011 (Germany).</li>
+        <li>We are currently working on an article for the Linux Days in Chemnitz (Germany) in March 2011 (<a href="http://wiki.apache.org/alois/CLT2011">wiki</a>)</li>
+        <li>We are currently working on an article for the 6th International Conference on
+IT Security Incident Management &amp; IT Forensics in Stuttgart (Germany) in May 2011 (<a href="http://wiki.apache.org/alois/IMF2011">wiki</a>)</li>
       </ul>
     </section>
     <section id="presentations">
       <title>Presentations</title>
       <ul>
-         <li>Lightning Talk @ the 27th Chaos Communication Congress December 2010 (stream/<a href="documents/AloisLightningTalk27c3.odp">slides (1MB)</a>)</li>
-         <li>We are currently working on a presentation for the Linux Days in Chemnitz in March 2011 (Germany).</li>
+         <li>Lightning Talk @ the 27th Chaos Communication Congress in Berlin (Germany) December 2010 (<a href="http://mirror.fem-net.de/CCC/27C3/mp4-h264-HQ/27c3-4300-en-lightning_talks_d4.mp4">stream (starts 44:15)</a> / <a href="documents/AloisLightningTalk27c3.odp">slides (1MB)</a>)</li>
+         <li>We are currently working on a presentation for the Linux Days in Chemnitz (Germany) in March 2011</li>
+         <li>We are currently working on an article for the 6th International Conference on
+IT Security Incident Management &amp; IT Forensics in Stuttgart (Germany) in May 2011</li>
       </ul>
     </section>
   </body>
