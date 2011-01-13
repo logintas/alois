@@ -54,6 +54,7 @@ See http://forrest.apache.org/docs/linking.html for more info
     <devguide label="Development guide" href="devguide.html" description="Development guide"/>
   </community>
   <resources label="Resources">
+    <wiki label="Wiki" href="ext:wiki" description="Wiki" />
     <publications label="Publications" href="publications.html" description="Presentation and articles"/>
     <subversion label="Sourcecode" href="ext:svn" description="Subversion repository"/>
     <jira label="Issue Tracker" href="ext:jira"/>
@@ -68,6 +69,7 @@ See http://forrest.apache.org/docs/linking.html for more info
   </all>
   -->
   <external-refs>
+    <wiki href="http://wiki.apache.org/alois/" />
     <svn href="https://svn.apache.org/repos/asf/incubator/alois" />
     <svn-install href="https://svn.apache.org/repos/asf/incubator/alois/trunk/INSTALL" />
     <jira href="https://issues.apache.org/jira/browse/ALOIS" />
