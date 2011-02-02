@@ -15,7 +15,6 @@ touch /var/log/alois/production.log
 chmod 750 /var/log/alois
 chmod 660 /var/log/alois/*
 chown prisma.www-data /var/log/alois -R
-chown root.alois /etc/alois/alois.conf
 
 mkdir -p /var/lib/alois/archive 
 chown prisma.www-data /var/lib/alois/archive
