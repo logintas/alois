@@ -381,14 +381,14 @@ public class CreateChart {
 							       CreateChart.LEGEND,                  // include legend
 							       CreateChart.TOOL_TIPS,
 							       CreateChart.URLS
-							       );       
-	MultiplePiePlot plot = (MultiplePiePlot) this.chart.getPlot();	
+							       );
+	MultiplePiePlot plot = (MultiplePiePlot) this.chart.getPlot();
 	JFreeChart subchart = plot.getPieChart();
 	
 	PiePlot p = (PiePlot) subchart.getPlot();
 	 /*         p.setLabelGenerator(new StandardPieItemLabelGenerator("{0}"));*/
 	p.setLabelFont(new Font("SansSerif", Font.PLAIN, 8));
-	p.setInteriorGap(0.30);
+	/*	p.setLabelGap(0.2);	p.setInteriorGap(0.1);*/
 	MyGenerator generator = new MyGenerator(this.URLPrefix,this.category_datasets[0]);
 	p.setURLGenerator(generator);
 	// p.setToolTipGenerator(generator);
