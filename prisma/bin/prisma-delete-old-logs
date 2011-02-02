@@ -5,6 +5,7 @@ init_libisi(:ui => "console")
 action = nil
 before_date = nil
 dryrun = false
+dirty = false
 
 cf = Pathname.new(__FILE__).dirname + "../conf/prisma/environment.rb"
 if cf.exist?
@@ -36,6 +37,8 @@ opts = optparse {|o|
     $transaction_bundle_amount = count.to_i
   }
 
+  o.on("--dirty","Perform a dirty delete first (all records with smaller ids than one of the given date") {|dirty|}
+
   o.on("--dryrun", "Do not delete anything, dryrun only") {|dryrun|}
 }
 
@@ -53,6 +56,10 @@ ensure_script_not_running_already
 Prisma::Database.load_classes("prisma")
 
 throw "Unknown action '#{action}'." unless [:database,:all,:archive].include?(action)
+if dirty and [:database,:all].include?(action)
+  $log.info("Perform a dirty delete first")
+  Prisma::Database.quick_and_dirty_db_delete(before_date,dryrun)  
+end
 Prisma::Database.delete_logs_before(action,before_date,dryrun)
 
 exit 0

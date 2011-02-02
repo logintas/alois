@@ -365,6 +365,124 @@ module Prisma
       end
       $alois_disabled_transaction = old_adt    
     end
+
+    def Database.delete_from_id(source_class, id, options = {})
+      return unless id
+      $log.info("Going to delete from #{source_class.name} id <= #{id}")
+      options = {:recursive => true, :dryrun => true}.update(options)
+      
+      if options[:recursive]
+        if source_class != Message
+          msg_cond = "meta_id <= #{id} and meta_type_name = 'Prisma::#{source_class}'"
+          $log.info("Looking for messages #{msg_cond}")
+          msg = Message.find(:first, :order => "id DESC", :conditions => msg_cond)
+          if msg
+            delete_from_id(Message, msg.id, options)
+          end
+        end
+        
+        fc = source_class.foreign_column_name
+        possible_classes = Prisma.get_classes(:meta).
+          map {|c| eval(c.name)}.
+          select {|c| c.column_names.include?(fc)}
+        
+        possible_classes.each {|klass|
+          $log.info("Looking for #{klass.name} #{fc} <= #{id}")
+          
+          first_smaller_object = klass.find(:first, 
+                                        :conditions => ["#{fc} IS NOT NULL and #{fc} <= #{id}"],
+                                            :order => ["#{fc} desc"])
+          if first_smaller_object.nil?
+            $log.info("No logs found for #{klass.name}")
+            next
+          end
+          delete_from_id(klass, first_smaller_object.id,options)
+        }
+      end
+      
+      delete_condition = "id <= #{id}"
+      txt = "#{source_class.name} (#{delete_condition})"
+      delete_count = nil
+      if options[:count]
+        # the condition that foreign_key_column may not be 
+        # null should be reflected here too, but at the moment
+        # this makes not difference because we always have only one
+        # path from log meta to any child table
+        
+        $log.info("Counting #{source_class} id <= #{id}")
+        delete_count = source_class.count(:all, :conditions => delete_condition)
+        $log.info("Counting #{source_class} :all")
+        all = source_class.approx_count
+        txt = "%.2f perc. (#{delete_count} of #{all}) #{source_class.name} (#{delete_condition})" % (100.0/all*delete_count)
+      else
+        
+      end
+
+      if options[:dryrun]
+        $log.info("Would delete #{txt}")
+      else
+        $log.info("Delete #{txt}")
+        limit = 100000
+        sql = "DELETE FROM #{source_class.quoted_table_name} WHERE #{delete_condition} LIMIT #{limit}"
+        count = 1
+        total_count = 0
+        
+        if delete_count
+          
+          $ui.progress_bar(source_class.name, delete_count) {
+            while count > 0
+              count = source_class.connection.delete(sql, "#{source_class.name} delete all #{delete_condition} limit #{limit}")
+              total_count += count
+              $ui.progress(total_count)          
+              # $log.info("Deleted #{count} #{delete_condition} (%.2f perc. #{total_count}/#{delete_count})" % (100.0/delete_count*total_count))
+            end
+          }
+        else
+          while count > 0
+            count = source_class.connection.delete(sql, "#{source_class.name} delete all #{delete_condition} limit #{limit}")
+            
+            total_count += count
+            $log.info("Deleted #{count} #{delete_condition} (total deleted #{total_count})")
+          end
+        end
+      end
+      
+    end
+
+    def Database.quick_and_dirty_db_delete(before_date,dryrun=false)
+
+      options = {
+        :dryrun => dryrun,
+        :count => $log.info?,
+        :recursive => true,
+      }
+      
+      #      ActiveRecord::Base.connection.reconnect!
+      klass = LogMeta
+     
+      days = nil
+      while days.nil? or days.length > 1
+        days = []
+        days_res = klass.connection.execute("SELECT date,min(id),count(*) FROM log_metas WHERE date < '#{before_date}' GROUP BY date ORDER BY date LIMIT 2")
+        days_res.each {|d| days << d}
+        $log.debug(days.inspect)
+        break if days.length <=1        
+
+        from_date = days[-1][0]
+        id = days[-1][1]
+        count = days[-1][2]        
+
+        $log.info("Processing #{from_date} (#{count}x#{klass.name})")
+        from_object = (LogMeta.find(id) rescue nil)
+        if from_object
+          #    delete_from_id(LogMeta, from_object.id, options)         
+          LogMeta.column_names.map {|c| c=~ /^(.*_metas)_id$/; $1 }.compact.map {|c| eval c.classify}.each {|parent|
+            from_id = from_object.send(parent.foreign_column_name)
+            delete_from_id(parent, from_id, options.dup.update(:recursive => false))
+          }
+        end
+      end
+    end
     
     def Database.transaction(klass = nil)
       klass ||= ActiveRecord::Base
@@ -470,6 +588,6 @@ module Prisma
       $transaction_bundle = nil
     end
   end
-    
+
   end
 end
