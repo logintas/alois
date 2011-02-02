@@ -18,6 +18,11 @@ class SurveyController < ApplicationController
   before_filter :handle_cancel, :only => [ :create, :update ]
   before_filter :init
 
+  def filter_class
+    # otherwise rails filter class would be returned
+    View.instance_eval("Filter")
+  end
+
   def init
     initialize_parameters
   end
@@ -276,7 +281,7 @@ class SurveyController < ApplicationController
 
   def add_filter
     if params[:survey] and params[:survey][:filter_id] 
-      @filters << Filter.find(params[:survey][:filter_id])
+      @filters << filter_class.find(params[:survey][:filter_id])
       @filters = @filters.uniq
       save_session
     end
@@ -284,7 +289,7 @@ class SurveyController < ApplicationController
   end
 
   def remove_filter
-    @filters.delete(Filter.find(params[:filter_id].to_i))
+    @filters.delete(filter_class.find(params[:filter_id].to_i))
     @filters = @filters.uniq
     save_session
     render :partial => "edit_named_filters"
