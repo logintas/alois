@@ -11,6 +11,7 @@ require 'pathname'
 require 'alois/date_time_enhance'
 require 'mysql_adapter_extensions'
 require 'dummy_class_extension'
+require "activerecord_reset_column_patch"
 begin
   require 'will_paginate'
 rescue LoadError
