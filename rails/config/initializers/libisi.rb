@@ -24,6 +24,9 @@ unless defined?(LIBISI)
   when :simple
     # simple way
     $log = RAILS_DEFAULT_LOGGER
+    #$log.level = Logger::DEBUG
+    #$log.auto_flushing = true
+    #$log.flush
   when :real  
     require 'libisi'
     init_libisi(:log_levels => [:DEBUG, :INFO, :PERF, :WARN, :ERROR, :FATAL])  
