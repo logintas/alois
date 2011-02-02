@@ -183,6 +183,7 @@ clean:
 	rm -rf $(SOURCE_RAILS)/vendor
 	rm -rf $(SOURCE_RAILS)/log
 	rm -rf $(SOURCE_RAILS)/tmp
+	rm -f $(SOURCE_RAILS)/java/*.class
 	-$(MAKE) uninstallconfig DESTDIR=$(WORKING_CONFIG)
 	-$(MAKE) uninstalllinks DESTDIR=$(WORKING_CONFIG) TARGET_RAILS=$(SOURCE_RAILS)
 # do not remove class files, they cannot be compiled in etch anymore so keep them
