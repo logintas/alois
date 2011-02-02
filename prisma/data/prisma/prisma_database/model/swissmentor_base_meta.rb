@@ -22,7 +22,7 @@ class SwissmentorBaseMeta < ActiveRecord::Base
     ret = []
 
     # SMS: [broesel@127.0.0.1] Login successful for user broesel
-    ret.push({ :regex => /^(\S+): \[(\S*)\@(\S+)\] (Login denied for user|Login request user|Login successful for user):? (.*)$/,
+    ret.push({ :regex => /^(\S+): \[(\S*)\@(\S+)\] (Login denied for user|Login request user|Login successful for user|User Logout):? (.*)$/,
                :fields => [:process, :client_user, :client_ip, :message],
                :result_filter => lambda {|results, instance|                 
                  results[1] = results[4] if results[1].blank?
