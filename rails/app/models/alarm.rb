@@ -229,10 +229,15 @@ class Alarm < ActiveRecord::Base
     @data = datasource
     
     if @data.respond_to?(:table) and @data.table.respond_to?(:report_table)
+      methods = nil
+      tbl = @data.table
+      if tbl.column_names.include?(tbl.primary_key)
+        methods = "original_text"
+      end
       my_data = @data.table.report_table(:all, 
 					 :limit => RECORD_LIMIT, 
 					 :conditions => options[:conditions],
-					 :methods => "original_text"
+					 :methods => methods
 					 )
       log_message("WARNING: Record limit of #{RECORD_LIMIT} reached small for count. " +
 		  "Not all data will be saved!",self) if
