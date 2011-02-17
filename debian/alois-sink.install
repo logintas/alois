@@ -1,5 +1,4 @@
 debian/tmp/etc/cron.d/alois-sink
 debian/tmp/etc/alois/munin-sink.conf
-
+debian/tmp/etc/logrotate.d/alois-sink
 debian/tmp/usr/share/doc/alois/syslog-ng.conf.example	usr/share/doc/alois-sink/syslog-ng.conf.example
-
