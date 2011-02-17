@@ -193,4 +193,4 @@ clean:
 
 mrproper: clean
 	rm -rf gems
-	rm rails/*.sqlite3 prisma/*.sqlite3 prisma/data/prisma/*.sqlite3
+	rm -f rails/*.sqlite3 prisma/*.sqlite3 prisma/data/prisma/*.sqlite3
