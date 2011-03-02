@@ -19,7 +19,7 @@ Description: Package with configuration for installing ALOIS on one system.
 
 Package: alois-sink
 Architecture: any
-Depends: alois-prisma (=${Source-Version}), syslog-ng, ruby1.8, mysql-client-5.0, rubygems (>=1.3), munin-node, libopenssl-ruby, libmysqlclient15off
+Depends: alois-prisma (=${Source-Version}), syslog-ng, ruby1.8, mysql-client, rubygems (>=1.3), munin-node, libopenssl-ruby
 Description: Advanced Logging and Intrusion Detection System - sink package
  The "sink" for all log messages. 
  This package recives log messages from servers through
@@ -39,7 +39,7 @@ Description: Advanced Logging and Intrusion Detection System - reporter package
 
 Package: alois
 Architecture: any
-Depends: alois-common (=${Source-Version}), alois-prisma (=${Source-Version}), gij, libjfreechart-java, sun-java5-jre, ruby1.8, libgcj7-awt | libgcj8-awt | libgcj8-1-awt, libhpricot-ruby1.8, libruport-ruby1.8, libmysql-ruby1.8, libhoe-ruby1.8, libfastercsv-ruby1.8, libinline-attachment-ruby1.8, librubyforge-ruby1.8, libfastthread-ruby1.8, libwill-paginate-ruby1.8, libcolor-tools-ruby1.8, libpdf-writer-ruby1.8, libtransaction-simple-ruby1.8, libcsspool-ruby1.8 (= 0.2.6), libffi-ruby1.8, libcroco3-dev, libacts-as-reportable-ruby1.8
+Depends: alois-common (=${Source-Version}), alois-prisma (=${Source-Version}), gij, libjfreechart-java, ruby1.8, libgcj7-awt | libgcj8-awt | libgcj8-1-awt, libhpricot-ruby1.8, libruport-ruby1.8, libmysql-ruby1.8, libhoe-ruby1.8, libfastercsv-ruby1.8, libinline-attachment-ruby1.8, librubyforge-ruby1.8, libfastthread-ruby1.8, libwill-paginate-ruby1.8, libcolor-tools-ruby1.8, libpdf-writer-ruby1.8, libtransaction-simple-ruby1.8, libcsspool-ruby1.8 (= 0.2.6), libffi-ruby1.8, libcroco3-dev, libacts-as-reportable-ruby1.8
 Description: Advanced Logging and Intrusion Detection System - reporter package
  Main package with rails frontend
 
