@@ -39,7 +39,7 @@ Description: Advanced Logging and Intrusion Detection System - reporter package
 
 Package: alois
 Architecture: any
-Depends: alois-common (=${Source-Version}), alois-prisma (=${Source-Version}), gij, libjfreechart-java, ruby1.8, libgcj7-awt | libgcj8-awt | libgcj8-1-awt, libhpricot-ruby1.8, libruport-ruby1.8, libmysql-ruby1.8, libhoe-ruby1.8, libfastercsv-ruby1.8, libinline-attachment-ruby1.8, librubyforge-ruby1.8, libfastthread-ruby1.8, libwill-paginate-ruby1.8, libcolor-tools-ruby1.8, libpdf-writer-ruby1.8, libtransaction-simple-ruby1.8, libcsspool-ruby1.8 (= 0.2.6), libffi-ruby1.8, libcroco3-dev, libacts-as-reportable-ruby1.8
+Depends: alois-common (=${Source-Version}), alois-prisma (=${Source-Version}), gij, libjfreechart-java, ruby1.8, libhpricot-ruby1.8, libruport-ruby1.8, libmysql-ruby1.8, libhoe-ruby1.8, libfastercsv-ruby1.8, libinline-attachment-ruby1.8, librubyforge-ruby1.8, libfastthread-ruby1.8, libwill-paginate-ruby1.8, libcolor-tools-ruby1.8, libpdf-writer-ruby1.8, libtransaction-simple-ruby1.8, libcsspool-ruby1.8 (= 0.2.6), libffi-ruby1.8, libcroco3-dev, libacts-as-reportable-ruby1.8
 Description: Advanced Logging and Intrusion Detection System - reporter package
  Main package with rails frontend
 
