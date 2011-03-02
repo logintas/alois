@@ -18,7 +18,10 @@
             <% for filter in @filters %>
             <tr>
               <td><%= filter.name %></td>
-              <td><%= render_component :controller => "filters", :action => "show_inline", :id => filter.id %></td>
+              <td><% filter.conditions.each_with_index { |@condition, @condition_index|  %>                                     
+                       <%= @condition.sql(nil) rescue $! %><br/> 
+                  <% } %>
+              </td>
               <td><%= link_to_remote image_tag("remove.png"), 
                     :before => "table_reload()",
                     :update => 'named_filters', 
