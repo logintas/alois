@@ -95,7 +95,7 @@ class Table < ActiveRecord::Base
     return if File.exist?(text_filename) and not (text_date < data_date rescue false)
     save_yaml
     
-    data = get_data
+    data = get_data(options)
     if data.column_names.length == 0
       txt =  "--------------------------\n"
       txt += "| No columns to display. |\n"
@@ -137,7 +137,7 @@ class Table < ActiveRecord::Base
     get_data.to_csv
   end
   def as(type, options = {})
-    d = get_data
+    d = get_data(options)
     return nil if d.length == 0
     d.as(type,options)
   end
@@ -149,8 +149,8 @@ class Table < ActiveRecord::Base
     File.delete(data_filename) if File.exists?(data_filename)
   end
 
-  def get_data(recreate_data = false)     
-    if !recreate_data and File.exists?(data_filename)
+    def get_data(options = {})
+      if File.exists?(data_filename) and not options[:recreate_data]
       @data = YAML::load(File.open(data_filename))
     else
       
@@ -175,7 +175,7 @@ class Table < ActiveRecord::Base
 					       :only => if (columns.nil? or columns == "") then nil else columns.split(",").map{|n| n.strip} end, 
 					       :order => order_by,
 					       :group => group_by,
-					       :conditions => conditions)
+					       :conditions => options[:conditions])
       end
       
       File.open(data_filename, 'w') { |f| f.puts @data.to_yaml }
