@@ -661,14 +661,14 @@ module BaseMixin
     end
     # Returns a text describing original message (not the object)
     def original_text
-      o = original[0]
+      o = original
       case o
       when String
-	"ALOIS_ERROR: #{$!}"
+	"ALOIS_ERROR: #{o}"
       when NilClass
 	"NO ORIGINAL FOUND"
       else
-	o.msg
+	o[0].msg
       end
     end
     
