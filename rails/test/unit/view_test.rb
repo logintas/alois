@@ -61,6 +61,22 @@ class ViewTest < ActiveSupport::TestCase
     assert_equal "SELECT * FROM x ORDER BY #{order} LIMIT 324, 234 ", View.insert_order("SELECT * FROM x ORDER BY sum(xxx) , ss ASC LIMIT 324, 234 ", order)
     assert_equal "SELECT * FROM x ORDER BY #{order}", View.insert_order("SELECT * FROM x ORDER BY sum(xxx) , ss ASC", order)
   end
+
+  def test_insert_group
+    group = "field1, field2"
+    assert_equal "SELECT * FROM x GROUP BY #{group}", View.insert_group("SELECT * FROM x",group)
+    assert_equal "SELECT * FROM x WHERE a = b GROUP BY #{group}", View.insert_group("SELECT * FROM x WHERE a = b",group)
+    assert_equal "SELECT * FROM x GROUP BY #{group} LIMIT 324,234", View.insert_group("SELECT * FROM x LIMIT 324,234",group)
+    assert_raise(RuntimeError) {
+      View.insert_group("SELECT * FROM x GROUP BY sum(xxx) , ss ASC LIMIT 324, 234 ", group)
+    }
+    assert_raise(RuntimeError) {
+      View.insert_group("SELECT * FROM x GROUP BY sum(xxx) , ss ASC", group)
+    }
+    assert_raise(RuntimeError) {
+      View.update_query("SELECT * FROM x UNION SELECT * FROM y", :group => "f1,f2")
+    }
+  end
   
   def test_update_query
     condition = "abc = 'xyz'"

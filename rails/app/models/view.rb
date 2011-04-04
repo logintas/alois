@@ -185,7 +185,7 @@
     #      | INTO DUMPFILE 'file_name'
     #      | INTO var_name [, var_name]]
     #    [FOR UPDATE | LOCK IN SHARE MODE]]
-    
+
     def View.insert_generic(type, query, value, regexps)
       return query if value == "" or value.nil?
 
@@ -222,6 +222,15 @@
       insert_generic(:replace, query, val, [/LIMIT\s*\d+,\s*\d+/i,/LIMIT\s*\d+\s*OFFSET\s*\d+/i,/LIMIT\s*\d+/]) or
 	insert_generic(:before, query, val, [/(PROCEDURE)/i,/(INTO\s)/i,/(FOR UPDATE)/i, /(LOCK IN)/i]) or
 	query + " " + val
+    end
+
+    def View.insert_group(query, group_by)
+      # we cannot simply replace a group by because a grouping on a grouping is not the same
+      # as the second grouping alone.
+      raise "There exist already a group by in the query, cannot insert group by: #{query.inspect}" if query =~ /GROUP\s+BY/
+      val = "GROUP BY #{group_by}"
+      insert_generic(:before, query, val, [/HAVING/i,/(ORDER BY)/i,/(LIMIT)/i,/(PROCEDURE)/i,/(INTO\s)/i,/(FOR UPDATE)/i, /(LOCK IN)/i]) or
+	query + " " + val      
     end
 
     def View.insert_order(query, order)
@@ -263,6 +272,10 @@
 
 	part = View.insert_condition(part,options[:conditions]) if options[:conditions]	
 	part = View.insert_limit_offset(part,options[:limit],options[:offset]) if options[:limit]
+        if options[:group]
+          raise "Cannot insert group by for union query: #{query.inspect}" if parts.length > 1
+          part = View.insert_group(part,options[:group])
+        end
 	part = View.insert_order(part,options[:order]) if options[:order]
 	part += " " unless part.ends_with?(" ")
 	start + part
