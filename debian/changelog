@@ -1,3 +1,10 @@
+alois (1.2.62) all; urgency=low
+
+  * New release
+  * Added placeholders in empty directoreis
+
+ -- Flavio Pellanda (Logintas 2008) <flavio.pellanda@logintas.ch>  Thu, 16 Jun 2011 15:09:57 +0200
+
 alois (1.2.61) all; urgency=low
 
   * New release
