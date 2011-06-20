@@ -3,7 +3,7 @@ Section: net
 Priority: optional
 Maintainer: Flavio Pellanda <flavio.pellanda@logintas.ch>
 Uploaders:  Flavio Pellanda <flavio.pellanda@logintas.ch>
-Build-Depends: debhelper (>= 5), libisi-ruby1.8, rake, gcj (>= 4.1), rubygems (>=1.3), libopenssl-ruby, libtermios-ruby, ruby1.8-dev, libcroco3, libmysqlclient15-dev, libjfreechart-java, libaprutil1-dev, libopenssl-ruby, libhpricot-ruby1.8, libruport-ruby1.8, libmysql-ruby1.8, libhoe-ruby1.8, libfastercsv-ruby1.8, libinline-attachment-ruby1.8, librubyforge-ruby1.8, libfastthread-ruby1.8, libwill-paginate-ruby1.8, libcolor-tools-ruby1.8, libpdf-writer-ruby1.8, libtransaction-simple-ruby1.8, libcsspool-ruby1.8 (= 0.2.6), libffi-ruby1.8, libcroco3-dev, libacts-as-reportable-ruby1.8
+Build-Depends: debhelper (>= 5), libisi-ruby1.8, rake, gcj (>= 4.1), rubygems (>=1.3), libopenssl-ruby, libtermios-ruby, ruby1.8-dev, libcroco3, libmysqlclient15-dev, libjfreechart-java, libaprutil1-dev, libopenssl-ruby, libhpricot-ruby1.8, libruport-ruby1.8, libmysql-ruby1.8, libhoe-ruby1.8, libfastercsv-ruby1.8, libinline-attachment-ruby1.8, librubyforge-ruby1.8, libfastthread-ruby1.8, libwill-paginate-ruby1.8, libcolor-tools-ruby1.8, libpdf-writer-ruby1.8, libtransaction-simple-ruby1.8, libcsspool-ruby1.8 (= 0.2.6), libffi-ruby1.8, libcroco3-dev, libacts-as-reportable-ruby1.8, libsqlite3-ruby
 Standards-Version: 3.7.2
 
 # ------------------ Single installation -------
