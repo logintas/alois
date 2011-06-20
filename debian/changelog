@@ -1,3 +1,13 @@
+alois (1.2.63) all; urgency=low
+
+  * New release
+  * new build dependency on libsqlite3-ruby
+  * more doc
+  * Merge branch 'master' of git://github.com/logintas/alois
+  * minor documentation change
+
+ -- Marcus Holthaus (IMSEC 2008) <marcus.holthaus@imsec.ch>  Mon, 20 Jun 2011 10:49:45 +0200
+
 alois (1.2.62) all; urgency=low
 
   * New release
