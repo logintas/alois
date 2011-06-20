@@ -33,3 +33,7 @@ gem1.8 update --system
   * gems are ruby packages that may have native code
   * must be compiled if they need to be installed as debian packages
   * this compilation can be done with gem2deb (part of isirelease)
+ * building alois needs rails version 2.3.2
+  * several versions of the same gem may be installed, so install the relevant gem with
+    gem install -v=2.3.2 rails
+    before trying to build.
