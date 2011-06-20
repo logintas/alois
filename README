@@ -24,3 +24,12 @@ After downloading the source please execute {{{make init}}} to ensure that all n
 gem update --system
  or
 gem1.8 update --system
+
+= Dependencies =
+ * alois build depends are in
+  * etc/default/alois-environment-config.rb
+  * debian/control
+ * on 2011-06-20, hoe and csspool must be compiled separately
+  * gems are ruby packages that may have native code
+  * must be compiled if they need to be installed as debian packages
+  * this compilation can be done with gem2deb (part of isirelease)
